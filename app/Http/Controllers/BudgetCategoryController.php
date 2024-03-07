@@ -8,11 +8,7 @@ use App\Models\BudgetCategory;
 class BudgetCategoryController extends Controller
 {
 
-    public function display()
-    {
-        $budgetCategories = BudgetCategory::all();
-        return view('Sub-admin.dashboard', compact('budgetCategories'));
-    }
+
     public function index()
     {
         $budgetCategories = BudgetCategory::all();
