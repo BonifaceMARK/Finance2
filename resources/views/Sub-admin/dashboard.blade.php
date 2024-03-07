@@ -263,7 +263,7 @@
             <h5 class="card-title">Expense <span>| Today</span></h5>
             <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-cart"></i>
+                    <i class="bi bi-coin"></i>
                 </div>
                 <div class="ps-3">
                     <h6>${{ number_format($currentDayExpenses, 2) }}</h6>
@@ -283,7 +283,7 @@
     <div class="card info-card revenue-card">
 
         <div class="card-body">
-            <h5 class="card-title">Expenses<span>| This Month</span></h5>
+            <h5 class="card-title">Expenses <span>| This Month</span></h5>
 
             <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -304,44 +304,30 @@
 </div>
 <!-- End Expenses Card -->
 
-
-
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+<!-- Expenses Card -->
+<div class="col-xxl-4 col-xl-12">
+    <div class="card info-card customers-card">
+        <div class="card-body">
+            <h5 class="card-title">Expenses <span>| This Year</span></h5>
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-bank2"></i>
                 </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                    </div>
-                  </div>
-
+                <div class="ps-3">
+                    <h6>${{ number_format( $currentYearExpenses, 2) }}</h6>
+                    <!-- Calculation for the decrease can be done dynamically in your controller -->
+                    @php
+                        $currentYearExpenses = App\Models\Expense::whereYear('expense_date', now())->sum('amount');
+                        $previousYearExpenses = App\Models\Expense::whereYear('expense_date', now()->subYear())->sum('amount');
+                        $decreasePercentage = $previousYearExpenses != 0 ? ($currentYearExpenses - $previousYearExpenses) / $previousYearExpenses * 100 : 0;
+                    @endphp
+                    <span class="text-danger small pt-1 fw-bold">{{ number_format($decreasePercentage, 2) }}%</span>
+                    <span class="text-muted small pt-2 ps-1">decrease</span>
                 </div>
-              </div>
-
-            </div><!-- End Customers Card -->
+            </div>
+        </div>
+    </div>
+</div><!-- End Customers Card -->
 
  <!-- Reports -->
 <div class="col-12">
@@ -490,21 +476,8 @@
             <div class="col-12">
               <div class="card top-selling overflow-auto">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
+                  <h5 class="card-title">Top Expenses <span>| Today</span></h5>
 
                   <table class="table table-borderless">
                     <thead>
