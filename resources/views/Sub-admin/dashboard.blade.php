@@ -267,7 +267,6 @@
                 </div>
                 <div class="ps-3">
                     <h6>${{ number_format($currentDayExpenses, 2) }}</h6>
-                    <!-- Calculation for the increase can be done dynamically in your controller -->
                     @php
                         $previousDayExpenses = App\Models\Expense::whereDate('expense_date', now()->subDay())->sum('amount');
                         $increasePercentage = $previousDayExpenses != 0 ? ($currentDayExpenses - $previousDayExpenses) / $previousDayExpenses * 100 : 0;
