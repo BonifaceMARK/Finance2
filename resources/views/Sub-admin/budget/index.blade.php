@@ -30,17 +30,18 @@
 
             <a href="{{ route('budget.create') }}" class="btn btn-primary">Create New Category</a>
 
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Allocated Budget</th>
-                        <th>Actual Spending</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($budgetCategories as $category)
+            <div class="table-responsive mt-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Allocated Budget</th>
+                            <th>Actual Spending</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($budgetCategories as $category)
                         <tr>
                             <td>{{ $category->name }}</td>
                             <td>${{ number_format($category->allocated_budget, 2) }}</td>
@@ -49,9 +50,10 @@
                                 <a href="{{ route('budget.show', $category->id) }}" class="btn btn-primary">View</a>
                             </td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
       </div>

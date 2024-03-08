@@ -3,18 +3,29 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed " href="/employee-dashboard">
+        <a class="nav-link collapsed " href="{{route('adminDash')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('expenseChart')}}">
-            <i class="bi bi-lightbulb"></i><span>Expense Chart</span>
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('budget-plans.create')}}">
+            <i class="bi bi-lightbulb"></i><span>Budget Plan</span>
         </a>
       </li><!-- End Components Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('budget-proposals.create')}}">
+            <i class="bi bi-lightbulb"></i><span>Budget Proposal</span>
+        </a>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('FinancialReport')}}">
+            <i class="bi bi-lightbulb"></i><span>Financial Report</span>
+        </a>
+      </li><!-- End Components Nav -->
 
 
     </ul>

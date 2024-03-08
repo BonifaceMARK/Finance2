@@ -6,11 +6,11 @@
 <body>
 
   <!-- ======= Header ======= -->
-@include('layout.header')
+@include('admin.header')
 
 
   <!-- ======= Sidebar ======= -->
- @include('Employee.sidebar')
+ @include('admin.sidebar')
 
   <main id="main" class="main">
 

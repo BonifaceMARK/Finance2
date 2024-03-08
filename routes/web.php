@@ -130,7 +130,9 @@ Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('
 
 // ********** Admin Routes *********
 Route::group(['prefix' => 'admin','middleware'=>['web','isAdmin']],function(){
-    Route::get('/dashboard',[AdminController::class,'dashboard']);
+    Route::get('/dashboard',[AdminController::class,'dashboard'])->name('adminDash');
+
+    Route::get('/finance', [AdminController::class, 'financialReport'])->name('FinancialReport');
 
     Route::get('/budget-proposals', [BudgetProposalController::class, 'index'])->name('budget-proposals.index');
 Route::get('/budget-proposals/create', [BudgetProposalController::class, 'create'])->name('budget-proposals.create');

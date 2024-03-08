@@ -29,72 +29,30 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">Edit Report</div>
+                  <div class="card">
+                    <div class="card-header">Report Details</div>
 
-                        <div class="card-body">
-                            <form method="POST" action="{{ route('reports.update', $report->id) }}">
-                                @csrf
-                                @method('PUT')
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" class="form-control" id="category" value="{{ $report->category }}" readonly>
+                      </div>
 
-                                <div class="form-group row">
-                                    <label for="category" class="col-md-4 col-form-label text-md-right">Category</label>
+                      <div class="form-group">
+                        <label for="expense">Expense</label>
+                        <input type="text" class="form-control" id="expense" value="{{ $report->expense }}" readonly>
+                      </div>
 
-                                    <div class="col-md-6">
-                                        <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category" value="{{ $report->category }}" required autofocus>
+                      <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="text" class="form-control" id="date" value="{{ $report->date }}" readonly>
+                      </div>
 
-                                        @error('category')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="expense" class="col-md-4 col-form-label text-md-right">Expense</label>
-
-                                    <div class="col-md-6">
-                                        <input id="expense" type="number" class="form-control @error('expense') is-invalid @enderror" name="expense" value="{{ $report->expense }}" required>
-
-                                        @error('expense')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="date" class="col-md-4 col-form-label text-md-right">Date</label>
-
-                                    <div class="col-md-6">
-                                        <input id="date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ $report->date }}" required>
-
-                                        @error('date')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-0">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            Update
-                                        </button>
-                                        <a href="{{ route('reports.index') }}" class="btn btn-secondary">
-                                            Cancel
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                      <a href="{{ route('reports.index') }}" class="btn btn-primary">Back</a>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+              </div>
       </div>
     </section>
 

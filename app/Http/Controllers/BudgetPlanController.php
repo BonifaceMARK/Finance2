@@ -10,12 +10,12 @@ class BudgetPlanController extends Controller
     public function index()
     {
         $budgetPlans = BudgetPlan::all();
-        return view('budget_plans.index', compact('budgetPlans'));
+        return view('admin.budget_plans.index', compact('budgetPlans'));
     }
 
     public function create()
     {
-        return view('budget_plans.create');
+        return view('admin.budget_plans.create');
     }
 
     public function store(Request $request)
@@ -35,12 +35,12 @@ class BudgetPlanController extends Controller
 
     public function show(BudgetPlan $budgetPlan)
     {
-        return view('budget_plans.show', compact('budgetPlan'));
+        return view('admin.budget_plans.show', compact('budgetPlan'));
     }
 
     public function edit(BudgetPlan $budgetPlan)
     {
-        return view('budget_plans.edit', compact('budgetPlan'));
+        return view('admin.budget_plans.edit', compact('budgetPlan'));
     }
 
     public function update(Request $request, BudgetPlan $budgetPlan)
