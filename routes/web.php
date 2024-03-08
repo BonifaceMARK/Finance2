@@ -6,11 +6,11 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\SubAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ChartController;
 use App\Http\Controllers\BudgetCategoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\CostManagementController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 /*
@@ -27,7 +27,7 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/pie',[ChartController::class,'Piechart'])->name('expenseChart');
+
 Route::get('/register',[AuthController::class,'loadRegister']);
 Route::post('/register',[AuthController::class,'register'])->name('register');
 
@@ -47,6 +47,14 @@ Route::group(['prefix' => 'super-admin','middleware'=>['web','isSuperAdmin']],fu
 // ********** Sub Admin Routes *********
 Route::group(['prefix' => 'sub-admin','middleware'=>['web','isSubAdmin']],function(){
     Route::get('/dashboard',[SubAdminController::class,'dashboard'])->name('display');
+
+    Route::get('/cost_management', [CostManagementController::class, 'index'])->name('cost_management.index');
+    Route::get('/cost_management/create', [CostManagementController::class, 'create'])->name('cost_management.create');
+    Route::post('/cost_management/store', [CostManagementController::class, 'store'])->name('cost_management.store');
+    Route::get('/cost_management/show', [CostManagementController::class, 'show'])->name('cost_management.show');
+    Route::get('/cost_management/edit', [CostManagementController::class, 'edit'])->name('cost_management.edit');
+    Route::post('/cost_management/update', [CostManagementController::class, 'update'])->name('cost_management.update');
+    Route::post('/cost_management/destroy', [CostManagementController::class, 'destroy'])->name('cost_management.destroy');
 
     Route::get('/expense-categories', [ExpenseCategoryController::class, 'index'])->name('expense-categories.index');
 Route::get('/expense-categories/create', [ExpenseCategoryController::class, 'create'])->name('expense-categories.create');

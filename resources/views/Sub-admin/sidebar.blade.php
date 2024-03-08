@@ -33,6 +33,11 @@
         </a>
       </li><!-- End Components Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('cost_management.create')}}">
+            <i class="bi bi-lightbulb"></i><span>Add CostAllocation</span>
+        </a>
+      </li><!-- End Components Nav -->
 
 
 
