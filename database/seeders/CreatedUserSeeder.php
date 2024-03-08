@@ -33,6 +33,12 @@ class CreatedUserSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'role' => 2
                   ],
+                  ['name'=>'admin',
+                'username'=>'admin',
+                'email'=>'admin@markluisbonifacio.com',
+                'password' => bcrypt('123456'),
+                'role' => 3
+                  ],
                 ];
                 foreach($users as $user)
                 {

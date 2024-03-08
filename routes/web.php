@@ -10,7 +10,13 @@ use App\Http\Controllers\BudgetCategoryController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseCategoryController;
-use App\Http\Controllers\CostManagementController;
+use App\Http\Controllers\BudgetPlanController;
+use App\Http\Controllers\CostEntryController;
+use App\Http\Controllers\CostAllocationController;
+use App\Http\Controllers\CostCenterController;
+use App\Http\Controllers\CostAllocationRuleController;
+use App\Http\Controllers\BudgetProposalController;
+use App\Http\Controllers\CostCategoryController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 /*
@@ -48,15 +54,49 @@ Route::group(['prefix' => 'super-admin','middleware'=>['web','isSuperAdmin']],fu
 Route::group(['prefix' => 'sub-admin','middleware'=>['web','isSubAdmin']],function(){
     Route::get('/dashboard',[SubAdminController::class,'dashboard'])->name('display');
 
-    Route::get('/cost_management', [CostManagementController::class, 'index'])->name('cost_management.index');
-    Route::get('/cost_management/create', [CostManagementController::class, 'create'])->name('cost_management.create');
-    Route::post('/cost_management/store', [CostManagementController::class, 'store'])->name('cost_management.store');
-    Route::get('/cost_management/show', [CostManagementController::class, 'show'])->name('cost_management.show');
-    Route::get('/cost_management/edit', [CostManagementController::class, 'edit'])->name('cost_management.edit');
-    Route::post('/cost_management/update', [CostManagementController::class, 'update'])->name('cost_management.update');
-    Route::post('/cost_management/destroy', [CostManagementController::class, 'destroy'])->name('cost_management.destroy');
+    Route::get('/cost_centers', [CostCenterController::class, 'index'])->name('cost_centers.index');
+    Route::get('/cost_centers/create', [CostCenterController::class, 'create'])->name('cost_centers.create');
+    Route::post('/cost_centers', [CostCenterController::class, 'store'])->name('cost_centers.store');
+    Route::get('/cost_centers/{costCenter}', [CostCenterController::class, 'show'])->name('cost_centers.show');
+    Route::get('/cost_centers/{costCenter}/edit', [CostCenterController::class, 'edit'])->name('cost_centers.edit');
+    Route::put('/cost_centers/{costCenter}', [CostCenterController::class, 'update'])->name('cost_centers.update');
+    Route::delete('/cost_centers/{costCenter}', [CostCenterController::class, 'destroy'])->name('cost_centers.destroy');
 
-    Route::get('/expense-categories', [ExpenseCategoryController::class, 'index'])->name('expense-categories.index');
+    Route::get('/cost_entries', [CostEntryController::class, 'index'])->name('cost_entries.index');
+    Route::get('/cost_entries/create', [CostEntryController::class, 'create'])->name('cost_entries.create');
+    Route::post('/cost_entries', [CostEntryController::class, 'store'])->name('cost_entries.store');
+    Route::get('/cost_entries/{cost_entry}', [CostEntryController::class, 'show'])->name('cost_entries.show');
+    Route::get('/cost_entries/{cost_entry}/edit', [CostEntryController::class, 'edit'])->name('cost_entries.edit');
+    Route::put('/cost_entries/{cost_entry}', [CostEntryController::class, 'update'])->name('cost_entries.update');
+    Route::patch('/cost_entries/{cost_entry}', [CostEntryController::class, 'update']);
+    Route::delete('/cost_entries/{cost_entry}', [CostEntryController::class, 'destroy'])->name('cost_entries.destroy');
+
+    Route::get('/costAllocationRules', [CostAllocationRuleController::class, 'index'])->name('costAllocationRules.index');
+Route::get('/costAllocationRules/create', [CostAllocationRuleController::class, 'create'])->name('costAllocationRules.create');
+Route::post('/costAllocationRules', [CostAllocationRuleController::class, 'store'])->name('costAllocationRules.store');
+Route::get('/costAllocationRules/{costAllocationRule}', [CostAllocationRuleController::class, 'show'])->name('costAllocationRules.show');
+Route::get('/costAllocationRules/{costAllocationRule}/edit', [CostAllocationRuleController::class, 'edit'])->name('costAllocationRules.edit');
+Route::put('/costAllocationRules/{costAllocationRule}', [CostAllocationRuleController::class, 'update'])->name('costAllocationRules.update');
+Route::delete('/costAllocationRules/{costAllocationRule}', [CostAllocationRuleController::class, 'destroy'])->name('costAllocationRules.destroy');
+
+    Route::get('/cost_categories', [CostCategoryController::class, 'index'])->name('cost_categories.index');
+Route::get('/cost_categories/create', [CostCategoryController::class, 'create'])->name('cost_categories.create');
+Route::post('/cost_categories', [CostCategoryController::class, 'store'])->name('cost_categories.store');
+Route::get('/cost_categories/{costCategory}', [CostCategoryController::class, 'show'])->name('cost_categories.show');
+Route::get('/cost_categories/{costCategory}/edit', [CostCategoryController::class, 'edit'])->name('cost_categories.edit');
+Route::put('/cost_categories/{costCategory}', [CostCategoryController::class, 'update'])->name('cost_categories.update');
+Route::delete('/cost_categories/{costCategory}', [CostCategoryController::class, 'destroy'])->name('cost_categories.destroy');
+
+Route::get('/cost_allocations', [CostAllocationController::class, 'index'])->name('cost_allocations.index');
+Route::get('/cost_allocations/create', [CostAllocationController::class, 'create'])->name('cost_allocations.create');
+Route::post('/cost_allocations', [CostAllocationController::class, 'store'])->name('cost_allocations.store');
+Route::get('/cost_allocations/{cost_allocation}', [CostAllocationController::class, 'show'])->name('cost_allocations.show');
+Route::get('/cost_allocations/{cost_allocation}/edit', [CostAllocationController::class, 'edit'])->name('cost_allocations.edit');
+Route::put('/cost_allocations/{cost_allocation}', [CostAllocationController::class, 'update'])->name('cost_allocations.update');
+Route::patch('/cost_allocations/{cost_allocation}', [CostAllocationController::class, 'update']);
+Route::delete('/cost_allocations/{cost_allocation}', [CostAllocationController::class, 'destroy'])->name('cost_allocations.destroy');
+
+Route::get('/expense-categories', [ExpenseCategoryController::class, 'index'])->name('expense-categories.index');
 Route::get('/expense-categories/create', [ExpenseCategoryController::class, 'create'])->name('expense-categories.create');
 Route::post('/expense-categories', [ExpenseCategoryController::class, 'store'])->name('expense-categories.store');
 Route::get('/expense-categories/{expenseCategory}', [ExpenseCategoryController::class, 'show'])->name('expense-categories.show');
@@ -91,6 +131,22 @@ Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('
 // ********** Admin Routes *********
 Route::group(['prefix' => 'admin','middleware'=>['web','isAdmin']],function(){
     Route::get('/dashboard',[AdminController::class,'dashboard']);
+
+    Route::get('/budget-proposals', [BudgetProposalController::class, 'index'])->name('budget-proposals.index');
+Route::get('/budget-proposals/create', [BudgetProposalController::class, 'create'])->name('budget-proposals.create');
+Route::post('/budget-proposals', [BudgetProposalController::class, 'store'])->name('budget-proposals.store');
+Route::get('/budget-proposals/{budgetProposal}', [BudgetProposalController::class, 'show'])->name('budget-proposals.show');
+Route::get('/budget-proposals/{budgetProposal}/edit', [BudgetProposalController::class, 'edit'])->name('budget-proposals.edit');
+Route::put('/budget-proposals/{budgetProposal}', [BudgetProposalController::class, 'update'])->name('budget-proposals.update');
+Route::delete('/budget-proposals/{budgetProposal}', [BudgetProposalController::class, 'destroy'])->name('budget-proposals.destroy');
+
+Route::get('/budget-plans', [BudgetPlanController::class, 'index'])->name('budget-plans.index');
+Route::get('/budget-plans/create', [BudgetPlanController::class, 'create'])->name('budget-plans.create');
+Route::post('/budget-plans', [BudgetPlanController::class, 'store'])->name('budget-plans.store');
+Route::get('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'show'])->name('budget-plans.show');
+Route::get('/budget-plans/{budgetPlan}/edit', [BudgetPlanController::class, 'edit'])->name('budget-plans.edit');
+Route::put('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'update'])->name('budget-plans.update');
+Route::delete('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'destroy'])->name('budget-plans.destroy');
 });
 
 // ********** User Routes *********
