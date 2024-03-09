@@ -17,7 +17,7 @@ class SubAdminController extends Controller
     {
         $budgetCategories = BudgetCategory::all();
         $reports = Report::all();
-        $costAllocations = CostAllocation::all();
+        $costAllocations = CostAllocation::whereDate('created_at', now()->toDateString())->get();
 
         $currentMonthExpenses = Expense::whereYear('expense_date', Carbon::now()->year)
             ->whereMonth('expense_date', Carbon::now()->month)

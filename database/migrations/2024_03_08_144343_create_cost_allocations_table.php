@@ -18,14 +18,12 @@ class CreateCostAllocationsTable extends Migration
             $table->unsignedBigInteger('source_cost_center_id');
             $table->unsignedBigInteger('destination_cost_center_id');
             $table->unsignedBigInteger('cost_category_id');
-            $table->unsignedBigInteger('cost_allocation_rule_id');
             $table->decimal('amount', 10, 2);
             $table->date('date');
             $table->timestamps();
             $table->foreign('source_cost_center_id')->references('id')->on('cost_centers');
             $table->foreign('destination_cost_center_id')->references('id')->on('cost_centers');
             $table->foreign('cost_category_id')->references('id')->on('cost_categories');
-            $table->foreign('cost_allocation_rule_id')->references('id')->on('cost_allocation_rules');
         });
     }
 

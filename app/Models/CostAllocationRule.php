@@ -32,4 +32,5 @@ class CostAllocationRule extends Model
     {
         return $this->hasMany(CostAllocation::class);
     }
+
 }

@@ -56,7 +56,7 @@
                                                 <td>{{ $allocation->costCategory->name }}</td>
                                                 <td>{{ $allocation->amount }}</td>
                                                 <td>{{ $allocation->date }}</td>
-                                                <td>{{ $allocation->allocationMethod->name }}</td>
+
                                                 <td>
                                                     <a href="{{ route('cost_allocations.edit', $allocation->id) }}" class="btn btn-primary">Edit</a>
                                                     <form action="{{ route('cost_allocations.destroy', $allocation->id) }}" method="POST" style="display: inline-block;">

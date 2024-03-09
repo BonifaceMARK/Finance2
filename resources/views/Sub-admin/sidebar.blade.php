@@ -33,7 +33,7 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#bud-nav"  data-bs-toggle="collapse" href="{{route('budget.create')}}">
+        <a class="nav-link collapsed" data-bs-target="#bud-nav" href="{{route('budget.create')}}">
             <i class="bi bi-lightbulb"></i><span>Allocate Budget</span>
         </a>
       </li><!-- End Components Nav -->

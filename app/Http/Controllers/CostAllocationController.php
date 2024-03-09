@@ -23,8 +23,7 @@ class CostAllocationController extends Controller
     {
         $costCenters = CostCenter::all();
         $costCategories = CostCategory::all();
-        $costAllocationRules = CostAllocationRule::all();
-        return view('sub-admin.cost_allocations.create', compact('costCenters', 'costCategories', 'costAllocationRules'));
+        return view('sub-admin.cost_allocations.create', compact('costCenters', 'costCategories'));
     }
 
 
@@ -36,6 +35,7 @@ class CostAllocationController extends Controller
             'cost_category_id' => 'required',
             'amount' => 'required',
             'date' => 'required',
+
         ]);
 
         CostAllocation::create($request->all());
