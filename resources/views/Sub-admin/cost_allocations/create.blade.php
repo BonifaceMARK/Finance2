@@ -77,6 +77,16 @@
                                         <input type="date" name="date" id="date" class="form-control" required>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="allocation_rule_id">Allocation Rule</label>
+                                        <select name="allocation_rule_id" id="allocation_rule_id" class="form-control" required>
+                                            <option value="">Select Allocation Rule</option>
+                                            @foreach ($costAllocationRules as $rule)
+                                                <option value="{{ $rule->id }}">{{ $rule->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <button type="submit" class="btn btn-primary">Create Cost Allocation</button>
                                 </form>
                             </div>
@@ -84,6 +94,7 @@
                     </div>
                 </div>
             </div>
+
       </div>
     </section>
 

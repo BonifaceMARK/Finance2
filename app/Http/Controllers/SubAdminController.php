@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\BudgetCategory;
 use App\Models\Report;
 use App\Models\Expense;
+use App\Models\CostAllocation;
 use Carbon\Carbon;
+
 
 class SubAdminController extends Controller
 {
@@ -15,6 +17,7 @@ class SubAdminController extends Controller
     {
         $budgetCategories = BudgetCategory::all();
         $reports = Report::all();
+        $costAllocations = CostAllocation::all();
 
         $currentMonthExpenses = Expense::whereYear('expense_date', Carbon::now()->year)
             ->whereMonth('expense_date', Carbon::now()->month)
@@ -39,7 +42,7 @@ class SubAdminController extends Controller
 
         $decreasePercentage = $previousYearExpenses != 0 ? ($currentYearExpenses - $previousYearExpenses) / $previousYearExpenses * 100 : 0;
 
-        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage'));
+        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage','costAllocations'));
     }
 
 }

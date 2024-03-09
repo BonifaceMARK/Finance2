@@ -41,8 +41,9 @@
                                     <div class="form-group">
                                         <label for="source_cost_center_id">Source Cost Center</label>
                                         <select name="source_cost_center_id" id="source_cost_center_id" class="form-control" required>
-                                            @foreach ($costCenters as $center)
-                                                <option value="{{ $center->id }}" {{ $center->id == $costAllocation->source_cost_center_id ? 'selected' : '' }}>{{ $center->name }}</option>
+                                            <option value="">Select Source Cost Center</option>
+                                            @foreach ($costCenters as $costCenter)
+                                                <option value="{{ $costCenter->id }}" {{ $costCenter->id == $costAllocation->source_cost_center_id ? 'selected' : '' }}>{{ $costCenter->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -50,8 +51,9 @@
                                     <div class="form-group">
                                         <label for="destination_cost_center_id">Destination Cost Center</label>
                                         <select name="destination_cost_center_id" id="destination_cost_center_id" class="form-control" required>
-                                            @foreach ($costCenters as $center)
-                                                <option value="{{ $center->id }}" {{ $center->id == $costAllocation->destination_cost_center_id ? 'selected' : '' }}>{{ $center->name }}</option>
+                                            <option value="">Select Destination Cost Center</option>
+                                            @foreach ($costCenters as $costCenter)
+                                                <option value="{{ $costCenter->id }}" {{ $costCenter->id == $costAllocation->destination_cost_center_id ? 'selected' : '' }}>{{ $costCenter->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -59,8 +61,9 @@
                                     <div class="form-group">
                                         <label for="cost_category_id">Cost Category</label>
                                         <select name="cost_category_id" id="cost_category_id" class="form-control" required>
-                                            @foreach ($costCategories as $category)
-                                                <option value="{{ $category->id }}" {{ $category->id == $costAllocation->cost_category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            <option value="">Select Cost Category</option>
+                                            @foreach ($costCategories as $costCategory)
+                                                <option value="{{ $costCategory->id }}" {{ $costCategory->id == $costAllocation->cost_category_id ? 'selected' : '' }}>{{ $costCategory->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -75,6 +78,16 @@
                                         <input type="date" name="date" id="date" class="form-control" value="{{ $costAllocation->date }}" required>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="allocation_method_id">Allocation Method</label>
+                                        <select name="allocation_method_id" id="allocation_method_id" class="form-control" required>
+                                            <option value="">Select Allocation Method</option>
+                                            @foreach ($allocationMethods as $method)
+                                                <option value="{{ $method->id }}" {{ $method->id == $costAllocation->allocation_method_id ? 'selected' : '' }}>{{ $method->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <button type="submit" class="btn btn-primary">Update Cost Allocation</button>
                                 </form>
                             </div>
@@ -82,6 +95,7 @@
                     </div>
                 </div>
             </div>
+
       </div>
     </section>
 

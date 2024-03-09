@@ -34,32 +34,20 @@
                             <div class="card-header">Cost Allocation Details</div>
 
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label for="source_cost_center">Source Cost Center</label>
-                                    <input type="text" id="source_cost_center" class="form-control" value="{{ $costAllocation->sourceCostCenter->name }}" readonly>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Source Cost Center:</strong> {{ $costAllocation->sourceCostCenter->name }}</p>
+                                        <p><strong>Destination Cost Center:</strong> {{ $costAllocation->destinationCostCenter->name }}</p>
+                                        <p><strong>Cost Category:</strong> {{ $costAllocation->costCategory->name }}</p>
+                                        <p><strong>Amount:</strong> ${{ $costAllocation->amount }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Allocation Method:</strong> {{ $costAllocation->allocation_method }}</p>
+                                        <p><strong>Date:</strong> {{ $costAllocation->date }}</p>
+                                        <p><strong>Created At:</strong> {{ $costAllocation->created_at }}</p>
+                                        <p><strong>Updated At:</strong> {{ $costAllocation->updated_at }}</p>
+                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="destination_cost_center">Destination Cost Center</label>
-                                    <input type="text" id="destination_cost_center" class="form-control" value="{{ $costAllocation->destinationCostCenter->name }}" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cost_category">Cost Category</label>
-                                    <input type="text" id="cost_category" class="form-control" value="{{ $costAllocation->costCategory->name }}" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="amount">Amount</label>
-                                    <input type="text" id="amount" class="form-control" value="{{ $costAllocation->amount }}" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="date">Date</label>
-                                    <input type="text" id="date" class="form-control" value="{{ $costAllocation->date }}" readonly>
-                                </div>
-
-                                <a href="{{ route('cost_allocations.index') }}" class="btn btn-secondary">Back</a>
                             </div>
                         </div>
                     </div>

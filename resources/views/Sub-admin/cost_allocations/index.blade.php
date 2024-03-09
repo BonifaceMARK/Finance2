@@ -34,44 +34,41 @@
                             <div class="card-header">Cost Allocations</div>
 
                             <div class="card-body">
-                                <a href="{{ route('cost_allocations.create') }}" class="btn btn-primary mb-3">Create New Cost Allocation</a>
-
-                                @if ($costAllocations->count() > 0)
-                                    <table class="table">
-                                        <thead>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Source Cost Center</th>
+                                            <th>Destination Cost Center</th>
+                                            <th>Cost Category</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Allocation Method</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($costAllocations as $allocation)
                                             <tr>
-                                                <th>Source Cost Center</th>
-                                                <th>Destination Cost Center</th>
-                                                <th>Cost Category</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
-                                                <th>Actions</th>
+                                                <td>{{ $allocation->id }}</td>
+                                                <td>{{ $allocation->sourceCostCenter->name }}</td>
+                                                <td>{{ $allocation->destinationCostCenter->name }}</td>
+                                                <td>{{ $allocation->costCategory->name }}</td>
+                                                <td>{{ $allocation->amount }}</td>
+                                                <td>{{ $allocation->date }}</td>
+                                                <td>{{ $allocation->allocationMethod->name }}</td>
+                                                <td>
+                                                    <a href="{{ route('cost_allocations.edit', $allocation->id) }}" class="btn btn-primary">Edit</a>
+                                                    <form action="{{ route('cost_allocations.destroy', $allocation->id) }}" method="POST" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($costAllocations as $costAllocation)
-                                                <tr>
-                                                    <td>{{ $costAllocation->sourceCostCenter->name }}</td>
-                                                    <td>{{ $costAllocation->destinationCostCenter->name }}</td>
-                                                    <td>{{ $costAllocation->costCategory->name }}</td>
-                                                    <td>{{ $costAllocation->amount }}</td>
-                                                    <td>{{ $costAllocation->date }}</td>
-                                                    <td>
-                                                        <a href="{{ route('cost_allocations.show', $costAllocation->id) }}" class="btn btn-info btn-sm">View</a>
-                                                        <a href="{{ route('cost_allocations.edit', $costAllocation->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                        <form action="{{ route('cost_allocations.destroy', $costAllocation->id) }}" method="POST" style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cost allocation?')">Delete</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @else
-                                    <p>No cost allocations found.</p>
-                                @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

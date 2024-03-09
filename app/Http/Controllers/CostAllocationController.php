@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CostAllocation;
 use App\Models\CostCenter;
 use App\Models\CostCategory;
+use App\Models\CostAllocationRule;
+
 use Illuminate\Http\Request;
 
 class CostAllocationController extends Controller
@@ -21,7 +23,8 @@ class CostAllocationController extends Controller
     {
         $costCenters = CostCenter::all();
         $costCategories = CostCategory::all();
-        return view('sub-admin.cost_allocations.create', compact('costCenters','costCategories'));
+        $costAllocationRules = CostAllocationRule::all();
+        return view('sub-admin.cost_allocations.create', compact('costCenters', 'costCategories', 'costAllocationRules'));
     }
 
 
