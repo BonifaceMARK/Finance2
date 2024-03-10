@@ -64,9 +64,15 @@ class SubAdminController extends Controller
 
         // Fetch recent budget proposals
         $budgetProposals = BudgetProposal::latest()->take(5)->get();
+        $costAllocations = CostAllocation::all();
+        $chartData = $costAllocations->map(function ($allocation) {
+            return [
+                'value' => $allocation->amount,
+                'name' => $allocation->cost_center
+            ];
+        })->toArray();
 
-
-        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage', 'carouselItems', 'budgetPlans', 'budgetProposals'));
+        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage', 'carouselItems', 'budgetPlans', 'budgetProposals', 'chartData','costAllocations'));
     }
 
 }

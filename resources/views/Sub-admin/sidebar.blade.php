@@ -11,7 +11,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#exp-nav" data-bs-toggle="collapse"  href="#">
-            <i class="bi bi-wallet2"></i><span>Expense Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-currency-dollar"></i><span>Expense</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="exp-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
@@ -33,21 +33,27 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#bud-nav" href="{{route('budget.create')}}">
-            <i class="bi bi-lightbulb"></i><span>Allocate Budget</span>
+        <a class="nav-link collapsed" data-bs-target="#bud-nav"  data-bs-toggle="collapse"  href="#">
+            <i class="bi bi-wallet2"></i><span>Budget</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-      </li><!-- End Components Nav -->
+        <ul id="bud-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{{route('budget.create')}}">
+                  <span>Compare Allocated Budget</span>
+                </a>
+              </li>
+            <li>
+                <a href="{{route('budget-plans.create')}}">
+                  <span>Budget Plan</span>
+                </a>
+              </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('budget-plans.create')}}">
-            <i class="bi bi-lightbulb"></i><span>Budget Plan</span>
-        </a>
+            </ul>
       </li><!-- End Components Nav -->
-
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('cost_allocations.create')}}">
-            <i class="bi bi-lightbulb"></i><span>Allocate Cost</span>
+            <i class="bi bi-lightbulb"></i><span>Cost</span>
         </a>
       </li><!-- End Components Nav -->
 

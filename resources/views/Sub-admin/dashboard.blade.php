@@ -172,79 +172,39 @@
 <!-- End Reports -->
 
 
-            <!-- Recent Sales -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
+        <!-- Recent Sales -->
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+            <h5 class="card-title">Budget Proposals Status<span>| Today</span></h5>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Budget Plan</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Amount</th>
                         <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($budgetProposals as $proposal)
+                    <tr>
+                        <th scope="row"><a href="#">{{ $proposal->id }}</a></th>
+                        <td>{{ $proposal->budgetPlan->name }}</td>
+                        <td><a href="#" class="text-primary">{{ $proposal->title }}</a></td>
+                        <td>${{ $proposal->amount }}</td>
+                        <td><span class="badge bg-success">{{ $proposal->status }}</span></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- End Recent Sales -->
 
-                </div>
-
-              </div>
-            </div><!-- End Recent Sales -->
 
             <div class="col-12">
                 <div class="card top-selling overflow-auto">
@@ -277,6 +237,54 @@
                     </div>
                 </div>
             </div><!-- End Top Selling -->
+            <!-- Top Selling -->
+<div class="col-12">
+    <div class="card top-selling overflow-auto">
+
+      <div class="filter">
+        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <li class="dropdown-header text-start">
+            <h6>Filter</h6>
+          </li>
+
+          <li><a class="dropdown-item" href="#">Today</a></li>
+          <li><a class="dropdown-item" href="#">This Month</a></li>
+          <li><a class="dropdown-item" href="#">This Year</a></li>
+        </ul>
+      </div>
+
+      <div class="card-body pb-0">
+        <h5 class="card-title">Allocated Cost <span>| Today</span></h5>
+
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Cost Center</th>
+              <th scope="col">Cost Category</th>
+              <th scope="col">Allocation Method</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($costAllocations as $allocation)
+            <tr>
+              <td>{{ $allocation->cost_center }}</td>
+              <td>{{ $allocation->cost_category }}</td>
+              <td>{{ $allocation->allocation_method }}</td>
+              <td>{{ $allocation->amount }}</td>
+              <td>{{ $allocation->description }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+  </div><!-- End Top Selling -->
+
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Financial Report <span>| Today</span></h5>
@@ -402,6 +410,57 @@
 
 
        <!-- Website Traffic -->
+      <!-- Cost Center -->
+      <div class="card">
+
+        <div class="card-body pb-0">
+          <h5 class="card-title">Allocated Cost <span>| Today</span></h5>
+
+          <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initialize ECharts
+            var trafficChart = echarts.init(document.querySelector("#trafficChart"));
+
+            // Chart options
+            var options = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    top: '5%',
+                    left: 'center'
+                },
+                series: [{
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '18',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    // Use chartData passed from the controller
+                    data: @json($chartData)
+                }]
+            };
+
+            // Set options
+            trafficChart.setOption(options);
+        });
+    </script>
+  </div>
+</div><!-- End Cost Centers -->
 
 
 

@@ -42,7 +42,7 @@
 
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea id="descriptionTextarea" name="description" class="form-control" rows="4"></textarea>
+                                    <textarea id="description" name="description" class="form-control" rows="4"></textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -78,7 +78,7 @@
 <script>
     function showDescription() {
         var titleSelect = document.getElementById("title");
-        var descriptionTextarea = document.getElementById("descriptionTextarea");
+        var descriptionTextarea = document.getElementById("description");
         var selectedOption = titleSelect.options[titleSelect.selectedIndex].value;
         var description = "";
 

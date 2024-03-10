@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\CostAllocation; // Assuming you have a CostAllocation model
 
 class CreateCostAllocationTable extends Migration
 {
@@ -22,6 +23,18 @@ class CreateCostAllocationTable extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
         });
+
+        // Fetch data and pass it to JavaScript
+        $costAllocations = CostAllocation::all();
+        $chartData = $costAllocations->map(function ($allocation) {
+            return [
+                'value' => $allocation->amount,
+                'name' => $allocation->cost_center
+            ];
+        })->toArray();
+
+        // Pass $chartData to JavaScript
+        echo "<script>var chartData = " . json_encode($chartData) . ";</script>";
     }
 
     /**

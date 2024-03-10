@@ -25,8 +25,9 @@ class BudgetPlanController extends Controller
             'description' => 'nullable|string',
             'total_amount' => 'required|numeric|min:0',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
+            'end_date' => 'required|date',
         ]);
+
 
         BudgetPlan::create($validatedData);
 
