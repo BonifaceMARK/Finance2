@@ -246,68 +246,40 @@
               </div>
             </div><!-- End Recent Sales -->
 
-            <!-- Top Selling -->
             <div class="col-12">
-              <div class="card top-selling overflow-auto">
+                <div class="card top-selling overflow-auto">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Created BudgetPlans <span>| Today</span></h5>
 
-                <div class="card-body pb-0">
-                  <h5 class="card-title">Top Expenses <span>| Today</span></h5>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Total Amount</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($budgetPlans as $plan)
+                                <tr>
+                                    <td><a href="#" class="text-primary fw-bold">{{ $plan->title }}</a></td>
+                                    <td>{{ $plan->description }}</td>
+                                    <td>{{ $plan->total_amount }}</td>
+                                    <td>{{ $plan->start_date }}</td>
+                                    <td>{{ $plan->end_date }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Revenue</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>$64</td>
-                        <td class="fw-bold">124</td>
-                        <td>$5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>$46</td>
-                        <td class="fw-bold">98</td>
-                        <td>$4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>$59</td>
-                        <td class="fw-bold">74</td>
-                        <td>$4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>$32</td>
-                        <td class="fw-bold">63</td>
-                        <td>$2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>$79</td>
-                        <td class="fw-bold">41</td>
-                        <td>$3,239</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+                    </div>
                 </div>
-
-              </div>
             </div><!-- End Top Selling -->
             <div class="card">
                 <div class="card-body">
+                    <h5 class="card-title">Financial Report <span>| Today</span></h5>
                     <!-- Display Uploaded Image in Carousel -->
                     @if (isset($carouselItems))
                         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -336,30 +308,30 @@
           </div>
         </div><!-- End Left side columns -->
 
+
         <!-- Right side columns -->
         <div class="col-lg-4">
+      <!-- Recent Activity -->
+<div class="card">
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+    <div class="card-body">
+        <h5 class="card-title">Recent Budget Proposals</h5>
 
-                    <div class="activity">
-                        @foreach($costAllocations as $costAllocation)
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">Now</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                    @if ($costAllocation->destination_cost_center && $costAllocation->source_cost_center)
-                                        New cost allocation of ${{ $costAllocation->amount }} to <a href="#" class="fw-bold text-dark">{{ $costAllocation->destination_cost_center->name }}</a> from {{ $costAllocation->source_cost_center->name }}
-                                    @else
-                                        Cost allocation details not available
-                                    @endif
-                                </div>
-                            </div><!-- End activity item-->
-                        @endforeach
-                    </div>
+        <div class="activity">
+            @foreach($budgetProposals as $proposal)
+            <div class="activity-item d-flex">
+                <div class="activite-label">{{ $proposal->created_at->diffForHumans() }}</div>
+                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                <div class="activity-content">
+                    {{ $proposal->title }} - <span class="fw-bold">${{ $proposal->amount }}</span> - {{ $proposal->description }}
                 </div>
-            </div><!-- End Recent Activity -->
+            </div><!-- End activity item-->
+            @endforeach
+        </div>
+
+    </div>
+</div><!-- End Recent Activity -->
+
 
 
 
@@ -429,66 +401,9 @@
 
 
 
-         <!-- Cost Allocated -->
-<div class="card">
-    <div class="card-body pb-0">
-      <h5 class="card-title">Cost Allocation <span>| Today</span></h5>
+       <!-- Website Traffic -->
 
-      <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
-      <script>
-       document.addEventListener("DOMContentLoaded", () => {
-    // Fetch dynamic data from the server using Laravel's Eloquent ORM
-    let costAllocations = @json($costAllocations);
-
-    let data = [];
-    let legendData = [];
-
-    // Populate data dynamically
-    costAllocations.forEach(allocation => {
-        // Check if allocation and source_cost_center are not null or undefined
-        if (allocation && allocation.source_cost_center) {
-            data.push({ value: allocation.amount, name: allocation.source_cost_center.name });
-            legendData.push(allocation.source_cost_center.name);
-        }
-    });
-
-    echarts.init(document.querySelector("#trafficChart")).setOption({
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            top: '5%',
-            left: 'center',
-            data: legendData // Use dynamic legend data
-        },
-        series: [{
-            name: 'Cost Allocation',
-            type: 'pie',
-            radius: ['40%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                show: false,
-                position: 'center'
-            },
-            emphasis: {
-                label: {
-                    show: true,
-                    fontSize: '18',
-                    fontWeight: 'bold'
-                }
-            },
-            labelLine: {
-                show: false
-            },
-            data: data // Use dynamic data
-        }]
-    });
-});
-      </script>
-
-    </div>
-  </div><!-- End Website Traffic -->
 
           <!-- News & Updates Traffic -->
           <div class="card">

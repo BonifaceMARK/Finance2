@@ -1,3 +1,4 @@
+
 @extends('layout.title')
 
 @section('title', 'Welcome to Sub-admin Dashboard')
@@ -30,72 +31,48 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">Create New Cost Allocation</div>
-
+                            <div class="card-header">
+                                Create Cost Allocation
+                            </div>
                             <div class="card-body">
-                                <!-- Display flash messages -->
-                                @if (session('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-
-                                @if (session('error'))
+                                @if ($errors->any())
                                     <div class="alert alert-danger">
-                                        {{ session('error') }}
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 @endif
-
-                                <form method="POST" action="{{ route('cost_allocations.store') }}">
+                                <form action="{{ route('cost_allocations.store') }}" method="POST">
                                     @csrf
-
                                     <div class="form-group">
-                                        <label for="source_cost_center_id">Source Cost Center</label>
-                                        <select name="source_cost_center_id" id="source_cost_center_id" class="form-control" required>
-                                            <option value="">Select Source Cost Center</option>
-                                            @foreach ($costCenters as $costCenter)
-                                                <option value="{{ $costCenter->id }}">{{ $costCenter->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="cost_center">Cost Center:</label>
+                                        <input type="text" class="form-control" id="cost_center" name="cost_center">
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="destination_cost_center_id">Destination Cost Center</label>
-                                        <select name="destination_cost_center_id" id="destination_cost_center_id" class="form-control" required>
-                                            <option value="">Select Destination Cost Center</option>
-                                            @foreach ($costCenters as $costCenter)
-                                                <option value="{{ $costCenter->id }}">{{ $costCenter->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="cost_category">Cost Category:</label>
+                                        <input type="text" class="form-control" id="cost_category" name="cost_category">
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="cost_category_id">Cost Category</label>
-                                        <select name="cost_category_id" id="cost_category_id" class="form-control" required>
-                                            <option value="">Select Cost Category</option>
-                                            @foreach ($costCategories as $costCategory)
-                                                <option value="{{ $costCategory->id }}">{{ $costCategory->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="allocation_method">Allocation Method:</label>
+                                        <input type="text" class="form-control" id="allocation_method" name="allocation_method">
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="amount">Amount</label>
-                                        <input type="text" name="amount" id="amount" class="form-control" required>
+                                        <label for="amount">Amount:</label>
+                                        <input type="number" class="form-control" id="amount" name="amount">
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="date">Date</label>
-                                        <input type="date" name="date" id="date" class="form-control" required>
+                                        <label for="description">Description:</label>
+                                        <textarea class="form-control" id="description" name="description"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Create Cost Allocation</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
       </div>
     </section>
 

@@ -31,23 +31,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">Cost Allocation Details</div>
-
+                            <div class="card-header">
+                                Cost Allocation Details
+                            </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>Source Cost Center:</strong> {{ $costAllocation->sourceCostCenter->name }}</p>
-                                        <p><strong>Destination Cost Center:</strong> {{ $costAllocation->destinationCostCenter->name }}</p>
-                                        <p><strong>Cost Category:</strong> {{ $costAllocation->costCategory->name }}</p>
-                                        <p><strong>Amount:</strong> ${{ $costAllocation->amount }}</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><strong>Allocation Method:</strong> {{ $costAllocation->allocation_method }}</p>
-                                        <p><strong>Date:</strong> {{ $costAllocation->date }}</p>
-                                        <p><strong>Created At:</strong> {{ $costAllocation->created_at }}</p>
-                                        <p><strong>Updated At:</strong> {{ $costAllocation->updated_at }}</p>
-                                    </div>
-                                </div>
+                                <p><strong>Cost Center:</strong> {{ $costAllocation->cost_center }}</p>
+                                <p><strong>Cost Category:</strong> {{ $costAllocation->cost_category }}</p>
+                                <p><strong>Allocation Method:</strong> {{ $costAllocation->allocation_method }}</p>
+                                <p><strong>Amount:</strong> ${{ $costAllocation->amount }}</p>
+                                <p><strong>Description:</strong> {{ $costAllocation->description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ route('cost_allocations.index') }}" class="btn btn-primary">Back</a>
                             </div>
                         </div>
                     </div>

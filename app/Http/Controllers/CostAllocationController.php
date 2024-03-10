@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CostAllocation;
-use App\Models\CostCenter;
-use App\Models\CostCategory;
-use App\Models\CostAllocationRule;
-
 use Illuminate\Http\Request;
 
 class CostAllocationController extends Controller
@@ -18,30 +14,25 @@ class CostAllocationController extends Controller
         return view('sub-admin.cost_allocations.index', compact('costAllocations'));
     }
 
-
     public function create()
     {
-        $costCenters = CostCenter::all();
-        $costCategories = CostCategory::all();
-        return view('sub-admin.cost_allocations.create', compact('costCenters', 'costCategories'));
+        return view('sub-admin.cost_allocations.create');
     }
 
 
     public function store(Request $request)
     {
-        $request->validate([
-            'source_cost_center_id' => 'required',
-            'destination_cost_center_id' => 'required',
-            'cost_category_id' => 'required',
-            'amount' => 'required',
-            'date' => 'required',
-
+        $validatedData = $request->validate([
+            'cost_center' => 'required|string',
+            'cost_category' => 'required|string',
+            'allocation_method' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
         ]);
 
-        CostAllocation::create($request->all());
+        CostAllocation::create($validatedData);
 
-        return redirect()->route('cost_allocations.index')
-                         ->with('success','Cost allocation created successfully.');
+        return redirect()->route('cost_allocations.index')->with('success', 'Cost Allocation created successfully.');
     }
 
 
@@ -50,28 +41,24 @@ class CostAllocationController extends Controller
         return view('sub-admin.cost_allocations.show', compact('costAllocation'));
     }
 
-
     public function edit(CostAllocation $costAllocation)
     {
-        // Add logic to fetch cost centers and cost categories if needed
         return view('sub-admin.cost_allocations.edit', compact('costAllocation'));
     }
 
-
     public function update(Request $request, CostAllocation $costAllocation)
     {
-        $request->validate([
-            'source_cost_center_id' => 'required',
-            'destination_cost_center_id' => 'required',
-            'cost_category_id' => 'required',
-            'amount' => 'required',
-            'date' => 'required',
+        $validatedData = $request->validate([
+            'cost_center' => 'required|string',
+            'cost_category' => 'required|string',
+            'allocation_method' => 'required|string',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
         ]);
 
-        $costAllocation->update($request->all());
+        $costAllocation->update($validatedData);
 
-        return redirect()->route('cost_allocations.index')
-                         ->with('success','Cost allocation updated successfully');
+        return redirect()->route('cost_allocations.index')->with('success', 'Cost Allocation updated successfully.');
     }
 
 
@@ -79,7 +66,7 @@ class CostAllocationController extends Controller
     {
         $costAllocation->delete();
 
-        return redirect()->route('cost_allocations.index')
-                         ->with('success','Cost allocation deleted successfully');
+        return redirect()->route('cost_allocations.index')->with('success', 'Cost Allocation deleted successfully.');
     }
 }
+

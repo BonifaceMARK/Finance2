@@ -8,7 +8,10 @@ use App\Models\Report;
 use App\Models\Expense;
 use App\Models\CostAllocation;
 use Carbon\Carbon;
+use App\Models\CostCenter;
 use Illuminate\Support\Facades\File;
+use App\Models\BudgetPlan;
+use App\Models\BudgetProposal;
 
 class SubAdminController extends Controller
 {
@@ -16,7 +19,6 @@ class SubAdminController extends Controller
     {
         $budgetCategories = BudgetCategory::all();
         $reports = Report::all();
-        $costAllocations = CostAllocation::whereDate('created_at', now()->toDateString())->get();
 
         $currentMonthExpenses = Expense::whereYear('expense_date', Carbon::now()->year)
             ->whereMonth('expense_date', Carbon::now()->month)
@@ -57,6 +59,14 @@ class SubAdminController extends Controller
             }
         }
 
-        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage', 'costAllocations', 'carouselItems'));
+        // Fetch budget plans
+        $budgetPlans = BudgetPlan::all();
+
+        // Fetch recent budget proposals
+        $budgetProposals = BudgetProposal::latest()->take(5)->get();
+
+
+        return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage', 'carouselItems', 'budgetPlans', 'budgetProposals'));
     }
+
 }

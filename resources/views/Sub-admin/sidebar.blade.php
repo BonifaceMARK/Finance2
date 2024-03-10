@@ -44,38 +44,14 @@
         </a>
       </li><!-- End Components Nav -->
 
+
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#cost-nav" data-bs-toggle="collapse"  href="#">
-            <i class="bi bi-geo"></i><span>Cost Allocation</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('cost_allocations.create')}}">
+            <i class="bi bi-lightbulb"></i><span>Allocate Cost</span>
         </a>
-        <ul id="cost-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="{{route('cost_centers.create')}}">
-                  <span>Cost Center</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('cost_entries.create')}}">
-                    <span>Cost Entry</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('cost_categories.create')}}">
-                  <span>Categories</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('costAllocationRules.create')}}">
-                  <span>Cost Allocation Standard</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{route('cost_allocations.create')}}">
-                  <span>Allocate Cost</span>
-                </a>
-              </li>
-            </ul>
       </li><!-- End Components Nav -->
+
+
 
     </ul>
 
