@@ -111,194 +111,7 @@
             </div>
         </div>
 
-        <div  class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Cost Allocation Rules</div>
 
-                        <div  id="print-container" class="card-body">
-
-                            @if ($costAllocationRules->count() > 0)
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Allocation Method</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($costAllocationRules as $rule)
-                                            <tr>
-                                                <td>{{ $rule->name }}</td>
-                                                <td>{{ $rule->description }}</td>
-                                                <td>{{ $rule->allocation_method }}</td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p>No cost allocation rules found.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Cost Allocations</div>
-
-                        <div class="card-body">
-
-                            @if ($costAllocations->count() > 0)
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Source Cost Center</th>
-                                            <th>Destination Cost Center</th>
-                                            <th>Cost Category</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($costAllocations as $costAllocation)
-                                            <tr>
-                                                <td>{{ $costAllocation->sourceCostCenter->name }}</td>
-                                                <td>{{ $costAllocation->destinationCostCenter->name }}</td>
-                                                <td>{{ $costAllocation->costCategory->name }}</td>
-                                                <td>{{ $costAllocation->amount }}</td>
-                                                <td>{{ $costAllocation->date }}</td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p>No cost allocations found.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Cost Categories</div>
-
-                        <div class="card-body">
-
-                            @if ($costCategories->count() > 0)
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($costCategories as $costCategory)
-                                            <tr>
-                                                <td>{{ $costCategory->name }}</td>
-                                                <td>{{ $costCategory->description }}</td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p>No cost categories found.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Cost Centers</div>
-
-                        <div class="card-body">
-
-                            @if ($costCenters->count() > 0)
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($costCenters as $costCenter)
-                                            <tr>
-                                                <td>{{ $costCenter->name }}</td>
-                                                <td>{{ $costCenter->description }}</td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p>No cost centers found.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Cost Entries</div>
-
-                        <div class="card-body">
-
-                            @if ($costEntries->count() > 0)
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Cost Center</th>
-                                            <th>Cost Category</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($costEntries as $costEntry)
-                                            <tr>
-                                                <td>{{ $costEntry->costCenter->name }}</td>
-                                                <td>{{ $costEntry->costCategory->name }}</td>
-                                                <td>{{ $costEntry->amount }}</td>
-                                                <td>{{ $costEntry->date }}</td>
-
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p>No cost entries found.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-12">
@@ -378,6 +191,48 @@
             </div>
         </div>
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Cost Allocations
+                        </div>
+                        <div class="card-body">
+                            @if ($message = Session::get('success'))
+                                <div class="alert alert-success">
+                                    {{ $message }}
+                                </div>
+                            @endif
+                            @if ($costAllocations->count() > 0)
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Cost Center</th>
+                                    <th>Cost Category</th>
+                                    <th>Allocation Method</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                </tr>
+                                @foreach ($costAllocations as $key => $costAllocation)
+                                    <tr>
+                                        <td>{{ ++$key }}</td>
+                                        <td>{{ $costAllocation->cost_center }}</td>
+                                        <td>{{ $costAllocation->cost_category }}</td>
+                                        <td>{{ $costAllocation->allocation_method }}</td>
+                                        <td>{{ $costAllocation->amount }}</td>
+                                        <td>{{ $costAllocation->description }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                            @else
+                            <p>No Cost Allocation found.</p>
+                        @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-8">
                     <div class="card">
@@ -425,6 +280,65 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="card-header">
+                <h2>Upload Images to Forecast</h2>
+            </div>
+            <div class="card-body">
+                @if ($errors->any())
+                    <div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('images.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="image">Choose Image</label>
+                        <input type="file" id="image" name="image" class="@error('image') is-invalid @enderror">
+                        @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h2>Forecast</h2>
+            </div>
+            <div class="card-body">
+                @if ($images->isEmpty())
+                    <p>No images found.</p>
+                @else
+                    <div class="row">
+                        @foreach ($images as $image)
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <img src="{{ asset($image->image_path) }}" class="card-img-top" alt="Image">
+                                    <div class="card-body">
+                                        <p class="card-text">Uploaded: {{ $image->created_at->diffForHumans() }}</p>
+                                        <!-- Add delete button here -->
+                                        <form action="{{ route('images.destroy', $image->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+
+
       </div>
     </section>
 
@@ -439,7 +353,23 @@
         window.print();
         document.body.innerHTML = originalContents;
     }
+     document.getElementById('captureScreenshotBtn').addEventListener('click', function() {
+        // Trigger a request to capture the screenshot
+        fetch('/api/capture-screenshot')
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to the captured screenshot
+                    window.location.href = response.url;
+                } else {
+                    console.error('Failed to capture screenshot:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Failed to capture screenshot:', error);
+            });
+    });
 </script>
+
 </body>
 
 </html>

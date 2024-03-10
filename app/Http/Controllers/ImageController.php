@@ -11,13 +11,13 @@ class ImageController extends Controller
     public function index()
     {
         $images = Image::all();
-        return view('admin.receipt.index', compact('images'));
+        return view('admin.financialreport.view', compact('images'));
     }
 
     public function create()
     {
         $images = Image::all();
-        return view('admin.receipt.create', compact('images'));
+        return view('admin.financialreport.view', compact('images'));
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class ImageController extends Controller
 
         // Optionally, you can save the image path to the database here
 
-        return view('admin.receipt.index', ['imagePath' => 'images/' . $imageName]);
+        return view('admin.financialreport.view', ['imagePath' => 'images/' . $imageName]);
     }
     public function destroy($id)
 {
