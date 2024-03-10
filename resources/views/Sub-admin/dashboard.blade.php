@@ -306,6 +306,32 @@
 
               </div>
             </div><!-- End Top Selling -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Display Uploaded Image in Carousel -->
+                    @if (isset($carouselItems))
+                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($carouselItems as $index => $item)
+                                    <div class="carousel-item {{ $item['active'] }}">
+                                        <img src="{{ asset($item['image']) }}" class="d-block w-100" alt="Uploaded Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+
 
           </div>
         </div><!-- End Left side columns -->

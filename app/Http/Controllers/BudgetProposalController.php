@@ -6,6 +6,8 @@ use App\Models\BudgetPlan;
 use App\Models\BudgetProposal;
 use Illuminate\Http\Request;
 
+
+
 class BudgetProposalController extends Controller
 {
     public function index()
@@ -16,6 +18,7 @@ class BudgetProposalController extends Controller
 
     public function create()
     {
+
         $budgetPlans = BudgetPlan::all();
         return view('admin.budget_proposals.create', compact('budgetPlans'));
     }

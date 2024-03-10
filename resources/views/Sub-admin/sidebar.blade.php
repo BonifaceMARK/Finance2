@@ -39,6 +39,12 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('budget-plans.create')}}">
+            <i class="bi bi-lightbulb"></i><span>Budget Plan</span>
+        </a>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#cost-nav" data-bs-toggle="collapse"  href="#">
             <i class="bi bi-geo"></i><span>Cost Allocation</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>

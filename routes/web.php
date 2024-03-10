@@ -16,6 +16,8 @@ use App\Http\Controllers\CostAllocationController;
 use App\Http\Controllers\CostCenterController;
 use App\Http\Controllers\CostAllocationRuleController;
 use App\Http\Controllers\BudgetProposalController;
+use App\Http\Controllers\ImageController;
+
 use App\Http\Controllers\CostCategoryController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
@@ -126,6 +128,16 @@ Route::get('/reports/{report}', [ReportController::class, 'show'])->name('report
 Route::get('/reports/{report}/edit', [ReportController::class, 'edit'])->name('reports.edit');
 Route::put('/reports/{report}', [ReportController::class, 'update'])->name('reports.update');
 Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
+
+Route::get('/budget-plans', [BudgetPlanController::class, 'index'])->name('budget-plans.index');
+Route::get('/budget-plans/create', [BudgetPlanController::class, 'create'])->name('budget-plans.create');
+Route::post('/budget-plans', [BudgetPlanController::class, 'store'])->name('budget-plans.store');
+Route::get('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'show'])->name('budget-plans.show');
+Route::get('/budget-plans/{budgetPlan}/edit', [BudgetPlanController::class, 'edit'])->name('budget-plans.edit');
+Route::put('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'update'])->name('budget-plans.update');
+Route::delete('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'destroy'])->name('budget-plans.destroy');
+
+
 });
 
 // ********** Admin Routes *********
@@ -142,13 +154,11 @@ Route::get('/budget-proposals/{budgetProposal}/edit', [BudgetProposalController:
 Route::put('/budget-proposals/{budgetProposal}', [BudgetProposalController::class, 'update'])->name('budget-proposals.update');
 Route::delete('/budget-proposals/{budgetProposal}', [BudgetProposalController::class, 'destroy'])->name('budget-proposals.destroy');
 
-Route::get('/budget-plans', [BudgetPlanController::class, 'index'])->name('budget-plans.index');
-Route::get('/budget-plans/create', [BudgetPlanController::class, 'create'])->name('budget-plans.create');
-Route::post('/budget-plans', [BudgetPlanController::class, 'store'])->name('budget-plans.store');
-Route::get('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'show'])->name('budget-plans.show');
-Route::get('/budget-plans/{budgetPlan}/edit', [BudgetPlanController::class, 'edit'])->name('budget-plans.edit');
-Route::put('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'update'])->name('budget-plans.update');
-Route::delete('/budget-plans/{budgetPlan}', [BudgetPlanController::class, 'destroy'])->name('budget-plans.destroy');
+Route::get('/receipt', [ImageController::class, 'index'])->name('images.index');
+Route::get('/receipt/create', [ImageController::class, 'create'])->name('images.create');
+Route::post('/receipt', [ImageController::class, 'store'])->name('images.store');
+Route::delete('/receipt/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+
 });
 
 // ********** User Routes *********
