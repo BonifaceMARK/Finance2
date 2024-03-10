@@ -7719,7 +7719,7 @@
       return exponent >= -20 ? +val.toFixed(exponent < 0 ? -exponent : 0) : val;
     }
     /**
-     * This code was copied from "d3.js') }}"
+     * This code was copied from "d3.js"
      * <https://github.com/d3/d3/blob/9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74/src/arrays/quantile.js>.
      * See the license statement at the head of this file.
      * @param ascArr
@@ -34653,7 +34653,7 @@
       return TimeScale;
     }(IntervalScale);
     /**
-     * This implementation was originally copied from "d3.js') }}"
+     * This implementation was originally copied from "d3.js"
      * <https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/time/scale.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54490,7 +54490,7 @@
       }
     }
     /**
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54523,7 +54523,7 @@
       node.parentNode.hierNode.defaultAncestor = apportion(node, subtreeW, node.parentNode.hierNode.defaultAncestor || siblings[0], separation);
     }
     /**
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54566,7 +54566,7 @@
      * All other shifts, applied to the smaller subtrees between w- and w+, are
      * performed by this function.
      *
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54587,7 +54587,7 @@
       }
     }
     /**
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54677,7 +54677,7 @@
       return nodeInLeft.hierNode.ancestor.parentNode === node.parentNode ? nodeInLeft.hierNode.ancestor : ancestor;
     }
     /**
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -54696,7 +54696,7 @@
       wl.hierNode.change += change;
     }
     /**
-     * The implementation of this function was originally copied from "d3.js') }}"
+     * The implementation of this function was originally copied from "d3.js"
      * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -58702,7 +58702,7 @@
      * The original presentation of this algorithm
      * was made by Mark Bruls, Kees Huizing, and Jarke J. van Wijk
      * <https://graphics.ethz.ch/teaching/scivis_common/Literature/squarifiedTreeMaps.pdf>.
-     * The implementation of this algorithm was originally copied from "d3.js') }}"
+     * The implementation of this algorithm was originally copied from "d3.js"
      * <https://github.com/d3/d3/blob/9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74/src/layout/treemap.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.
@@ -59857,7 +59857,7 @@
         },
 
         /**
-         * Some formulas were originally copied from "d3.js') }}"
+         * Some formulas were originally copied from "d3.js"
          * https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/layout/force.js
          * with some modifications made for this project.
          * See the license statement at the head of this file.

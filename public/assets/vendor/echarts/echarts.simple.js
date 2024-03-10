@@ -7580,7 +7580,7 @@
       return exponent >= -20 ? +val.toFixed(exponent < 0 ? -exponent : 0) : val;
     }
     /**
-     * This code was copied from "d3.js') }}"
+     * This code was copied from "d3.js"
      * <https://github.com/d3/d3/blob/9cc9a875e636a1dcf36cc1e07bdf77e1ad6e2c74/src/arrays/quantile.js>.
      * See the license statement at the head of this file.
      * @param ascArr
@@ -33260,7 +33260,7 @@
       return TimeScale;
     }(IntervalScale);
     /**
-     * This implementation was originally copied from "d3.js') }}"
+     * This implementation was originally copied from "d3.js"
      * <https://github.com/d3/d3/blob/b516d77fb8566b576088e73410437494717ada26/src/time/scale.js>
      * with some modifications made for this program.
      * See the license statement at the head of this file.

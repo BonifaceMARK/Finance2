@@ -1,4 +1,3 @@
-
 @extends('layout.title')
 
 @section('title', 'Welcome to Sub-admin Dashboard')
@@ -34,6 +33,19 @@
                             <div class="card-header">Create New Cost Allocation</div>
 
                             <div class="card-body">
+                                <!-- Display flash messages -->
+                                @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
                                 <form method="POST" action="{{ route('cost_allocations.store') }}">
                                     @csrf
 
