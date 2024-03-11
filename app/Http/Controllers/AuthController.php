@@ -66,6 +66,7 @@ class AuthController extends Controller
 
     public function loadDashboard()
     {
+
         return view('user.dashboard');
     }
 

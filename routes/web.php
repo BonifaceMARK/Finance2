@@ -14,6 +14,7 @@ use App\Http\Controllers\BudgetPlanController;
 use App\Http\Controllers\CostAllocationController;
 use App\Http\Controllers\BudgetProposalController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\FinanceController;
 
 
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
@@ -32,6 +33,7 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/finance/terms', [FinanceController::class, 'showTerms'])->name('finance.terms');
 
 Route::get('/register',[AuthController::class,'loadRegister']);
 Route::post('/register',[AuthController::class,'register'])->name('register');

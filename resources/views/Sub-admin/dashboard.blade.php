@@ -1,7 +1,7 @@
 
 @extends('layout.title')
 
-@section('title', 'Welcome to Sub-admin Dashboard')
+@section('title', 'Finance Manager')
 @include('layout.title')
 <body>
 
