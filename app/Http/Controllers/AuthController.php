@@ -75,6 +75,9 @@ class AuthController extends Controller
     {
         $redirect = '';
 
+        if(Auth::user() && Auth::user()->role == 0){
+            $redirect = '/user/dashboard';
+        }
         if(Auth::user() && Auth::user()->role == 1){
             $redirect = '/super-admin/dashboard';
         }

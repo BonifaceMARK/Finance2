@@ -11,12 +11,13 @@ class CostAllocationController extends Controller
     public function index()
     {
         $costAllocations = CostAllocation::all();
-        return view('sub-admin.cost_allocations.index', compact('costAllocations'));
+        return view('user.cost_allocations.create', compact('costAllocations'));
     }
 
     public function create()
     {
-        return view('sub-admin.cost_allocations.create');
+        $costAllocations = CostAllocation::all();
+        return view('user.cost_allocations.create', compact('costAllocations'));
     }
 
 
@@ -32,18 +33,18 @@ class CostAllocationController extends Controller
 
         CostAllocation::create($validatedData);
 
-        return redirect()->route('cost_allocations.index')->with('success', 'Cost Allocation created successfully.');
+        return redirect()->route('cost_allocations.create')->with('success', 'Cost Allocation created successfully.');
     }
 
 
     public function show(CostAllocation $costAllocation)
     {
-        return view('sub-admin.cost_allocations.show', compact('costAllocation'));
+        return view('user.cost_allocations.show', compact('costAllocation'));
     }
 
     public function edit(CostAllocation $costAllocation)
     {
-        return view('sub-admin.cost_allocations.edit', compact('costAllocation'));
+        return view('user.cost_allocations.edit', compact('costAllocation'));
     }
 
     public function update(Request $request, CostAllocation $costAllocation)

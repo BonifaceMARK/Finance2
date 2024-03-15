@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBudgetCategoriesTable extends Migration
+class CreateRequestBudgetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateBudgetCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('budget_categories', function (Blueprint $table) {
+        Schema::create('request_budgets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('allocated_budget', 10, 2);
-            $table->decimal('actual_spending', 10, 2);
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->decimal('amount', 10, 2);
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateBudgetCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('budget_categories');
+        Schema::dropIfExists('request_budgets');
     }
 }

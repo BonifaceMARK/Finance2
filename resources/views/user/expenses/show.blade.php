@@ -1,15 +1,15 @@
 
 @extends('layout.title')
 
-@section('title', 'Welcome to Sub-admin Dashboard')
+@section('title', 'Expense Manager')
 @include('layout.title')
 <body>
 
   <!-- ======= Header ======= -->
-@include('Sub-admin.header')
+@include('user.header')
 
   <!-- ======= Sidebar ======= -->
-@include('Sub-admin.sidebar')
+@include('user.sidebar')
 
   <main id="main" class="main">
 
@@ -26,18 +26,17 @@
     <section class="section dashboard">
       <div class="row">
         <div class="container">
-
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6 offset-md-3">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
                         <div class="card">
-                            <div class="card-header">Expense Category Details</div>
+                            <div class="card-header">Expense Details</div>
+
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Category Name</label>
-                                    <p>{{ $expenseCategory->name }}</p>
-                                </div>
-                                <a href="{{ route('expense-categories.index') }}" class="btn btn-primary">Back to List</a>
+                                <p><strong>Date:</strong> {{ $expense->date }}</p>
+                                <p><strong>Amount:</strong> {{ $expense->amount }}</p>
+                                <p><strong>Category:</strong> {{ $expense->category }}</p>
+                                <p><strong>Description:</strong> {{ $expense->description }}</p>
                             </div>
                         </div>
                     </div>

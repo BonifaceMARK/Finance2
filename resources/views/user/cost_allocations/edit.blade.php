@@ -1,15 +1,15 @@
 
 @extends('layout.title')
 
-@section('title', 'Welcome to Sub-admin Dashboard')
+@section('title', 'Cost Allocation')
 @include('layout.title')
 <body>
 
   <!-- ======= Header ======= -->
-@include('Sub-admin.header')
+@include('user.header')
 
   <!-- ======= Sidebar ======= -->
-@include('Sub-admin.sidebar')
+@include('user.sidebar')
 
   <main id="main" class="main">
 

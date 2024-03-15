@@ -1,15 +1,15 @@
 
 @extends('layout.title')
 
-@section('title', 'Welcome to Sub-admin Dashboard')
+@section('title', 'Cost Allocation')
 @include('layout.title')
 <body>
 
   <!-- ======= Header ======= -->
-@include('Sub-admin.header')
+@include('user.header')
 
   <!-- ======= Sidebar ======= -->
-@include('Sub-admin.sidebar')
+@include('user.sidebar')
 
   <main id="main" class="main">
 
@@ -35,6 +35,11 @@
                                 Create Cost Allocation
                             </div>
                             <div class="card-body">
+                                @if(session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -96,6 +101,49 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                @if ($message = Session::get('success'))
+                                    <div class="alert alert-success">
+                                        {{ $message }}
+                                    </div>
+                                @endif
+
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Cost Center</th>
+                                        <th>Cost Category</th>
+                                        <th>Allocation Method</th>
+                                        <th>Amount</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    @foreach ($costAllocations as $key => $costAllocation)
+                                        <tr>
+                                            <td>{{ ++$key }}</td>
+                                            <td>{{ $costAllocation->cost_center }}</td>
+                                            <td>{{ $costAllocation->cost_category }}</td>
+                                            <td>{{ $costAllocation->allocation_method }}</td>
+                                            <td>{{ $costAllocation->amount }}</td>
+                                            <td>{{ $costAllocation->description }}</td>
+                                            <td>
+                                                <form action="{{ route('cost_allocations.destroy',$costAllocation->id) }}" method="POST">
+                                                    <a class="btn btn-primary btn-sm" href="{{ route('cost_allocations.show',$costAllocation->id) }}">Show</a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed " href="{{route('display')}}">
+        <a class="nav-link collapsed " href="">
             <i class="bi bi-graph-up"></i>
           <span>Forecast</span>
         </a>
@@ -15,17 +15,17 @@
         </a>
         <ul id="exp-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
-                <a href="{{route('expense-categories.create')}}">
+                <a href="">
                   <span>Category</span>
                 </a>
               </li>
             <li>
-                <a href="{{route('expenses.create')}}">
+                <a href="">
                   <span>Expenses</span>
                 </a>
               </li>
               <li>
-                <a href="{{route('reports.create')}}">
+                <a href="">
                     <span>Reports</span>
                 </a>
               </li>
@@ -38,12 +38,12 @@
         </a>
         <ul id="bud-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
-                <a href="{{route('budget.create')}}">
+                <a href="">
                   <span>Compare Allocated Budget</span>
                 </a>
               </li>
             <li>
-                <a href="{{route('budget-plans.create')}}">
+                <a href="">
                   <span>Budget Plan</span>
                 </a>
               </li>
@@ -52,7 +52,7 @@
       </li><!-- End Components Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('cost_allocations.create')}}">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="">
             <i class="bi bi-lightbulb"></i><span>Cost</span>
         </a>
       </li><!-- End Components Nav -->
