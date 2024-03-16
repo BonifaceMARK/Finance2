@@ -226,63 +226,62 @@
 
 
 
-          <!-- Area Chart -->
-          <div class="col-12">
-            <div class="card">
+      <!-- Area Chart -->
+<div class="col-12">
+    <div class="card">
+        <div class="card-body pb-0">
+            <h5 class="card-title">Budget Trends<span>/Today</span></h5>
+            <!-- Area Chart -->
+            <div id="areaChart"></div>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const budgetChartData = @json($budgetChartData);
 
-                <div class="card-body pb-0">
-                      <h5 class="card-title">Budget Trends<span>/Today</span></h5>
-
-                      <!-- Area Chart -->
-                      <div id="areaChart"></div>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const chartData = @json($chartData);
-
-                new ApexCharts(document.querySelector("#areaChart"), {
-                    series: [{
-                        name: "Budget Amount",
-                        data: chartData.prices
-                    }],
-                    chart: {
-                        type: 'area',
-                        height: 350,
-                        zoom: {
+                    new ApexCharts(document.querySelector("#areaChart"), {
+                        series: [{
+                            name: "Budget Amount",
+                            data: budgetChartData.prices
+                        }],
+                        chart: {
+                            type: 'area',
+                            height: 350,
+                            zoom: {
+                                enabled: false
+                            }
+                        },
+                        dataLabels: {
                             enabled: false
+                        },
+                        stroke: {
+                            curve: 'straight'
+                        },
+                        subtitle: {
+                            text: 'Budget Trends',
+                            align: 'left'
+                        },
+                        labels: budgetChartData.dates,
+                        xaxis: {
+                            type: 'datetime',
+                        },
+                        yaxis: {
+                            opposite: true
+                        },
+                        legend: {
+                            horizontalAlign: 'left'
                         }
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        curve: 'straight'
-                    },
-                    subtitle: {
-                        text: 'Budget Trends',
-                        align: 'left'
-                    },
-                    labels: chartData.dates,
-                    xaxis: {
-                        type: 'datetime',
-                    },
-                    yaxis: {
-                        opposite: true
-                    },
-                    legend: {
-                        horizontalAlign: 'left'
-                    }
-                }).render();
-            });
-        </script>
-        <!-- End Area Chart -->
+                    }).render();
+                });
+            </script>
+            <!-- End Area Chart -->
         </div>
-        </div>
-        </div>
+    </div>
+</div>
 
 
 
 
-            <!-- Recent Request Budgets -->
+
+
 <div class="col-12">
     <div class="card recent-request-budgets overflow-auto">
         <div class="card-body">
@@ -562,59 +561,45 @@
   </div>
 </div><!-- End Cost Centers -->
 
-            <!-- News & Updates Traffic -->
-            <div class="card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
+<div class="card">
 
-                  <li><a class="dropdown-item" href="#">Today</a></li>
-                  <li><a class="dropdown-item" href="#">This Month</a></li>
-                  <li><a class="dropdown-item" href="#">This Year</a></li>
-                </ul>
-              </div>
+    <div class="card-body pb-0">
+        <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
 
-              <div class="card-body pb-0">
-                <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+        <div class="news" id="news-feed">
+            <!-- News articles will be dynamically loaded here -->
+        </div>
 
-                <div class="news">
-                  <div class="post-item clearfix">
-                    <img src="assets/img/news-1.jpg" alt="">
-                    <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                    <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                  </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Google News RSS feed URL for finance
+        var rssFeedUrl = 'https://news.google.com/rss/search?q=finance&hl=en-US&gl=US&ceid=US:en';
 
-                  <div class="post-item clearfix">
-                    <img src="assets/img/news-2.jpg" alt="">
-                    <h4><a href="#">Quidem autem et impedit</a></h4>
-                    <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                  </div>
+        // Fetch news articles from the RSS feed
+        $.ajax({
+            url: rssFeedUrl,
+            dataType: 'xml',
+            success: function(data) {
+                // Parse XML data and extract news articles
+                $(data).find('item').each(function() {
+                    var title = $(this).find('title').text();
+                    var link = $(this).find('link').text();
+                    var description = $(this).find('description').text();
 
-                  <div class="post-item clearfix">
-                    <img src="assets/img/news-3.jpg" alt="">
-                    <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                    <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                  </div>
+                    // Append news article to the news feed
+                    $('#news-feed').append('<div class="post-item clearfix">' +
+                        '<h4><a href="' + link + '">' + title + '</a></h4>' +
+                        '<p>' + description + '</p>' +
+                        '</div>');
+                });
+            }
+        });
+    });
+</script>
 
-                  <div class="post-item clearfix">
-                    <img src="assets/img/news-4.jpg" alt="">
-                    <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                    <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                  </div>
-
-                  <div class="post-item clearfix">
-                    <img src="assets/img/news-5.jpg" alt="">
-                    <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                    <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                  </div>
-
-                </div><!-- End sidebar recent posts-->
-
-              </div>
-            </div><!-- End News & Updates -->
 
           </div><!-- End Right side columns -->
 

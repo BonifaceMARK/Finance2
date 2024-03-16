@@ -45,7 +45,21 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Category:</label>
-                                        <input type="text" id="category" name="category" class="form-control">
+                                        <select id="category" name="category" class="form-control">
+                                            <option value="">Choose Category</option>
+                                            <option value="Salaries and Wages">Salaries and Wages</option>
+                                            <option value="Rent or Lease">Rent or Lease</option>
+                                            <option value="Utilities">Utilities</option>
+                                            <option value="Supplies">Supplies</option>
+                                            <option value="Inventory">Inventory</option>
+                                            <option value="Marketing and Advertising">Marketing and Advertising</option>
+                                            <option value="Travel and Entertainment">Travel and Entertainment</option>
+                                            <option value="Professional Services">Professional Services</option>
+                                            <option value="Insurance">Insurance</option>
+                                            <option value="Maintenance and Repairs">Maintenance and Repairs</option>
+                                            <option value="Taxes and Licenses">Taxes and Licenses</option>
+                                            <option value="Depreciation">Depreciation</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description:</label>
@@ -64,6 +78,36 @@
   </main><!-- End #main -->
 @include('layout.footer')
 
+<script>
+    // Define an object with descriptions for each category
+    const categoryDescriptions = {
+        "Salaries and Wages": "Expenses related to employee compensation, including salaries, wages, bonuses, and benefits.",
+        "Rent or Lease": " Expenses for renting or leasing office space, equipment, or other assets.",
+        "Utilities": "Expenses for essential services such as electricity, wExpenses for office supplies, equipment, or other materials.ater, heating, and internet.",
+        "Supplies": "Expenses for office supplies, stationery, and other consumable items needed for day-to-day operations.",
+        "Inventory": " Expenses related to purchasing or producing goods for sale, including raw materials, components, and finished products.",
+        "Marketing and Advertising": "Expenses for promoting the organization's products or services, including advertising campaigns, marketing materials, and promotional events.",
+        "Travel and Entertainment": "Expenses for business travel, accommodations, meals, and entertainment related to business activities.",
+        "Professional Services": "Expenses for hiring external professionals such as consultants, legal advisors, accountants, and other service providers.",
+        "Insurance": "Expenses for insurance premiums to protect the organization against various risks, such as property damage, liability claims, and employee injuries.",
+        "Maintenance and Repairs": " Expenses for maintaining and repairing equipment, vehicles, buildings, or other assets.",
+        "Taxes and Licenses": " Expenses for various taxes, licenses, permits, and regulatory fees required for operating the business legally.",
+        "Depreciation": "Expenses representing the gradual loss of value of assets over time, typically for fixed assets such as buildings, machinery, and equipment."
+    };
+
+    // Get the category and description elements
+    const categorySelect = document.getElementById("category");
+    const descriptionTextarea = document.getElementById("description");
+
+    // Add event listener to category select
+    categorySelect.addEventListener("change", function() {
+        // Get the selected category
+        const selectedCategory = this.value;
+
+        // Update the description textarea with the corresponding description
+        descriptionTextarea.value = categoryDescriptions[selectedCategory] || "";
+    });
+</script>
 </body>
 
 </html>

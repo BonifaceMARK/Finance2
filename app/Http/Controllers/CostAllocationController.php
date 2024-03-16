@@ -69,5 +69,6 @@ class CostAllocationController extends Controller
 
         return redirect()->route('cost_allocations.index')->with('success', 'Cost Allocation deleted successfully.');
     }
+
 }
 

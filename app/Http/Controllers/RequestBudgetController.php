@@ -100,4 +100,18 @@ class RequestBudgetController extends Controller
         return redirect()->route('request_budgets.index')
             ->with('success', 'Request budget deleted successfully.');
     }
+    public function budgetTrends()
+    {
+        // Fetch data from the RequestBudget model
+        $requestBudgets = RequestBudget::all();
+
+        // Format data for the chart
+        $budgetChartData = [
+            'dates' => $requestBudgets->pluck('start_date')->toArray(),
+            'prices' => $requestBudgets->pluck('amount')->toArray(),
+        ];
+
+        return view('user.dashboard', compact('budgetChartData'));
+    }
+
 }
