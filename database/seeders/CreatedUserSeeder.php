@@ -22,20 +22,20 @@ class CreatedUserSeeder extends Seeder
                 ],
                  ['name'=>'superadmin',
                  'username'=>'Superadmin',
-                'email'=>'superadminmarkluisbonifacio@gmail.com',
+                'email'=>'superadmin@markluisbonifacio.com',
                 'password' => bcrypt('123456'),
                 'role' => 1
                  ],
 
                 ['name'=>'employee',
                 'username'=>'employee',
-                'email'=>'employeemarkluisbonifacio@gmail.com',
+                'email'=>'employee@markluisbonifacio.com',
                 'password' => bcrypt('123456'),
                 'role' => 2
                   ],
                 ['name'=>'admin',
                 'username'=>'admin',
-                'email'=>'adminmarkluisbonifacio@gmail.com',
+                'email'=>'admin@markluisbonifacio.com',
                 'password' => bcrypt('123456'),
                 'role' => 3
                   ],

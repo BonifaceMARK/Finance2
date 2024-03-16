@@ -83,7 +83,7 @@
     const categoryDescriptions = {
         "Salaries and Wages": "Expenses related to employee compensation, including salaries, wages, bonuses, and benefits.",
         "Rent or Lease": " Expenses for renting or leasing office space, equipment, or other assets.",
-        "Utilities": "Expenses for essential services such as electricity, wExpenses for office supplies, equipment, or other materials.ater, heating, and internet.",
+        "Utilities": "Expenses for essential services such as electricity, Expenses for office supplies, equipment, or other materials, heating, and internet.",
         "Supplies": "Expenses for office supplies, stationery, and other consumable items needed for day-to-day operations.",
         "Inventory": " Expenses related to purchasing or producing goods for sale, including raw materials, components, and finished products.",
         "Marketing and Advertising": "Expenses for promoting the organization's products or services, including advertising campaigns, marketing materials, and promotional events.",

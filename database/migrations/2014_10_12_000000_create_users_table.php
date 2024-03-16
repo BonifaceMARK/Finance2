@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('role')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('last_ip_loggedin')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
