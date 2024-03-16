@@ -75,6 +75,7 @@ Route::group(['middleware'=>['web','isUser']],function(){
     Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
 
     Route::get('/expenses-data', [ExpenseController::class, 'fetchExpensesData']);
+    Route::get('/cost-allocations-data', [ExpenseController::class, 'getCostAllocationsData']);
 
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
