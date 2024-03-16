@@ -16,26 +16,26 @@ class CreatedUserSeeder extends Seeder
         $users = [
                 ['name'=>'User',
                 'username'=>'user',
-                'email'=>'user@markluisbonifacio.com',
+                'email'=>'markluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 0
                 ],
                  ['name'=>'superadmin',
                  'username'=>'Superadmin',
-                'email'=>'superadmin@markluisbonifacio.com',
+                'email'=>'superadminmarkluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 1
                  ],
 
                 ['name'=>'employee',
                 'username'=>'employee',
-                'email'=>'employee@markluisbonifacio.com',
+                'email'=>'employeemarkluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 2
                   ],
                 ['name'=>'admin',
                 'username'=>'admin',
-                'email'=>'admin@markluisbonifacio.com',
+                'email'=>'adminmarkluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 3
                   ],

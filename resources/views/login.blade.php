@@ -46,6 +46,7 @@
                                             <input type="email" name="email" class="form-control" value="{{ old('email') }}" id="yourEmail" required>
                                             <div class="invalid-feedback">The email must be a valid email address.</div>
                                         </div>
+                                        <div id="emailError" class="text-danger"></div> <!-- Error message container -->
                                     </div>
 
                                     <div class="col-12">
@@ -63,7 +64,7 @@
                                             <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
                                             <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="{{route('finance.terms')}}">terms and conditions</a></label>
                                             <div class="invalid-feedback">You must agree before submitting.</div>
-                                          </div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100" type="submit">Login</button>
@@ -92,6 +93,26 @@
 <script src="{{ asset('assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
 <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
+
+<!-- Custom JS for Email Validation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailField = document.getElementById('yourEmail');
+        const emailError = document.getElementById('emailError');
+
+        emailField.addEventListener('blur', function() {
+            const emailValue = emailField.value;
+            const domain = emailValue.split('@')[1];
+
+            // Check if the email is from Gmail or Yahoo domain
+            if (domain !== 'gmail.com' && domain !== 'yahoo.com') {
+                emailError.textContent = 'Only Gmail and Yahoo emails are allowed.';
+            } else {
+                emailError.textContent = '';
+            }
+        });
+    });
+</script>
 
 <!-- Template Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
