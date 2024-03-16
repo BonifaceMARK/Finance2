@@ -75,7 +75,8 @@ Route::group(['middleware'=>['web','isUser']],function(){
     Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
 
     Route::get('/expenses-data', [ExpenseController::class, 'fetchExpensesData']);
-    Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);;
+    Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);
+    Route::get('/fetch-news', [USERController::class, 'fetchNews'])->name('fetch.news');
 
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');

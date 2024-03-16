@@ -562,43 +562,47 @@
 </div><!-- End Cost Centers -->
 
 <div class="card">
-
     <div class="card-body pb-0">
         <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
         <div class="news" id="news-feed">
             <!-- News articles will be dynamically loaded here -->
         </div>
-
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Google News RSS feed URL for finance
-        var rssFeedUrl = 'https://news.google.com/rss/search?q=finance&hl=en-US&gl=US&ceid=US:en';
+        // News API URL for finance news
+        var newsApiUrl = 'https://newsapi.org/v2/everything?q=finance&pageSize=5&apiKey=014d72b0e8ae42aeab34e2163a269a83';
 
-        // Fetch news articles from the RSS feed
+        // Fetch news articles from the News API
         $.ajax({
-            url: rssFeedUrl,
-            dataType: 'xml',
-            success: function(data) {
-                // Parse XML data and extract news articles
-                $(data).find('item').each(function() {
-                    var title = $(this).find('title').text();
-                    var link = $(this).find('link').text();
-                    var description = $(this).find('description').text();
+            url: newsApiUrl,
+            success: function(response) {
+                // Extract news articles from the response
+                var articles = response.articles;
+                articles.forEach(function(article) {
+                    var title = article.title;
+                    var link = article.url;
+                    var description = article.description;
+                    var imageUrl = article.urlToImage;
 
                     // Append news article to the news feed
-                    $('#news-feed').append('<div class="post-item clearfix">' +
-                        '<h4><a href="' + link + '">' + title + '</a></h4>' +
-                        '<p>' + description + '</p>' +
-                        '</div>');
+                    var articleHtml = '<div class="post-item clearfix">';
+                    articleHtml += '<h4><a href="' + link + '" target="_blank">' + title + '</a></h4>';
+                    if (imageUrl) {
+                        articleHtml += '<img src="' + imageUrl + '" alt="' + title + '" style="max-width: 100%;">';
+                    }
+                    articleHtml += '<p>' + description + '</p>';
+                    articleHtml += '</div>';
+                    $('#news-feed').append(articleHtml);
                 });
             }
         });
     });
 </script>
+
 
 
           </div><!-- End Right side columns -->

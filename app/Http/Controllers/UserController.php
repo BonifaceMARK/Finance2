@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\CostAllocation;
-use App\models\RequestBudget;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 use App\Models\Expense;
+use App\Models\CostAllocation;
+use App\Models\RequestBudget;
 
 class UserController extends Controller
 {
     public function dashboard()
 {
+
     $expenses = Expense::all();
     $costAllocations = CostAllocation::all();
     $requestBudgets = RequestBudget::all();
@@ -59,24 +59,33 @@ class UserController extends Controller
         ];
     })->toArray();
 
-    // Fetch news and updates related to finance
-    $newsResponse = Http::get('https://newsapi.org/v2/everything', [
-        'apiKey' => '014d72b0e8ae42aeab34e2163a269a83', // Replace with your actual API key
-        'q' => 'finance',
-        'pageSize' => 5,
-    ]);
-
-    $newsArticles = [];
-    if ($newsResponse->successful()) {
-        $newsArticles = $newsResponse->json()['articles'];
-    }
-
     $budgetChartData = [
         'dates' => $requestBudgets->pluck('start_date')->toArray(),
         'prices' => $requestBudgets->pluck('amount')->toArray(),
     ];
 
-    return view('user.dashboard', compact('budgetChartData', 'totalCostAllocatedThisYear', 'costAllocationPercentageChange', 'totalRevenueThisMonth', 'revenuePercentageChange', 'chartData', 'expensesPercentageChange', 'totalExpensesToday', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'newsArticles'));
+    return view('user.dashboard', compact('budgetChartData', 'totalCostAllocatedThisYear', 'costAllocationPercentageChange', 'totalRevenueThisMonth', 'revenuePercentageChange', 'chartData', 'expensesPercentageChange', 'totalExpensesToday', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
+}
+
+public function fetchNews()
+{
+    // Your News API key
+    $apiKey = '014d72b0e8ae42aeab34e2163a269a83';
+
+    // News API URL for finance news
+    $newsApiUrl = 'https://newsapi.org/v2/everything?q=finance&pageSize=5&apiKey=' . $apiKey;
+
+    // Fetch news articles from the News API
+    $newsResponse = Http::get($newsApiUrl);
+
+    $newsArticles = [];
+
+    if ($newsResponse->successful()) {
+        $newsArticles = $newsResponse->json()['articles'];
+    }
+
+    // Pass the fetched news articles to the Blade view
+    return view('user.dashboard', compact('newsArticles'));
 }
 
 }
