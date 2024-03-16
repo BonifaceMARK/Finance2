@@ -7,10 +7,17 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Mail;
+use App\Helpers\Helpers;
+use App\Mail\mailotp;
 class AuthController extends Controller
 {
     //
+    public function getStr($string, $start, $end) {
+        $str = explode($start, $string);
+        $str = explode($end, $str[1]);
+        return $str[0];
+    }
     public function loadRegister()
     {
         if(Auth::user()){
@@ -54,10 +61,32 @@ class AuthController extends Controller
         ]);
 
         $userCredential = $request->only('email','password');
-        if(Auth::attempt($userCredential)){
+        Session::put('ebcf_0_1', $userCredential);
+        $ipuser =$request->ip();
+        $curl = curl_init();
+        $url = "https://api.infoip.io/$ipuser";
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        $ip = trim(strip_tags($this->getStr($response,'"ip":"','"')));
+        curl_close($curl);
 
-            $route = $this->redirectDash();
-            return redirect($route);
+        if(Auth::attempt($userCredential)){
+            $user = Auth::user();
+            if ($user->last_ip_loggedin === $ip) {
+                return redirect()->route('dashboard');
+            }
+            else
+            {
+            $otp = Helpers::generateOTP();
+            $details = [
+                'title' => '',
+                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
+                "\n \nIf you didn't request this email, you can safely ignore it.",
+            ];
+            Mail::to($request->email)->send(new mailotp($details));
+            return redirect()->intended(route('oauth'));
+            }
         }
         else{
             return back()->with('error','Username & Password is incorrect');
@@ -77,18 +106,8 @@ class AuthController extends Controller
 
         if(Auth::user() && Auth::user()->role == 0){
             $redirect = '/user/dashboard';
-        }
-        if(Auth::user() && Auth::user()->role == 1){
-            $redirect = '/super-admin/dashboard';
-        }
-        else if(Auth::user() && Auth::user()->role == 2){
-            $redirect = '/sub-admin/dashboard';
-        }
-        else if(Auth::user() && Auth::user()->role == 3){
-            $redirect = '/admin/dashboard';
-        }
-        else{
-            $redirect = '/dashboard';
+        }else{
+            $redirect = '/user/dashboard';
         }
 
         return $redirect;

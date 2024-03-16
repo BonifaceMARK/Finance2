@@ -16,29 +16,10 @@ class CreatedUserSeeder extends Seeder
         $users = [
                 ['name'=>'User',
                 'username'=>'user',
-                'email'=>'user@markluisbonifacio.com',
+                'email'=>'markluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 0
-                ],
-                 ['name'=>'superadmin',
-                 'username'=>'Superadmin',
-                'email'=>'superadmin@markluisbonifacio.com',
-                'password' => bcrypt('123456'),
-                'role' => 1
-                 ],
-
-                ['name'=>'employee',
-                'username'=>'employee',
-                'email'=>'employee@markluisbonifacio.com',
-                'password' => bcrypt('123456'),
-                'role' => 2
-                  ],
-                ['name'=>'admin',
-                'username'=>'admin',
-                'email'=>'admin@markluisbonifacio.com',
-                'password' => bcrypt('123456'),
-                'role' => 3
-                  ],
+                ]
                 ];
                 foreach($users as $user)
                 {
