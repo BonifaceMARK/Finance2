@@ -85,6 +85,7 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
+                                        <th>Created</th>
                                         <th>Description</th>
                                         <th>Amount</th>
                                         <th>Start Date</th>
@@ -96,6 +97,7 @@
                                     @foreach($requestBudgets as $requestBudget)
                                         <tr>
                                             <td>{{ $requestBudget->title }}</td>
+                                            <td>{{ $requestBudget->created_at }}</td>
                                             <td>{{ $requestBudget->description }}</td>
                                             <td>{{ $requestBudget->amount }}</td>
                                             <td>{{ $requestBudget->start_date }}</td>

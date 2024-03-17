@@ -20,7 +20,7 @@ class RequestBudget extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'amount', 'start_date', 'end_date',
+        'title', 'description', 'amount', 'start_date', 'end_date','status',
     ];
 
     /**

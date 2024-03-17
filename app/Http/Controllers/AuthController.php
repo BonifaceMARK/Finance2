@@ -31,25 +31,24 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'string|required|min:2',
-            'email' => 'string|email|required|max:100|unique:users',
-            'password' =>'string|required|confirmed|min:6'
-        ]);
+ public function register(Request $request)
+{
+    $request->validate([
+        'name' => 'string|required|min:2',
+        'email' => 'string|email|required|max:100|unique:users',
+        'password' =>'string|required|confirmed|min:6',
+        'username' => 'required|unique:users', // Add validation for username
+    ]);
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+    $user = new User;
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->username = $request->username; // Assign username
+    $user->save();
 
-
-        return back()->with('success','Your Registration has been successfull.');
-
-    }
-
+    return back()->with('success', 'Your Registration has been successful.');
+}
     public function loadLogin()
     {
         if(Auth::user()){
@@ -60,44 +59,43 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'string|required|email',
-            'password' => 'string|required'
-        ]);
+{
+    $request->validate([
+        'email' => 'string|required|email',
+        'password' => 'string|required',
+        'username' => 'required', // Add validation for username
+    ]);
 
-        $userCredential = $request->only('email','password');
-        Session::put('ebcf_0_1', $userCredential);
-        $ipuser =$request->ip();
-        $curl = curl_init();
-        $url = "https://api.infoip.io/$ipuser";
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        $ip = trim(strip_tags($this->getStr($response,'"ip":"','"')));
-        curl_close($curl);
+    $userCredential = $request->only('email', 'password');
+    Session::put('ebcf_0_1', $userCredential);
+    $ipuser = $request->ip();
+    $curl = curl_init();
+    $url = "https://api.infoip.io/$ipuser";
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $ip = trim(strip_tags($this->getStr($response, '"ip":"', '"')));
+    curl_close($curl);
 
-        if(Auth::attempt($userCredential)){
-            $user = Auth::user();
-            if ($user->last_ip_loggedin === $ip) {
-                return redirect()->route('forecast');
-            }
-            else
-            {
+    if (Auth::attempt($userCredential)) {
+        $user = Auth::user();
+        if ($user->last_ip_loggedin === $ip) {
+            return redirect()->route('forecast');
+        } else {
             $otp = Helpers::generateOTP();
             $details = [
                 'title' => '',
-                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
-                "\n \nIf you didn't request this email, you can safely ignore it.",
+                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n" . $otp .
+                    "\n \nIf you didn't request this email, you can safely ignore it.",
             ];
             Mail::to($request->email)->send(new mailotp($details));
             return redirect()->intended(route('oauth'));
-            }
         }
-        else{
-            return back()->with('error','Username & Password is incorrect');
-        }
+    } else {
+        return back()->with('error', 'Username & Password are incorrect');
     }
+}
+
 
     public function redirectDash()
     {

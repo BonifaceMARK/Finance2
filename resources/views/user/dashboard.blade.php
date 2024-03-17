@@ -529,7 +529,7 @@
         <!-- Display recent activities from Expense -->
         @foreach($expenses as $expense)
         <div class="activity-item d-flex">
-          <div class="activite-label">{{ $expense->date instanceof \Carbon\Carbon ? $expense->date->diffForHumans() : $expense->date }}</div>
+          <div class="activite-label">{{ $expense->created_at instanceof \Carbon\Carbon ? $expense->created_at->diffForHumans() : $expense->created_at }}</div>
           <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
           <div class="activity-content">
             Recorded an expense of {{ $expense->amount }} for {{ $expense->category }}.

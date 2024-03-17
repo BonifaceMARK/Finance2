@@ -32,7 +32,7 @@
               <div class="card-header">Expense Details</div>
 
               <div class="card-body">
-                <p><strong>Date:</strong> {{ $expense->date }}</p>
+                <p><strong>Date:</strong> {{ $expense->created_at }}</p>
                 <p><strong>Amount:</strong> {{ $expense->amount }}</p>
                 <p><strong>Category:</strong> {{ $expense->category }}</p>
                 <p><strong>Description:</strong> {{ $expense->description }}</p>

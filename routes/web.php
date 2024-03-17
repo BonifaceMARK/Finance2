@@ -35,7 +35,7 @@ Route::get('/', function () {
 Route::get('/finance/terms', [FinanceController::class, 'showTerms'])->name('finance.terms');
 Route::get('/register',[AuthController::class,'loadRegister']);
 Route::post('/register',[AuthController::class,'register'])->name('register');
-Route::get('/loginload',[AuthController::class,'loadLogin']);
+Route::get('/loginload',[AuthController::class,'loadLogin'])->name('loadlogin');
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::get('/logout',[AuthController::class,'logout']);
 // ********** Super Admin Routes *********

@@ -108,7 +108,7 @@
                                     <tbody>
                                         @forelse ($expenses as $expense)
                                             <tr>
-                                                <td>{{ $expense->date }}</td>
+                                                <td>{{ $expense->created_at }}</td>
                                                 <td>{{ $expense->amount }}</td>
                                                 <td>{{ $expense->category }}</td>
                                                 <td>{{ $expense->description }}</td>

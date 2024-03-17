@@ -37,7 +37,9 @@ class RequestBudgetController extends Controller
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
+            'status' => '',
         ]);
+
 
         // Create a new request budget
         RequestBudget::create($request->all());
