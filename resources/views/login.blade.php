@@ -11,10 +11,10 @@
 
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
-
                 <div class="row">
+
                     <div class="col-lg-4 col-md-4 d-flex flex-column align-items-center justify-content-center">
-                        <div class="card mb-3">
+                        <div class="card mb-2">
 
                             <div class="card-body">
 
@@ -47,13 +47,21 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Username</label>
+                                        <label for="yourDepartment" class="form-label">Department</label>
                                         <div class="input-group has-validation">
-                                            <input type="text" name="username" class="form-control" id="yourUsername"
-                                                   required>
-                                            <div class="invalid-feedback">Please enter your username.</div>
+                                            <select name="department" class="form-select" id="yourDepartment" required>
+                                                <option value="" selected disabled>Select Department</option>
+                                                <option value="Administration">Administration</option>
+                                                <option value="Logistics">Logistics</option>
+                                                <option value="Human Resource">Human Resource</option>
+                                                <option value="Hotel & Restaurant">Hotel & Restaurant</option>
+                                                <option value="E-Commerce">E-Commerce</option>
+                                                <option value="Local Government Unit">Local Government Unit</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select a department.</div>
                                         </div>
                                     </div>
+
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Password</label>
@@ -74,45 +82,41 @@
 
                     </div>
                     <div class="col-lg-8 col-md-8 d-flex flex-column align-items-center justify-content-center">
-                        <div class="card d-flex justify-content-center py-4">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center py-4">
-                                    <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                        <img src="assets/img/fmslogo.png" alt="">
-                                        <span class="d-none d-lg-block">Financial Guardians</span>
-                                    </a>
-                                </div><!-- End Logo -->
-   <!-- Slides with captions -->
-   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="{{ asset('assets/img/unsplash2.jpg') }}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <p>"The stock market is filled with individuals who know the price of everything, but the value of nothing." - Philip Fisher</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="{{ asset('assets/img/unsplash3.jpg') }}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <p>"Do not save what is left after spending, but spend what is left after saving." - Warren Buffett</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="{{ asset('assets/img/plash1.jpg') }}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <p>"The most important investment you can make is in yourself." - Warren Buffett</p>
-            </div>
-        </div>
-    </div>
-</div><!-- End Slides with captions -->
+                        <div class="d-flex flex-grow-1 align-items-center">
+                            <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                                            aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                                            aria-label="Slide 3"></button>
+                                </div>
+                                <div class="carousel-inner rounded">
+                                    <div class="carousel-item active">
+                                        <img src="{{ asset('assets/img/unsplash2.jpg') }}" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>"The stock market is filled with individuals who know the price of everything, but the value of nothing." - Philip Fisher</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="{{ asset('assets/img/unsplash3.jpg') }}" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>"Do not save what is left after spending, but spend what is left after saving." - Warren Buffett</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="{{ asset('assets/img/plash1.jpg') }}" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <p>"The most important investment you can make is in yourself." - Warren Buffett</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- End Slides with captions -->
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </section>

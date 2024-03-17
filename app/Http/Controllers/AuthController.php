@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\Helpers;
+use Illuminate\Support\Str;
+
 use App\Mail\mailotp;
 class AuthController extends Controller
 {
@@ -34,16 +36,23 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'string|required|min:2',
-            'email' => 'string|email|required|max:100|unique:users',
-            'password' =>'string|required|confirmed|min:6'
+            'name' => 'required|string|min:2',
+            'department' => 'required|string',
+            'email' => ['required', 'email', 'max:100', 'unique:users', function ($attribute, $value, $fail) {
+                if (!Str::endsWith($value, '@gmail.com')) {
+                    $fail('The email must be a Gmail address.');
+                }
+            }],
+            'password' => 'required|string|min:6'
         ]);
 
         $user = new User;
         $user->name = $request->name;
+        $user->department = $request->department;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
+
 
 
         return back()->with('success','Your Registration has been successfull.');
@@ -63,6 +72,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'string|required|email',
+            'department' => 'required|string',
             'password' => 'string|required'
         ]);
 
