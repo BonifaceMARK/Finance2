@@ -77,25 +77,22 @@ class AuthController extends Controller
         $ip = trim(strip_tags($this->getStr($response,'"ip":"','"')));
         curl_close($curl);
 
-        if(Auth::attempt($userCredential)){
-            $user = Auth::user();
-            if ($user->last_ip_loggedin === $ip) {
-                return redirect()->route('forecast');
-            }
-            else
-            {
-            $otp = Helpers::generateOTP();
-            $details = [
-                'title' => '',
-                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
-                "\n \nIf you didn't request this email, you can safely ignore it.",
-            ];
-            Mail::to($request->email)->send(new mailotp($details));
-            return redirect()->intended(route('oauth'));
+        $puser = User::where('email', $userCredential['email'])->first();
+        if ($puser->last_ip_loggedin === $ip) {
+            if(Auth::attempt($userCredential)){
+            return redirect()->route('forecast');
             }
         }
-        else{
-            return back()->with('error','Username & Password is incorrect');
+        else
+        {
+        $otp = Helpers::generateOTP();
+        $details = [
+            'title' => '',
+            'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
+            "\n \nIf you didn't request this email, you can safely ignore it.",
+        ];
+        Mail::to($request->email)->send(new mailotp($details));
+        return redirect()->intended(route('oauth'));
         }
     }
 
