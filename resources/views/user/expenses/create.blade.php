@@ -33,6 +33,16 @@
                             <div class="card-header">Create Expense</div>
 
                             <div class="card-body">
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
                                 <form action="{{ route('expenses.store') }}" method="POST">
                                     @csrf
                                     <div class="form-group">
@@ -65,7 +75,7 @@
                                         <label for="description">Description:</label>
                                         <textarea id="description" name="description" class="form-control" rows="3"></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -103,7 +113,7 @@
                                                 <td>{{ $expense->category }}</td>
                                                 <td>{{ $expense->description }}</td>
                                                 <td>
-                                                    <a href="{{ route('expenses.show', $expense) }}" class="btn btn-sm btn-primary">View</a>
+                                                    <a href="{{ route('expenses.show', $expense) }}" class="btn btn-sm btn-primary"><i class="bi bi-printer"></i>Print</a>
                                                 </td>
                                             </tr>
                                         @empty

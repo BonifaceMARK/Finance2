@@ -55,7 +55,7 @@
                                         <label for="end_date">End Date:</label>
                                         <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -101,13 +101,7 @@
                                             <td>{{ $requestBudget->start_date }}</td>
                                             <td>{{ $requestBudget->end_date }}</td>
                                             <td>
-                                                <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary">View</a>
-                                                <a href="{{ route('request_budgets.edit', $requestBudget->id) }}" class="btn btn-secondary">Edit</a>
-                                                <form action="{{ route('request_budgets.destroy', $requestBudget->id) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this request budget?')">Delete</button>
-                                                </form>
+                                                <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CostAllocation;
 use Illuminate\Http\Request;
 
+
 class CostAllocationController extends Controller
 {
 
@@ -16,9 +17,19 @@ class CostAllocationController extends Controller
 
     public function create()
     {
+        // Fetch all cost allocations
         $costAllocations = CostAllocation::all();
-        return view('user.cost_allocations.create', compact('costAllocations'));
+
+        // Use the glob method to fetch all image filenames from the 'public/images' directory
+        $imagePaths = glob(public_path('images/*'));
+
+        // Extract only the filenames without the directory path
+        $images = array_map('basename', $imagePaths);
+
+        // Pass both variables to the view
+        return view('user.cost_allocations.create', compact('costAllocations', 'images'));
     }
+
 
 
     public function store(Request $request)

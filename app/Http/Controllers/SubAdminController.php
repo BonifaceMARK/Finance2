@@ -15,10 +15,10 @@ use App\Models\BudgetProposal;
 
 class SubAdminController extends Controller
 {
-    public function dashboard()
+   /* public function dashboard()
     {
-        $budgetCategories = BudgetCategory::all();
-        $reports = Report::all();
+        // $budgetCategories = BudgetCategory::all();
+        // $reports = Report::all();
 
         $currentMonthExpenses = Expense::whereYear('expense_date', Carbon::now()->year)
             ->whereMonth('expense_date', Carbon::now()->month)
@@ -73,6 +73,6 @@ class SubAdminController extends Controller
         })->toArray();
 
         return view('Sub-admin.dashboard', compact('reports', 'budgetCategories', 'currentMonthExpenses', 'previousMonthExpenses', 'currentDayExpenses', 'previousDayExpenses', 'increasePercentage', 'currentYearExpenses', 'previousYearExpenses', 'decreasePercentage', 'carouselItems', 'budgetPlans', 'budgetProposals', 'chartData','costAllocations'));
-    }
+    }*/
 
 }

@@ -1,65 +1,72 @@
-
 @extends('layout.title')
 
-@section('title', 'Expense Manager')
+@section('title', 'Request Budget Details')
+
 @include('layout.title')
+
 <body>
 
   <!-- ======= Header ======= -->
-@include('user.header')
+  @include('user.header')
 
   <!-- ======= Sidebar ======= -->
-@include('user.sidebar')
+  @include('user.sidebar')
 
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Request Budget Details</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="{{ route('request_budgets.index') }}">Home</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('request_budgets.show', $requestBudget->id) }}">Request Budget Details</a></li>
+          <li class="breadcrumb-item active">{{ $requestBudget->title }}</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
-      <div class="row">
-        <div class="container">
-            <div class="container">
-                <div class="card">
-                    <div class="card-header">Request Budget Details</div>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card" id="capture">
+              <div class="card-header">
+                Request Budget Details
+              </div>
+              <div class="card-body">
+                <p><strong>Title:</strong> {{ $requestBudget->title }}</p>
+                <p><strong>Description:</strong> {{ $requestBudget->description }}</p>
+                <p><strong>Amount:</strong> ${{ $requestBudget->amount }}</p>
+                <p><strong>Start Date:</strong> {{ $requestBudget->start_date }}</p>
+                <p><strong>End Date:</strong> {{ $requestBudget->end_date }}</p>
+              </div>
 
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="title">Title:</label>
-                            <input type="text" id="title" name="title" class="form-control" value="{{ $requestBudget->title }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description" class="form-control" rows="3" readonly>{{ $requestBudget->description }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Amount:</label>
-                            <input type="number" id="amount" name="amount" class="form-control" step="0.01" value="{{ $requestBudget->amount }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="start_date">Start Date:</label>
-                            <input type="date" id="start_date" name="start_date" class="form-control" value="{{ $requestBudget->start_date }}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="end_date">End Date:</label>
-                            <input type="date" id="end_date" name="end_date" class="form-control" value="{{ $requestBudget->end_date }}" readonly>
-                        </div>
-                        <a href="{{ route('request_budgets.index') }}" class="btn btn-secondary">Back</a>
-                    </div>
-                </div>
             </div>
-      </div>
-    </section>
+          </div>
+          <div class="card-footer">
+            <a href="{{ route('request_budgets.index') }}" class="btn btn-primary">Back</a>
+            <button id="printBtn" class="btn btn-primary"><i class="bi bi-printer-fill"></i> Print</button>
+          </div>
+        </div>
+      </section>
+
 
   </main><!-- End #main -->
-@include('layout.footer')
+  @include('layout.footer')
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script>
+    document.getElementById('printBtn').addEventListener('click', function() {
+      html2canvas(document.getElementById('capture'), {
+        onrendered: function(canvas) {
+          var img = canvas.toDataURL('image/jpeg'); // Convert canvas to image as JPEG
+          var link = document.createElement('a');
+          link.download = 'request_budget_image.jpg'; // Filename
+          link.href = img;
+          link.click();
+        }
+      });
+    });
+  </script>
 
 </body>
 

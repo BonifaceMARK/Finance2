@@ -4,33 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 
 class ImageController extends Controller
 {
-    public function saveImage(Request $request)
+
+    public function showUploadForm()
     {
-        // Get the image data from the request
-        $imageData = $request->input('image');
-
-        // Remove the data URI prefix and decode the base64-encoded image data
-        $img = str_replace('data:image/png;base64,', '', $imageData);
-        $img = str_replace(' ', '+', $img);
-        $decodedImg = base64_decode($img);
-
-        // Generate a unique filename for the image
-        $filename = 'expense_details_' . time() . '.png';
-
-        // Save the image to the public assets folder
-        $path = public_path('images/' . $filename);
-        file_put_contents($path, $decodedImg);
-
-        // Optionally, you can return a response indicating success or failure
-        if ($path) {
-            return response()->json(['message' => 'Image saved successfully', 'path' => $path], 200);
-        } else {
-            return response()->json(['message' => 'Failed to save image'], 500);
-        }
+        return view('user.cost_allocations.create');
     }
+
+    public function uploadImage(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Get the uploaded image file
+        $image = $request->file('image');
+
+        // Generate a unique name for the image
+        $imageName = time().'.'.$image->extension();
+
+        // Move the image to the public assets directory
+        $image->move(public_path('images'), $imageName);
+
+        // Return a success message
+        return back()->with('success', 'Image uploaded successfully.');
+    }
+
 }
 

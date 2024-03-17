@@ -61,7 +61,10 @@ Route::delete('/receipt/{id}', [ImageController::class, 'destroy'])->name('image
 // ********** User Routes *********
 Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
 
+    Route::get('/upload-image', [ImageController::class, 'showUploadForm'])->name('upload.form');
+Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upload.image');
     Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
+
 Route::get('/expenses-data', [UserController::class, 'fetchExpensesData'])->name('fetch.expenses.data');
 Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
 Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);

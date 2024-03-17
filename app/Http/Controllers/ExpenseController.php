@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use DOMDocument;
 
 class ExpenseController extends Controller
 {
@@ -73,6 +74,29 @@ class ExpenseController extends Controller
 
         return redirect()->route('expenses.index')
             ->with('success', 'Expense deleted successfully');
+    }
+    public function renderExpenseCard(Request $request)
+    {
+        // Get the SVG data from the request
+        $svgData = $request->input('image');
+
+        // Create a DOMDocument object to manipulate the SVG
+        $doc = new DOMDocument();
+        $doc->loadXML($svgData);
+
+        // Create a unique filename for the image
+        $filename = 'expense_card_' . uniqid() . '.svg';
+
+        // Save the SVG content as an image file
+        $result = file_put_contents(public_path('images/' . $filename), $doc->saveXML());
+
+        if ($result !== false) {
+            // Image saved successfully
+            return response()->json(['success' => true, 'filename' => $filename]);
+        } else {
+            // Failed to save image
+            return response()->json(['success' => false, 'message' => 'Failed to save image'], 500);
+        }
     }
 
 }
