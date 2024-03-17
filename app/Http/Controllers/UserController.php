@@ -12,60 +12,59 @@ use App\Models\RequestBudget;
 class UserController extends Controller
 {
     public function dashboard()
-{
+    {
+        $expenses = Expense::all();
+        $costAllocations = CostAllocation::all();
+        $requestBudgets = RequestBudget::all();
 
-    $expenses = Expense::all();
-    $costAllocations = CostAllocation::all();
-    $requestBudgets = RequestBudget::all();
+        $recentCostAllocations = CostAllocation::latest()->take(5)->get();
+        $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
 
-    $recentCostAllocations = CostAllocation::latest()->take(5)->get();
-    $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
+        $totalExpensesToday = Expense::whereDate('date', today())->sum('amount');
+        $totalExpensesYesterday = Expense::whereDate('date', Carbon::yesterday())->sum('amount');
+        $expensesPercentageChange = 0;
+        if ($totalExpensesYesterday != 0) {
+            $expensesPercentageChange = (($totalExpensesToday - $totalExpensesYesterday) / $totalExpensesYesterday) * 100;
+        }
 
-    $totalExpensesToday = Expense::whereDate('date', today())->sum('amount');
-    $totalExpensesYesterday = Expense::whereDate('date', Carbon::yesterday())->sum('amount');
-    $expensesPercentageChange = 0;
-    if ($totalExpensesYesterday != 0) {
-        $expensesPercentageChange = (($totalExpensesToday - $totalExpensesYesterday) / $totalExpensesYesterday) * 100;
-    }
+        $totalRevenueThisMonth = RequestBudget::whereYear('start_date', now()->year)
+            ->whereMonth('start_date', now()->month)
+            ->sum('amount');
 
-    $totalRevenueThisMonth = RequestBudget::whereYear('start_date', now()->year)
-        ->whereMonth('start_date', now()->month)
-        ->sum('amount');
+        $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
+            ->sum('amount');
 
-    $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
-        ->sum('amount');
+        $totalCostAllocatedLastYear = CostAllocation::whereYear('created_at', today()->year - 1)
+            ->sum('amount');
 
-    $totalCostAllocatedLastYear = CostAllocation::whereYear('created_at', today()->year - 1)
-        ->sum('amount');
+        $costAllocationPercentageChange = 0;
+        if ($totalCostAllocatedLastYear != 0) {
+            $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
+        }
 
-    $costAllocationPercentageChange = 0;
-    if ($totalCostAllocatedLastYear != 0) {
-        $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
-    }
+        $totalRevenueLastMonth = RequestBudget::whereYear('start_date', now()->subMonth()->year)
+            ->whereMonth('start_date', now()->subMonth()->month)
+            ->sum('amount');
 
-    $totalRevenueLastMonth = RequestBudget::whereYear('start_date', now()->subMonth()->year)
-        ->whereMonth('start_date', now()->subMonth()->month)
-        ->sum('amount');
+        $revenuePercentageChange = 0;
+        if ($totalRevenueLastMonth != 0) {
+            $revenuePercentageChange = (($totalRevenueThisMonth - $totalRevenueLastMonth) / $totalRevenueLastMonth) * 100;
+        }
 
-    $revenuePercentageChange = 0;
-    if ($totalRevenueLastMonth != 0) {
-        $revenuePercentageChange = (($totalRevenueThisMonth - $totalRevenueLastMonth) / $totalRevenueLastMonth) * 100;
-    }
+        $chartData = $costAllocations->map(function ($allocation) {
+            return [
+                'name' => $allocation->cost_center,
+                'value' => $allocation->amount
+            ];
+        })->toArray();
 
-    $chartData = $costAllocations->map(function ($allocation) {
-        return [
-            'name' => $allocation->cost_center,
-            'value' => $allocation->amount
+        $budgetChartData = [
+            'dates' => $requestBudgets->pluck('start_date')->toArray(),
+            'prices' => $requestBudgets->pluck('amount')->toArray(),
         ];
-    })->toArray();
 
-    $budgetChartData = [
-        'dates' => $requestBudgets->pluck('start_date')->toArray(),
-        'prices' => $requestBudgets->pluck('amount')->toArray(),
-    ];
-
-    return view('user.dashboard', compact('budgetChartData', 'totalCostAllocatedThisYear', 'costAllocationPercentageChange', 'totalRevenueThisMonth', 'revenuePercentageChange', 'chartData', 'expensesPercentageChange', 'totalExpensesToday', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
-}
+        return view('user.dashboard', compact('budgetChartData','requestBudgets', 'totalCostAllocatedThisYear', 'costAllocationPercentageChange', 'totalRevenueThisMonth', 'revenuePercentageChange', 'chartData', 'expensesPercentageChange', 'totalExpensesToday', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
+    }
 
 public function fetchNews()
 {

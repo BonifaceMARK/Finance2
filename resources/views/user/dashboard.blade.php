@@ -496,78 +496,64 @@
           <!-- Right side columns -->
           <div class="col-lg-4">
 
-            <!-- Recent Activity -->
-            <div class="card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
+<!-- Recent Activity -->
+<div class="card">
+    <div class="filter">
+      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+        <li class="dropdown-header text-start">
+          <h6>Filter</h6>
+        </li>
 
-                  <li><a class="dropdown-item" href="#">Today</a></li>
-                  <li><a class="dropdown-item" href="#">This Month</a></li>
-                  <li><a class="dropdown-item" href="#">This Year</a></li>
-                </ul>
-              </div>
+        <li><a class="dropdown-item" href="#">Today</a></li>
+        <li><a class="dropdown-item" href="#">This Month</a></li>
+        <li><a class="dropdown-item" href="#">This Year</a></li>
+      </ul>
+    </div>
 
-              <div class="card-body">
-                <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+    <div class="card-body">
+      <h5 class="card-title">Recent Activity <span>| Today</span></h5>
 
-                <div class="activity">
+      <div class="activity">
+        <!-- Display recent activities from CostAllocation -->
+        @foreach($costAllocations as $costAllocation)
+        <div class="activity-item d-flex">
+          <div class="activite-label">{{ $costAllocation->created_at instanceof \Carbon\Carbon ? $costAllocation->created_at->diffForHumans() : $costAllocation->created_at }}</div>
+          <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+          <div class="activity-content">
+            Created a cost allocation for {{ $costAllocation->cost_center }}.
+          </div>
+        </div><!-- End activity item-->
+        @endforeach
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">32 min</div>
-                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                    <div class="activity-content">
-                      Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                    </div>
-                  </div><!-- End activity item-->
+        <!-- Display recent activities from Expense -->
+        @foreach($expenses as $expense)
+        <div class="activity-item d-flex">
+          <div class="activite-label">{{ $expense->date instanceof \Carbon\Carbon ? $expense->date->diffForHumans() : $expense->date }}</div>
+          <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+          <div class="activity-content">
+            Recorded an expense of {{ $expense->amount }} for {{ $expense->category }}.
+          </div>
+        </div><!-- End activity item-->
+        @endforeach
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">56 min</div>
-                    <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                    <div class="activity-content">
-                      Voluptatem blanditiis blanditiis eveniet
-                    </div>
-                  </div><!-- End activity item-->
+        <!-- Display recent activities from RequestBudget -->
+        @foreach($requestBudgets as $requestBudget)
+        <div class="activity-item d-flex">
+          <div class="activite-label">{{ $requestBudget->created_at instanceof \Carbon\Carbon ? $requestBudget->created_at->diffForHumans() : $requestBudget->created_at }}</div>
+          <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+          <div class="activity-content">
+            Created a budget request titled "{{ $requestBudget->title }}".
+          </div>
+        </div><!-- End activity item-->
+        @endforeach
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">2 hrs</div>
-                    <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                    <div class="activity-content">
-                      Voluptates corrupti molestias voluptatem
-                    </div>
-                  </div><!-- End activity item-->
+      </div>
+    </div>
+  </div><!-- End Recent Activity -->
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">1 day</div>
-                    <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                    <div class="activity-content">
-                      Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                    </div>
-                  </div><!-- End activity item-->
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">2 days</div>
-                    <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                    <div class="activity-content">
-                      Est sit eum reiciendis exercitationem
-                    </div>
-                  </div><!-- End activity item-->
 
-                  <div class="activity-item d-flex">
-                    <div class="activite-label">4 weeks</div>
-                    <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                    <div class="activity-content">
-                      Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                    </div>
-                  </div><!-- End activity item-->
-
-                </div>
-
-              </div>
-            </div><!-- End Recent Activity -->
 
 
              <!-- Cost Center -->
