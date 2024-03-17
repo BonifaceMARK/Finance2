@@ -47,23 +47,6 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourDepartment" class="form-label">Department</label>
-                                        <div class="input-group has-validation">
-                                            <select name="department" class="form-select" id="yourDepartment" required>
-                                                <option value="" selected disabled>Select Department</option>
-                                                <option value="Administration">Administration</option>
-                                                <option value="Logistics">Logistics</option>
-                                                <option value="Human Resource">Human Resource</option>
-                                                <option value="Hotel & Restaurant">Hotel & Restaurant</option>
-                                                <option value="E-Commerce">E-Commerce</option>
-                                                <option value="Local Government Unit">Local Government Unit</option>
-                                            </select>
-                                            <div class="invalid-feedback">Please select a department.</div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-12">
                                         <label for="yourPassword" class="form-label">Password</label>
                                         <input type="password" name="password" class="form-control" id="yourPassword"
                                                required>
