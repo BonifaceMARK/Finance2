@@ -19,7 +19,11 @@
                             <div class="card-body">
 
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Welcome to Budget Manager</h5>
+                                    <a href="/" class="logo d-flex align-items-center w-auto">
+                                        <img src="assets/img/fmslogo.png" alt="">
+                                        <h5 class="card-title text-center pb-0 fs-4">Welcome to Budget Manager</h5>
+                                    </a>
+
                                     <p class="text-center small">Enter your email, username & password to login</p>
                                 </div>
                                 <form action="{{ route('login') }}" method="post" class="row g-3 needs-validation"
@@ -66,6 +70,7 @@
                     </div>
                     <div class="col-lg-8 col-md-8 d-flex flex-column align-items-center justify-content-center">
                         <div class="d-flex flex-grow-1 align-items-center">
+
                             <div id="carouselExampleCaptions" class="carousel slide rounded" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
                                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
@@ -75,6 +80,7 @@
                                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
                                             aria-label="Slide 3"></button>
                                 </div>
+
                                 <div class="carousel-inner rounded">
                                     <div class="carousel-item active">
                                         <img src="{{ asset('assets/img/unsplash2.jpg') }}" class="d-block w-100" alt="...">
