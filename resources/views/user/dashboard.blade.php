@@ -98,7 +98,7 @@
               <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Item Trends</h5>
+                        <h5 class="card-title">Finance Trends</h5>
 
                         <!-- Bar Chart -->
                         <div id="barChart"></div>
@@ -146,83 +146,96 @@
 <!-- Reports -->
 <div class="col-12">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Expense Reports <span>/Today</span></h5>
 
-            <!-- Line Chart -->
-            <div id="reportsChart"></div>
-            <!-- End Line Chart -->
+      <div class="card-body">
+        <h5 class="card-title">Reports <span>/Today</span></h5>
 
-        </div>
-    </div>
-</div><!-- End Reports -->
+        <!-- Line Chart -->
+        <div id="reportsChart"></div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const fetchExpensesData = () => {
-            fetch('/expenses-data')
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            fetch('/user/expenses-data')
                 .then(response => response.json())
                 .then(data => {
                     const categories = [];
-                    const amounts = [];
+                    const expenseAmounts = [];
+                    const costAllocationAmounts = [];
+                    const requestBudgetAmounts = [];
 
-                    data.forEach(expense => {
+                    data.expenses.forEach(expense => {
                         categories.push(expense.category);
-                        amounts.push(expense.amount);
+                        expenseAmounts.push(expense.amount);
                     });
 
-                    updateChart(categories, amounts);
+                    data.costAllocations.forEach(costAllocation => {
+                        costAllocationAmounts.push(costAllocation.amount);
+                    });
+
+                    data.requestBudgets.forEach(requestBudget => {
+                        requestBudgetAmounts.push(requestBudget.amount);
+                    });
+
+                    new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [
+                            {
+                                name: 'Expense',
+                                data: expenseAmounts,
+                            },
+                            {
+                                name: 'Cost Allocation',
+                                data: costAllocationAmounts,
+                            },
+                            {
+                                name: 'Request Budget',
+                                data: requestBudgetAmounts,
+                            }
+                        ],
+                        chart: {
+                            height: 350,
+                            type: 'area',
+                            toolbar: {
+                                show: false
+                            },
+                        },
+                        markers: {
+                            size: 4
+                        },
+                        fill: {
+                            type: "gradient",
+                            gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.3,
+                                opacityTo: 0.4,
+                                stops: [0, 90, 100]
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: 2
+                        },
+                        xaxis: {
+                            categories: categories
+                        },
+                        tooltip: {
+                            x: {
+                                format: 'dd/MM/yy'
+                            },
+                        }
+                    }).render();
                 });
-        };
+          });
+        </script>
+        <!-- End Line Chart -->
 
-        const updateChart = (categories, amounts) => {
-            const reportsChart = new ApexCharts(document.querySelector("#reportsChart"), {
-                series: [{
-                    name: 'Amount',
-                    data: amounts
-                }],
-                chart: {
-                    height: 350,
-                    type: 'area',
-                    toolbar: {
-                        show: false
-                    },
-                },
-                markers: {
-                    size: 4
-                },
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.3,
-                        opacityTo: 0.4,
-                        stops: [0, 90, 100]
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2
-                },
-                xaxis: {
-                    categories: categories
-                },
-                tooltip: {
-                    x: {
-                        format: 'dd/MM/yy'
-                    },
-                }
-            });
+      </div>
 
-            reportsChart.render();
-        };
+    </div>
+  </div><!-- End Reports -->
 
-        fetchExpensesData();
-    });
-</script>
 
 
 
@@ -278,11 +291,59 @@
 </div>
 
 
+<!-- Recent Expenses -->
+<div class="col-15">
+    <div class="card recent-expenses overflow-auto">
+
+        <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">Recent Expenses <span>| Today</span></h5>
+
+            <table class="table table-borderless datatable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($expenses as $index => $expense)
+                    <tr>
+                        <th scope="row"><a href="#">{{ $index + 1 }}</a></th>
+                        <td>{{ $expense->date }}</td>
+                        <td>{{ $expense->category }}</td>
+                        <td>${{ $expense->amount }}</td>
+                        <td>{{ $expense->description }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<!-- End Recent Expenses -->
 
 
 
 
-<div class="col-12">
+<div class="col-15">
     <div class="card recent-request-budgets overflow-auto">
         <div class="card-body">
             <h5 class="card-title">Recent Request Budgets</h5>
@@ -313,7 +374,7 @@
 </div><!-- End Recent Request Budgets -->
 
 <!-- Recent Sales -->
-<div class="col-12">
+<div class="col-15">
     <div class="card recent-sales overflow-auto">
         <div class="filter">
             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>

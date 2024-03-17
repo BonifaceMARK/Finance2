@@ -15,9 +15,13 @@ class AuthController extends Controller
     //
     public function getStr($string, $start, $end) {
         $str = explode($start, $string);
-        $str = explode($end, $str[1]);
-        return $str[0];
+        if (isset($str[1])) {
+            $str = explode($end, $str[1]);
+            return $str[0];
+        }
+        return ""; // or handle the case when the pattern is not found
     }
+
     public function loadRegister()
     {
         if(Auth::user()){
@@ -41,7 +45,9 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
+
         return back()->with('success','Your Registration has been successfull.');
+
     }
 
     public function loadLogin()
@@ -74,7 +80,7 @@ class AuthController extends Controller
         if(Auth::attempt($userCredential)){
             $user = Auth::user();
             if ($user->last_ip_loggedin === $ip) {
-                return redirect()->route('dashboard');
+                return redirect()->route('forecast');
             }
             else
             {
@@ -92,13 +98,6 @@ class AuthController extends Controller
             return back()->with('error','Username & Password is incorrect');
         }
     }
-
-    public function loadDashboard()
-    {
-
-        return view('user.dashboard');
-    }
-
 
     public function redirectDash()
     {

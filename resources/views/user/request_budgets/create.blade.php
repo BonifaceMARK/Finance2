@@ -28,7 +28,7 @@
         <div class="container">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">Create Budget Proposal</div>
 
@@ -62,6 +62,60 @@
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">All Request Budgets</div>
+
+                            <div class="card-body">
+                    @if(session('success'))
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($requestBudgets as $requestBudget)
+                                        <tr>
+                                            <td>{{ $requestBudget->title }}</td>
+                                            <td>{{ $requestBudget->description }}</td>
+                                            <td>{{ $requestBudget->amount }}</td>
+                                            <td>{{ $requestBudget->start_date }}</td>
+                                            <td>{{ $requestBudget->end_date }}</td>
+                                            <td>
+                                                <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary">View</a>
+                                                <a href="{{ route('request_budgets.edit', $requestBudget->id) }}" class="btn btn-secondary">Edit</a>
+                                                <form action="{{ route('request_budgets.destroy', $requestBudget->id) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this request budget?')">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
       </div>
     </section>
 

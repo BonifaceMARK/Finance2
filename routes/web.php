@@ -59,9 +59,11 @@ Route::post('/receipt', [ImageController::class, 'store'])->name('images.store')
 Route::delete('/receipt/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
 });
 // ********** User Routes *********
-Route::group(['middleware'=>['web','isUser']],function(){
+Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
+
+    Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
+Route::get('/expenses-data', [UserController::class, 'fetchExpensesData'])->name('fetch.expenses.data');
 Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
-Route::get('/expenses-data', [ExpenseController::class, 'fetchExpensesData']);
 Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);
 Route::get('/fetch-news', [USERController::class, 'fetchNews'])->name('fetch.news');
 Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');

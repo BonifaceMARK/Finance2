@@ -87,5 +87,19 @@ public function fetchNews()
     // Pass the fetched news articles to the Blade view
     return view('user.dashboard', compact('newsArticles'));
 }
+public function fetchExpensesData()
+{
+    $expenses = Expense::select('category', 'amount')->whereDate('created_at', now())->get();
+    $costAllocations = CostAllocation::select('cost_category', 'amount')->whereDate('created_at', now())->get();
+    $requestBudgets = RequestBudget::select('title', 'amount')->whereDate('created_at', now())->get();
+
+    $data = [
+        'expenses' => $expenses,
+        'costAllocations' => $costAllocations,
+        'requestBudgets' => $requestBudgets,
+    ];
+
+    return response()->json($data);
+}
 
 }

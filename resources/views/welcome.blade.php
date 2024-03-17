@@ -208,30 +208,30 @@
 
             <div class="skills-content">
                 <div class="progress">
-                    <span class="skill">Blade <i class="val">60%</i></span>
+                    <span class="skill">Blade <i class="val">50.7%</i></span>
                     <div class="progress-bar-wrap">
-                        <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 50.7%;" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
 
                 <div class="progress">
-                    <span class="skill">PHP <i class="val">25.7%</i></span>
+                    <span class="skill">PHP <i class="val">30.2%</i></span>
                     <div class="progress-bar-wrap">
-                        <div class="progress-bar" role="progressbar" style="width: 25.7%;" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 30.2%;" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
 
                 <div class="progress">
-                    <span class="skill">CSS <i class="val">10.7%</i></span>
+                    <span class="skill">CSS <i class="val">14.9%</i></span>
                     <div class="progress-bar-wrap">
-                        <div class="progress-bar" role="progressbar" style="width: 10.7%;" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 14.9%;" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
 
                 <div class="progress">
-                    <span class="skill">JavaScript <i class="val">3.0%</i></span>
+                    <span class="skill">JavaScript <i class="val">4.2%</i></span>
                     <div class="progress-bar-wrap">
-                        <div class="progress-bar" role="progressbar" style="width: 3.0%;" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: 4.2%;" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
 
@@ -263,86 +263,103 @@
 
     <!-- ======= Portfolio Section ======= -->
 
-    <!-- ======= Team Section ======= -->
-    <section id="team" class="team section-bg">
-      <div class="container" data-aos="fade-up">
+  <!-- ======= Team Section ======= -->
+<section id="team" class="team section-bg">
+    <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
-          <h2>Team</h2>
-          <p>Embracing agile methodologies, we prioritize adaptability and responsiveness in our work. We value iterative development, regularly delivering working software and quickly adjusting to changing requirements.</p>
+      <div class="section-title">
+        <h2>Team</h2>
+        <p>Embracing agile methodologies, we prioritize adaptability and responsiveness in our work. We value iterative development, regularly delivering working software and quickly adjusting to changing requirements.</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="{{ asset('assets/img/devmark.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>Mark Luis</h4>
+              <span>Programmer</span>
+              <p>As I embark on this exciting journey through the digital landscape, I look forward to facing new challenges, forging meaningful connections.</p>
+              <div class="social">
+                <a href="https://github.com/BonifaceMARK"><i class="bi bi-github"></i></a>
+                <a href="https://web.facebook.com/markluis.bonifacio.31/"><i class="ri-facebook-fill"></i></a>
+                <a href="https://www.instagram.com/rinkashime_cb/?fbclid=IwAR2pmDlHS9fgLg9mb4dTZDh8pTK8P36UXscDJaNMUdcj0F_IvXaKYY12bJk"><i class="ri-instagram-fill"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="row">
-
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('assets/img/devmark.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Mark Luis</h4>
-                <span>Programmer</span>
-                <p>As I embark on this exciting journey through the digital landscape, I look forward to facing new challenges, forging meaningful connections.</p>
-                <div class="social">
-                  <a href="https://github.com/BonifaceMARK"><i class="bi bi-github"></i></a>
-                  <a href="https://web.facebook.com/markluis.bonifacio.31/"><i class="ri-facebook-fill"></i></a>
-                  <a href="https://www.instagram.com/rinkashime_cb/?fbclid=IwAR2pmDlHS9fgLg9mb4dTZDh8pTK8P36UXscDJaNMUdcj0F_IvXaKYY12bJk"><i class="ri-instagram-fill"></i></a>
-                </div>
+        <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="{{ asset('assets/img/kayla.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>Kayla Suarez Campana</h4>
+              <span>Team Leader</span>
+              <p>"Leadership is the capacity to translate vision into reality." - Warren Bennis</p>
+              <div class="social">
+                <a href=""><i class="ri-twitter-fill"></i></a>
+                <a href=""><i class="ri-facebook-fill"></i></a>
+                <a href=""><i class="ri-instagram-fill"></i></a>
+                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="200">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('assets/img/devmath.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Mathew Laxamana</h4>
-                <span>System Analyst</span>
-                <p>"System analysts are the architects of innovation, transforming complexity into clarity and paving the way for progress."</p>
-                <div class="social">
-                  <a href="https://github.com/Bootloader1z"><i class="bi bi-github"></i></a>
-                  <a href="https://web.facebook.com/Bootloader1zx"><i class="ri-facebook-fill"></i></a>
-                </div>
+        <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="{{ asset('assets/img/devmath.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>Mathew Laxamana</h4>
+              <span>System Analyst</span>
+              <p>"System analysts are the architects of innovation, transforming complexity into clarity and paving the way for progress."</p>
+              <div class="social">
+                <a href="https://github.com/Bootloader1z"><i class="bi bi-github"></i></a>
+                <a href="https://web.facebook.com/Bootloader1zx"><i class="ri-facebook-fill"></i></a>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="300">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('assets/img/team/team-3.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
+        <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="{{ asset('assets/img/john.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>John Paul Rosales</h4>
+              <span>Network Analyst</span>
+              <p>"As a network analyst, you're not just troubleshooting connections; you're building bridges between systems and fostering seamless communication."</p>
+              <div class="social">
+                <a href=""><i class="ri-twitter-fill"></i></a>
+                <a href=""><i class="ri-facebook-fill"></i></a>
+                <a href=""><i class="ri-instagram-fill"></i></a>
+                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('assets/img/team/team-4.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
+        <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
+          <div class="member d-flex align-items-start">
+            <div class="pic"><img src="{{ asset('assets/img/princess.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="member-info">
+              <h4>Princess Gem Recopuerto</h4>
+              <span>Document Analyst</span>
+              <p>"As a document analyst, you're not just reading words; you're uncovering stories, insights, and hidden truths."</p>
+              <div class="social">
+                <a href=""><i class="ri-twitter-fill"></i></a>
+                <a href=""><i class="ri-facebook-fill"></i></a>
+                <a href=""><i class="ri-instagram-fill"></i></a>
+                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
               </div>
             </div>
           </div>
-
         </div>
 
       </div>
-    </section><!-- End Team Section -->
+
+    </div>
+  </section><!-- End Team Section -->
 
     <!-- ======= Pricing Section ======= -->
 

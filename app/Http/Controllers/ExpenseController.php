@@ -13,13 +13,14 @@ class ExpenseController extends Controller
     public function index()
     {
         $expenses = Expense::all();
-        return view('user.expenses.index', compact('expenses'));
+        return view('user.expenses.create', compact('expenses'));
     }
 
 
     public function create()
     {
-        return view('user.expenses.create');
+        $expenses = Expense::all();
+        return view('user.expenses.create', compact('expenses'));
     }
 
 
@@ -73,23 +74,5 @@ class ExpenseController extends Controller
         return redirect()->route('expenses.index')
             ->with('success', 'Expense deleted successfully');
     }
-    public function fetchExpensesData()
-    {
-        // Fetch expenses data from the database
-        $expenses = Expense::all();
-
-        // Prepare data to pass to the view
-        $data = $expenses->map(function ($expense) {
-            return [
-                'category' => $expense->category,
-                'amount' => $expense->amount,
-                // Add any additional fields you need
-            ];
-        });
-
-        // Return the data to the view
-        return response()->json($data);
-    }
-
 
 }

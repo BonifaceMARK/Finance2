@@ -14,14 +14,17 @@ class RequestBudgetController extends Controller
         $requestBudgets = RequestBudget::all();
 
         // Return view with request budgets data
-        return view('user.request_budgets.index', compact('requestBudgets'));
+        return view('user.request_budgets.create', compact('requestBudgets'));
     }
 
 
     public function create()
     {
-        // Return the create form view
-        return view('user.request_budgets.create');
+        // Fetch all request budgets
+        $requestBudgets = RequestBudget::all();
+
+        // Return view with request budgets data
+        return view('user.request_budgets.create', compact('requestBudgets'));
     }
 
 
