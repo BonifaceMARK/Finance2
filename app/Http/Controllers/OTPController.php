@@ -58,8 +58,9 @@ class OTPController extends Controller
     public function success(Request $request)
     {
 //=======================
+    $ipuser =$request->ip();
     $curl = curl_init();
-    $url = "https://api.infoip.io/";
+    $url = "https://api.infoip.io/$ipuser";
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($curl);
