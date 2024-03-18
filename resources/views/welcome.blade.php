@@ -12,7 +12,7 @@
   <!-- Favicons -->
   <link href="{{ asset('assets/img/fmslogo.png') }}" rel="icon">
   <link href="{{ asset('assets/img/fmslogo.png') }}" rel="apple-touch-icon">
-
+  <script src="https://www.google.com/recaptcha/api.js?render={{config('services.recap.site_key')}}"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 

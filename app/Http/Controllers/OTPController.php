@@ -48,10 +48,10 @@ class OTPController extends Controller
 
                 return redirect()->route('oauth.succeed');
             } else {
-                return redirect()->route('login')->with('error', 'Invalid credentials.');
+                return redirect()->route('loadlogin')->with('errors', 'Invalid credentials.');
             }
         } else {
-            return redirect()->back()->with('error', 'Invalid OTP. Please try again.');
+            return redirect()->back()->with('errors', 'Invalid OTP. Please try again.');
         }
     }
 

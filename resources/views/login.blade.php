@@ -27,7 +27,7 @@
                                     <p class="text-center small">Enter your email, username & password to login</p>
                                 </div>
                                 <form action="{{ route('login') }}" method="post" class="row g-3 needs-validation"
-                                      novalidate>
+                                      novalidate id="lgonfrm">
                                     @csrf
 
                                     @if ($errors->any())
@@ -56,9 +56,12 @@
                                                required>
                                         <div class="invalid-feedback">Please enter your password!</div>
                                     </div>
+                                    <div>
+                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                                    </div>
 
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Login</button>
+                                        <button class="btn btn-primary w-100" type="submit" onclick="onClick(event)">Login</button>
                                     </div>
                                 </form>
                                 <div class="text-center mt-3">
@@ -88,6 +91,7 @@
                                             <p>"The stock market is filled with individuals who know the price of everything, but the value of nothing." - Philip Fisher</p>
                                         </div>
                                     </div>
+
                                     <div class="carousel-item">
                                         <img src="{{ asset('assets/img/unsplash3.jpg') }}" class="d-block w-100" alt="...">
                                         <div class="carousel-caption d-none d-md-block">
@@ -144,7 +148,22 @@
         });
     });
 </script>
+<script>
 
+    //    function onSubmit(token) {
+    //      document.getElementById("lgonfrm").submit();
+    //    }
+
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.ready(function() {
+              grecaptcha.execute('{{config('services.recap.site_key')}}', {action: 'submit'}).then(function(token) {
+                document.getElementById("g-recaptcha-response").value = token;
+                document.getElementById("lgonfrm").submit();
+              });
+            });
+          }
+    </script>
 <!-- Template Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
