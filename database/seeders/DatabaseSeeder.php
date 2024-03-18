@@ -14,13 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         $users = [
                 ['name'=>'Matthew',
-                'username'=>'matthew',
                 'email'=>'matthewcrew1zx@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 0
                 ],
                 ['name'=>'User',
-                'username'=>'user',
                 'email'=>'markluisbonifacio@gmail.com',
                 'password' => bcrypt('123456'),
                 'role' => 0
