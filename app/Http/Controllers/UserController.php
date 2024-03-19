@@ -9,38 +9,44 @@ use App\Models\Expense;
 use App\Models\CostAllocation;
 use App\Models\RequestBudget;
 
+
 class UserController extends Controller
 {
     public function dashboard()
-    {
-        $expenses = Expense::all();
-        $costAllocations = CostAllocation::all();
-        $requestBudgets = RequestBudget::all();
+{
+    $expenses = Expense::all();
+    $costAllocations = CostAllocation::all();
+    $requestBudgets = RequestBudget::all();
 
-        $recentCostAllocations = CostAllocation::latest()->take(5)->get();
-        $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
+    $recentCostAllocations = CostAllocation::latest()->take(5)->get();
+    $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
 
-
-
-
-
-
-
-
-        $chartData = $costAllocations->map(function ($allocation) {
-            return [
-                'name' => $allocation->cost_center,
-                'value' => $allocation->amount
-            ];
-        })->toArray();
-
-        $budgetChartData = [
-            'dates' => $requestBudgets->pluck('start_date')->toArray(),
-            'prices' => $requestBudgets->pluck('amount')->toArray(),
+    $chartData = $costAllocations->map(function ($allocation) {
+        return [
+            'name' => $allocation->cost_center,
+            'value' => $allocation->amount
         ];
+    })->toArray();
 
-        return view('user.dashboard', compact('budgetChartData','requestBudgets',   'chartData',   'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
-    }
+    $budgetChartData = [
+        'dates' => $requestBudgets->pluck('start_date')->toArray(),
+        'prices' => $requestBudgets->pluck('amount')->toArray(),
+    ];
+
+    // Fetch expenses and cost allocations
+    $expenses = Expense::all();
+    $costAllocations = CostAllocation::all();
+
+
+        // Use the glob method to fetch all image filenames from the 'public/images' directory
+        $imagePaths = glob(public_path('images/*'));
+
+        // Extract only the filenames without the directory path
+        $images = array_map('basename', $imagePaths);
+
+
+    return view('user.dashboard', compact('budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
+}
 
 public function fetchNews()
 {

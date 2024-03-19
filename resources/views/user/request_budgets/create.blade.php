@@ -114,15 +114,15 @@
                       <!-- Default Tabs -->
                       <div class="card">
                         <div class="card-body">
-                          <h5 class="card-title">Default Tabs</h5>
+                          <h5 class="card-title">Budget Proposal</h5>
 
                           <!-- Default Tabs -->
                           <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+                              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Create</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Upload</button>
                             </li>
                             <li class="nav-item" role="presentation">
                               <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
@@ -187,7 +187,26 @@
             </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                              <!-- Insert the Blade template for Profile tab here -->
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Upload Receipt</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="{{ route('upload.image') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="image" class="form-label">Please insert receipt:</label>
+                                                    <input class="form-control" type="file" id="image" name="image">
+                                                    @error('image')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
 
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                               <!-- Insert the Blade template for Contact tab here -->

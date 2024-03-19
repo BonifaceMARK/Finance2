@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\Helpers;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\mailotp;
 use Closure;
+
 class AuthController extends Controller
 {
     //
@@ -35,42 +36,33 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|min:2',
-            'department' => 'required|string',
-            'email' => ['required', 'email', 'max:100', 'unique:users', function ($attribute, $value, $fail) {
-                if (!Str::endsWith($value, '@gmail.com')) {
-                    $fail('The email must be a Gmail address.');
-                }
-            }],
-            'g-recaptcha-response' => ['required',function (string $attribute, mixed $value, Closure $fail) {
-                $g_response = HTTP::asform()->post("https://www.google.com/recaptcha/api/siteverify", [
-                    'secret' => config('services.recap.secret_key'),
-                    'response' => $value,
-
-                ]);
-
-                if (!$g_response->json('success')) {
-                    $fail("The g-reCAPTCHA is invalid.");
-                }
-            }],
-            'password' => 'required|string|min:6'
-        ]);
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->department = $request->department;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
 
 
+public function register(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|min:2',
+        'department' => 'required|string',
+        'email' => ['required', 'email', 'max:100', 'unique:users', function ($attribute, $value, $fail) {
+            if (!Str::endsWith($value, '@gmail.com')) {
+                $fail('The email must be a Gmail address.');
+            }
+        }],
+        'password' => 'required|string|min:6'
+    ]);
 
-        return back()->with('success','Your Registration has been successfull.');
+    // Create a new user instance
+    $user = new User;
+    $user->name = $request->name;
+    $user->department = $request->department;
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->save();
 
-    }
+    // Redirect to the login page after successful registration
+    return Redirect::route('loadlogin')->with('success', 'Your registration has been successful. You can now log in.');
+}
+
 
     public function loadLogin()
     {
@@ -86,17 +78,6 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'string|required|email',
             'password' => 'string|required',
-            'g-recaptcha-response' => ['required',function (string $attribute, mixed $value, Closure $fail) {
-                $g_response = HTTP::asform()->post("https://www.google.com/recaptcha/api/siteverify", [
-                    'secret' => config('services.recap.secret_key'),
-                    'response' => $value,
-
-                ]);
-
-                if (!$g_response->json('success')) {
-                    $fail("The g-reCAPTCHA is invalid.");
-                }
-            }],
         ]);
 
         $userCredential = $request->only('email','password');
@@ -113,19 +94,19 @@ class AuthController extends Controller
         $puser = User::where('email', $userCredential['email'])->first();
         if ($puser->last_ip_loggedin === $ip) {
             if(Auth::attempt($userCredential)){
-            return redirect()->route('forecast');
+                return redirect()->route('login');
             }
         }
         else
         {
-        $otp = Helpers::generateOTP();
-        $details = [
-            'title' => '',
-            'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
-            "\n \nIf you didn't request this email, you can safely ignore it.",
-        ];
-        Mail::to($request->email)->send(new mailotp($details));
-        return redirect()->intended(route('oauth'));
+            $otp = Helpers::generateOTP();
+            $details = [
+                'title' => '',
+                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
+                "\n \nIf you didn't request this email, you can safely ignore it.",
+            ];
+            Mail::to($request->email)->send(new mailotp($details));
+            return redirect()->intended(route('oauth'));
         }
     }
 
@@ -148,5 +129,4 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
-
 }

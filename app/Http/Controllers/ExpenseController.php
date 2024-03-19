@@ -34,6 +34,59 @@ class ExpenseController extends Controller
 
         return view('user.expenses.create', compact('expensesPercentageChange','totalExpensesToday','totalExpensesThisMonth','expenses'));
     }
+    public function fetchExpenseCategory()
+    {
+        $expenses = Expense::all();
+
+        // Debugging: Output the fetched expenses to check if data is correct
+        // dd($expenses);
+
+        // Process expenses data to prepare it for the chart
+        $categories = $expenses->pluck('category')->unique()->values();
+        $series = [];
+
+        foreach ($categories as $category) {
+            $totalAmount = $expenses->where('category', $category)->sum('amount');
+            $series[] = $totalAmount;
+        }
+
+        // Debugging: Output the processed data to check if it's correct
+        // dd([
+        //     'series' => $series,
+        //     'labels' => $categories->toArray()
+        // ]);
+
+        return response()->json([
+            'series' => $series,
+            'labels' => $categories->toArray()
+        ]);
+    }
+    public function fetchExpenseChartData()
+    {
+        // Fetch expense data from the Expense model
+        $expenses = Expense::all();
+
+        // Prepare data for the line chart
+        $categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+        $data = [];
+
+        // Initialize data array with 0 values for each category
+        foreach ($categories as $category) {
+            $data[$category] = 0;
+        }
+
+        // Loop through expenses and sum the amounts for each month
+        foreach ($expenses as $expense) {
+            $month = date('M', strtotime($expense->date));
+            $data[$month] += $expense->amount;
+        }
+
+        // Convert data to an array of values
+        $chartData = array_values($data);
+
+        return response()->json($chartData);
+    }
+
 
 
     public function store(Request $request)
@@ -47,7 +100,7 @@ class ExpenseController extends Controller
 
         Expense::create($request->all());
 
-        return redirect()->route('expenses.index')
+        return redirect()->route('expenses.create')
             ->with('success', 'Expense created successfully.');
     }
 

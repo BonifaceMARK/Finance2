@@ -68,6 +68,8 @@ Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upl
     Route::get('/profile', function () {
         return view('users-profile');
     });
+    Route::get('/fetch-expense-data', [ExpenseController::class, 'fetchExpenseCategory'])->name('fetch.category.data');
+    Route::get('/fetch-expense-chart-data', [ExpenseController::class, 'fetchExpenseChartData'])->name('fetch.expense.chart.data');
 
 Route::get('/expenses-data', [UserController::class, 'fetchExpensesData'])->name('fetch.expenses.data');
 Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');

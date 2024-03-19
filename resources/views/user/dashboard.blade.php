@@ -180,21 +180,42 @@
 
 
 
-      <!-- Area Chart -->
+ <!-- Area Chart -->
 <div class="col-12">
     <div class="card">
         <div class="card-body pb-0">
-            <h5 class="card-title">Budget Trends<span>/Today</span></h5>
+            <h5 class="card-title">Finance Movements<span>/Today</span></h5>
             <!-- Area Chart -->
             <div id="areaChart"></div>
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
                     const budgetChartData = @json($budgetChartData);
+                    const expenses = @json($expenses);
+                    const costAllocations = @json($costAllocations);
+
+                    // Extracting data from expenses and costAllocations
+                    const expenseData = expenses.map(expense => ({
+                        x: new Date(expense.date).getTime(),
+                        y: expense.amount
+                    }));
+
+                    const costAllocationData = costAllocations.map(costAllocation => ({
+                        x: new Date(costAllocation.created_at).getTime(), // Assuming created_at field represents date
+                        y: costAllocation.amount
+                    }));
+
+                    const allData = [...expenseData, ...costAllocationData];
 
                     new ApexCharts(document.querySelector("#areaChart"), {
                         series: [{
                             name: "Budget Amount",
                             data: budgetChartData.prices
+                        }, {
+                            name: "Expense Amount",
+                            data: expenseData
+                        }, {
+                            name: "Cost Allocation Amount",
+                            data: costAllocationData
                         }],
                         chart: {
                             type: 'area',
@@ -230,6 +251,41 @@
         </div>
     </div>
 </div>
+           <!-- Second Card -->
+           <div class="col-md-15">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Created Receipts</h5>
+
+                    <!-- Slides with indicators -->
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <!-- Dynamically generate carousel indicators based on image count -->
+                            @foreach ($images as $key => $image)
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
+                            @endforeach
+                        </div>
+                        <div class="carousel-inner">
+                            <!-- Dynamically generate carousel items based on image filenames -->
+                            @foreach ($images as $key => $image)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                <img src="{{ asset('images/' . $image) }}" class="d-block w-100" alt="{{ $image }}">
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div><!-- End Slides with indicators -->
+                </div>
+            </div>
+        </div>
 
 
 <!-- Recent Expenses -->

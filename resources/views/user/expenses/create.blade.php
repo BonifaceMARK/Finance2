@@ -17,7 +17,7 @@
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Expense</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -25,6 +25,9 @@
 
     <section class="section dashboard">
       <div class="row">
+
+
+
          <!-- Expenses Card -->
 <div class="col-xxl-4 col-md-6">
     <div class="card info-card sales-card">
@@ -80,6 +83,121 @@
 
     </div>
 </div><!-- End Revenue Card -->
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Pie Chart</h5>
+
+            <!-- Pie Chart -->
+            <div id="pieChart"></div>
+
+            <!-- Script for fetching data and updating chart -->
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // Fetch data from the server
+                    fetch('/user/fetch-expense-data')
+                        .then(response => response.json())
+                        .then(data => updateChart(data));
+                });
+
+                function updateChart(data) {
+                    new ApexCharts(document.querySelector("#pieChart"), {
+                        series: data.series,
+                        chart: {
+                            height: 350,
+                            type: 'pie',
+                            toolbar: {
+                                show: true
+                            }
+                        },
+                        labels: data.labels
+                    }).render();
+                }
+            </script>
+            <!-- End Pie Chart -->
+
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Line Chart with Future Predictions</h5>
+
+            <!-- Line Chart -->
+            <div id="lineChart"></div>
+
+            <!-- Script for fetching data and updating chart -->
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // Fetch data from the server
+                    fetch('/user/fetch-expense-chart-data')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Perform exponential smoothing to predict future values
+                            const smoothedData = exponentialSmoothing(data, 0.3, 6); // You can adjust the smoothing factor and forecast horizon
+
+                            // Merge historical and predicted data
+                            const combinedData = [...data, ...smoothedData];
+
+                            // Render the chart
+                            new ApexCharts(document.querySelector("#lineChart"), {
+                                series: [{
+                                    name: "Expenses",
+                                    data: combinedData
+                                }],
+                                chart: {
+                                    height: 350,
+                                    type: 'line',
+                                    zoom: {
+                                        enabled: false
+                                    }
+                                },
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                stroke: {
+                                    curve: 'smooth'
+                                },
+                                grid: {
+                                    row: {
+                                        colors: ['#f3f3f3', 'transparent'],
+                                        opacity: 0.5
+                                    },
+                                },
+                                xaxis: {
+                                    categories: Array.from({ length: combinedData.length }, (_, i) => i + 1)
+                                }
+                            }).render();
+                        });
+                });
+
+                // Function to perform exponential smoothing
+                function exponentialSmoothing(data, alpha, horizon) {
+                    const smoothedData = [];
+                    let prevSmoothedValue = data[0];
+
+                    for (let i = 0; i < data.length + horizon; i++) {
+                        if (i < data.length) {
+                            smoothedData.push(data[i]);
+                        } else {
+                            const smoothedValue = alpha * data[i - 1] + (1 - alpha) * prevSmoothedValue;
+                            smoothedData.push(smoothedValue);
+                            prevSmoothedValue = smoothedValue;
+                        }
+                    }
+
+                    return smoothedData;
+                }
+            </script>
+            <!-- End Line Chart -->
+
+        </div>
+    </div>
+</div>
+
+
 
         <div class="container">
             <div class="container">
@@ -98,6 +216,11 @@
                                     </ul>
                                 </div>
                                 @endif
+                                @if (session('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
 
                                 <form action="{{ route('expenses.store') }}" method="POST">
                                     @csrf
@@ -145,11 +268,7 @@
                             <div class="card-header">Expenses</div>
 
                             <div class="card-body">
-                                @if (session('success'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
+
 
                                 <table class="table">
                                     <thead>

@@ -30,14 +30,8 @@ class CostAllocationController extends Controller
         $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
     }
 
-        // Use the glob method to fetch all image filenames from the 'public/images' directory
-        $imagePaths = glob(public_path('images/*'));
-
-        // Extract only the filenames without the directory path
-        $images = array_map('basename', $imagePaths);
-
         // Pass both variables to the view
-        return view('user.cost_allocations.create', compact('totalCostAllocatedThisYear', 'costAllocationPercentageChange','costAllocations', 'images'));
+        return view('user.cost_allocations.create', compact('totalCostAllocatedThisYear', 'costAllocationPercentageChange','costAllocations'));
     }
 
 

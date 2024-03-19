@@ -46,9 +46,7 @@
                                             @enderror
                                         </span>
                                     </div>
-                                    <div>
-                                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                                    </div>
+
                                     <div class="col-12">
                                         <label for="yourEmail" class="form-label">Your Email</label>
                                         <input type="email" name="email" class="form-control" value="{{ old('email') }}" id="yourEmail" required>
@@ -94,8 +92,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit" onclick="onClick(event)">register</button>
-                                        {{-- <button class="btn btn-primary w-100" type="submit">Create Account</button> --}}
+                                        <button class="btn btn-primary w-100" type="submit">Register</button>
                                     </div>
                                     <div class="col-12">
                                         <p class="text-center small mb-0">Already have an account?<a href="{{route('loadlogin')}}">Log in</a></p>
@@ -124,22 +121,7 @@
 
 <!-- Template Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
-<script>
 
-    //    function onSubmit(token) {
-    //      document.getElementById("loginform").submit();
-    //    }
-
-        function onClick(e) {
-            e.preventDefault();
-            grecaptcha.ready(function() {
-              grecaptcha.execute('{{config('services.recap.site_key')}}', {action: 'submit'}).then(function(token) {
-                document.getElementById("g-recaptcha-response").value = token;
-                document.getElementById("registerform").submit();
-              });
-            });
-          }
-    </script>
 </body>
 
 </html>
