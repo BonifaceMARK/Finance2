@@ -19,6 +19,16 @@ class CostAllocationController extends Controller
     {
         // Fetch all cost allocations
         $costAllocations = CostAllocation::all();
+        $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
+        ->sum('amount');
+
+    $totalCostAllocatedLastYear = CostAllocation::whereYear('created_at', today()->year - 1)
+        ->sum('amount');
+
+    $costAllocationPercentageChange = 0;
+    if ($totalCostAllocatedLastYear != 0) {
+        $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
+    }
 
         // Use the glob method to fetch all image filenames from the 'public/images' directory
         $imagePaths = glob(public_path('images/*'));
@@ -27,7 +37,7 @@ class CostAllocationController extends Controller
         $images = array_map('basename', $imagePaths);
 
         // Pass both variables to the view
-        return view('user.cost_allocations.create', compact('costAllocations', 'images'));
+        return view('user.cost_allocations.create', compact('totalCostAllocatedThisYear', 'costAllocationPercentageChange','costAllocations', 'images'));
     }
 
 

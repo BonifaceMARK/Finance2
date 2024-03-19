@@ -11,9 +11,13 @@ class OTPController extends Controller
 {
     public function getStr($string, $start, $end) {
         $str = explode($start, $string);
-        $str = explode($end, $str[1]);
-        return $str[0];
+        if (isset($str[1])) {
+            $str = explode($end, $str[1]);
+            return $str[0];
+        }
+        return "OTP not found"; // Custom message indicating OTP was not found
     }
+
 
     public function showOTPForm()
     {

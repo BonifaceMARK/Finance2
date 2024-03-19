@@ -20,32 +20,49 @@ class RequestBudgetController extends Controller
 
     public function create()
     {
+        // Calculate total revenue for last month
+        $totalRevenueLastMonth = RequestBudget::whereYear('start_date', now()->subMonth()->year)
+            ->whereMonth('start_date', now()->subMonth()->month)
+            ->sum('amount');
+
+        // Calculate total revenue for this month
+        $totalRevenueThisMonth = RequestBudget::whereYear('start_date', now()->year)
+            ->whereMonth('start_date', now()->month)
+            ->sum('amount');
+
+        // Calculate revenue percentage change
+        $revenuePercentageChange = 0;
+        if ($totalRevenueLastMonth != 0) {
+            $revenuePercentageChange = (($totalRevenueThisMonth - $totalRevenueLastMonth) / $totalRevenueLastMonth) * 100;
+        }
+
         // Fetch all request budgets
         $requestBudgets = RequestBudget::all();
 
         // Return view with request budgets data
-        return view('user.request_budgets.create', compact('requestBudgets'));
+        return view('user.request_budgets.create', compact('totalRevenueLastMonth', 'totalRevenueThisMonth', 'revenuePercentageChange', 'requestBudgets'));
     }
+
 
 
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'status' => '',
         ]);
 
+        // Set a default value for the status field
+        $request->merge(['status' => 'pending']);
 
         // Create a new request budget
         RequestBudget::create($request->all());
 
         // Redirect to the index page with success message
-        return redirect()->route('request_budgets.index')
+        return redirect()->route('request_budgets.create')
             ->with('success', 'Request budget created successfully.');
     }
 

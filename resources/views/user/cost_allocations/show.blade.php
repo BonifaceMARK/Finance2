@@ -30,6 +30,15 @@
                 <div class="card-header">
               Cost Allocation Details
             </div>
+            @if(session('success'))
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            </div>
+        @endif
             <div class="card-body">
               <p><strong>Cost Center:</strong> {{ $costAllocation->cost_center }}</p>
               <p><strong>Cost Category:</strong> {{ $costAllocation->cost_category }}</p>
@@ -52,18 +61,27 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
   <script>
+    var downloadCounter = 1; // Initialize counter
+
     document.getElementById('printBtn').addEventListener('click', function() {
-      html2canvas(document.getElementById('capture'), {
-        onrendered: function(canvas) {
-          var img = canvas.toDataURL('image/jpeg'); // Convert canvas to image as JPEG
-          var link = document.createElement('a');
-          link.download = 'cost_allocation_image.jpg'; // Filename
-          link.href = img;
-          link.click();
-        }
-      });
+        html2canvas(document.getElementById('capture'), {
+            onrendered: function(canvas) {
+                var img = canvas.toDataURL('image/jpeg'); // Convert canvas to image as JPEG
+                var link = document.createElement('a');
+
+                // Generate filename with an incremented ID
+                var filename = 'cost_allocation_image_' + downloadCounter + '.jpg';
+
+                link.download = filename; // Set filename
+                link.href = img;
+                link.click();
+
+                downloadCounter++; // Increment counter
+            }
+        });
     });
-  </script>
+</script>
+
 
 </body>
 

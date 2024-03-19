@@ -20,36 +20,12 @@ class UserController extends Controller
         $recentCostAllocations = CostAllocation::latest()->take(5)->get();
         $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
 
-        $totalExpensesToday = Expense::whereDate('date', today())->sum('amount');
-        $totalExpensesYesterday = Expense::whereDate('date', Carbon::yesterday())->sum('amount');
-        $expensesPercentageChange = 0;
-        if ($totalExpensesYesterday != 0) {
-            $expensesPercentageChange = (($totalExpensesToday - $totalExpensesYesterday) / $totalExpensesYesterday) * 100;
-        }
 
-        $totalRevenueThisMonth = RequestBudget::whereYear('start_date', now()->year)
-            ->whereMonth('start_date', now()->month)
-            ->sum('amount');
 
-        $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
-            ->sum('amount');
 
-        $totalCostAllocatedLastYear = CostAllocation::whereYear('created_at', today()->year - 1)
-            ->sum('amount');
 
-        $costAllocationPercentageChange = 0;
-        if ($totalCostAllocatedLastYear != 0) {
-            $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
-        }
 
-        $totalRevenueLastMonth = RequestBudget::whereYear('start_date', now()->subMonth()->year)
-            ->whereMonth('start_date', now()->subMonth()->month)
-            ->sum('amount');
 
-        $revenuePercentageChange = 0;
-        if ($totalRevenueLastMonth != 0) {
-            $revenuePercentageChange = (($totalRevenueThisMonth - $totalRevenueLastMonth) / $totalRevenueLastMonth) * 100;
-        }
 
         $chartData = $costAllocations->map(function ($allocation) {
             return [
@@ -63,7 +39,7 @@ class UserController extends Controller
             'prices' => $requestBudgets->pluck('amount')->toArray(),
         ];
 
-        return view('user.dashboard', compact('budgetChartData','requestBudgets', 'totalCostAllocatedThisYear', 'costAllocationPercentageChange', 'totalRevenueThisMonth', 'revenuePercentageChange', 'chartData', 'expensesPercentageChange', 'totalExpensesToday', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
+        return view('user.dashboard', compact('budgetChartData','requestBudgets',   'chartData',   'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations'));
     }
 
 public function fetchNews()

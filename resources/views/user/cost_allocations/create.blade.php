@@ -26,6 +26,28 @@
         <section class="section dashboard">
             <div class="container">
                 <div class="row">
+
+<!-- Cost Allocated Card -->
+<div class="col-xxl-4 col-xl-12">
+    <div class="card info-card customers-card">
+        <div class="card-body">
+            <h5 class="card-title">Cost Allocated <span>| This Year</span></h5>
+
+            <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="ps-3">
+                    <h6>{{ $totalCostAllocatedThisYear }}</h6>
+                    <span class="text-{{ $costAllocationPercentageChange >= 0 ? 'danger' : 'success' }} small pt-1 fw-bold">{{ number_format($costAllocationPercentageChange, 2) }}%</span>
+                    <span class="text-muted small pt-2 ps-1">{{ $costAllocationPercentageChange >= 0 ? 'increase' : 'decrease' }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Cost Allocated Card -->
                       <!-- Second Card -->
                 <div class="col-md-15">
                     <div class="card">

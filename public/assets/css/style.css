@@ -37,6 +37,18 @@
   h6 {
     font-family: "Nunito", sans-serif;
   }
+  .readonly-input {
+    background-color: #f8f9fa; /* Light gray background */
+    color: #6c757d; /* Dark gray text color */
+    border: 1px solid #ced4da; /* Gray border */
+    pointer-events: none; /* Prevent clicking */
+    cursor: default; /* Default cursor */
+}
+.clickable-row:hover {
+    cursor: pointer;
+    background-color: #f4f4f4; /* Optional: Change the background color when hovering */
+}
+
 
   /*--------------------------------------------------------------
   # Main

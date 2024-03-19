@@ -21,7 +21,18 @@ class ExpenseController extends Controller
     public function create()
     {
         $expenses = Expense::all();
-        return view('user.expenses.create', compact('expenses'));
+
+        $totalExpensesToday = Expense::whereDate('date', today())->sum('amount');
+        $totalExpensesYesterday = Expense::whereDate('date', Carbon::yesterday())->sum('amount');
+        $expensesPercentageChange = 0;
+        if ($totalExpensesYesterday != 0) {
+            $expensesPercentageChange = (($totalExpensesToday - $totalExpensesYesterday) / $totalExpensesYesterday) * 100;
+        }
+        $totalExpensesThisMonth = Expense::whereYear('date', today()->year)
+        ->whereMonth('date', today()->month)
+        ->sum('amount');
+
+        return view('user.expenses.create', compact('expensesPercentageChange','totalExpensesToday','totalExpensesThisMonth','expenses'));
     }
 
 

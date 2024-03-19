@@ -20,6 +20,9 @@ return [
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
         'scheme' => 'https',
     ],
+    'curl' => [
+        'cacert_path' => storage_path('app/certs/cacert.pem'),
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
