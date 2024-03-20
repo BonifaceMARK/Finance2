@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CostAllocation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Models\Expense;
+use Illuminate\Support\Facades\DB;
 
 
 class CostAllocationController extends Controller
@@ -34,7 +37,33 @@ class CostAllocationController extends Controller
         return view('user.cost_allocations.create', compact('totalCostAllocatedThisYear', 'costAllocationPercentageChange','costAllocations'));
     }
 
+    public function fetchExpenseCostAllocationData()
+    {
+        try {
+            // Fetch expense data
+            $expenseCategories = Expense::select('category', DB::raw('SUM(amount) as amount'))
+                ->groupBy('category')
+                ->get()
+                ->toArray();
 
+            // Fetch cost allocation data
+            $costAllocationCategories = CostAllocation::select('cost_category as category', DB::raw('SUM(amount) as amount'))
+                ->groupBy('cost_category')
+                ->get()
+                ->toArray();
+
+            return response()->json([
+                'expenseCategories' => $expenseCategories,
+                'costAllocationCategories' => $costAllocationCategories
+            ]);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error fetching expense and cost allocation data: ' . $e->getMessage());
+
+            // Return error response
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+        }
+    }
 
     public function store(Request $request)
     {

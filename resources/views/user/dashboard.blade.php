@@ -14,10 +14,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Dashboard</h1>
+        <h1><i class="bi bi-graph-up"></i> Forecasts</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Forecasts</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
             @if(Session::has('success'))
             <div class="alert alert-success" role="alert">
@@ -34,8 +34,25 @@
           <!-- Left side columns -->
           <div class="col-lg-8">
             <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><i class="bi bi-bar-chart-fill"></i> Finance Report</h5>
 
-<!-- Reports -->
+                      <!-- Default Tabs -->
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Categories Reports</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories Trends</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Categories Chart</button>
+                        </li>
+                      </ul>
+                      <div class="tab-content pt-2" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                         <!-- Reports -->
 <div class="col-12">
     <div class="card">
 
@@ -127,64 +144,62 @@
 
     </div>
   </div><!-- End Reports -->
-              <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Finance Trends</h5>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Categories Trends</h5>
 
-                        <!-- Bar Chart -->
-                        <div id="barChart"></div>
+                                        <!-- Bar Chart -->
+                                        <div id="barChart"></div>
 
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                // Fetch expense data from the database and pass it to the chart
-                                let expenses = @json($expenses);
-                                // Fetch cost allocation data from the database and pass it to the chart
-                                let costAllocations = @json($costAllocations);
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", () => {
+                                                // Fetch expense data from the database and pass it to the chart
+                                                let expenses = @json($expenses);
+                                                // Fetch cost allocation data from the database and pass it to the chart
+                                                let costAllocations = @json($costAllocations);
 
-                                // Combine both expense and cost allocation data into one dataset
-                                let dataset = [...expenses, ...costAllocations];
+                                                // Combine both expense and cost allocation data into one dataset
+                                                let dataset = [...expenses, ...costAllocations];
 
-                                new ApexCharts(document.querySelector("#barChart"), {
-                                    series: [{
-                                        data: dataset.map(data => data.amount)
-                                    }],
-                                    chart: {
-                                        type: 'bar',
-                                        height: 350
-                                    },
-                                    plotOptions: {
-                                        bar: {
-                                            borderRadius: 4,
-                                            horizontal: true,
-                                        }
-                                    },
-                                    dataLabels: {
-                                        enabled: false
-                                    },
-                                    xaxis: {
-                                        categories: dataset.map(data => data.category || data.cost_category)
-                                    }
-                                }).render();
-                            });
-                        </script>
-                        <!-- End Bar Chart -->
+                                                new ApexCharts(document.querySelector("#barChart"), {
+                                                    series: [{
+                                                        data: dataset.map(data => data.amount)
+                                                    }],
+                                                    chart: {
+                                                        type: 'bar',
+                                                        height: 350
+                                                    },
+                                                    plotOptions: {
+                                                        bar: {
+                                                            borderRadius: 4,
+                                                            horizontal: true,
+                                                        }
+                                                    },
+                                                    dataLabels: {
+                                                        enabled: false
+                                                    },
+                                                    xaxis: {
+                                                        categories: dataset.map(data => data.category || data.cost_category)
+                                                    }
+                                                }).render();
+                                            });
+                                        </script>
+                                        <!-- End Bar Chart -->
 
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
  <!-- Area Chart -->
 <div class="col-12">
     <div class="card">
         <div class="card-body pb-0">
-            <h5 class="card-title">Finance Movements<span>/Today</span></h5>
+            <h5 class="card-title">Categories Chart<span>/Today</span></h5>
             <!-- Area Chart -->
             <div id="areaChart"></div>
             <script>
@@ -230,10 +245,6 @@
                         stroke: {
                             curve: 'straight'
                         },
-                        subtitle: {
-                            text: 'Budget Trends',
-                            align: 'left'
-                        },
                         labels: budgetChartData.dates,
                         xaxis: {
                             type: 'datetime',
@@ -251,44 +262,31 @@
         </div>
     </div>
 </div>
-           <!-- Second Card -->
-           <div class="col-md-15">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Created Receipts</h5>
-
-                    <!-- Slides with indicators -->
-                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <!-- Dynamically generate carousel indicators based on image count -->
-                            @foreach ($images as $key => $image)
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
-                            @endforeach
                         </div>
-                        <div class="carousel-inner">
-                            <!-- Dynamically generate carousel items based on image filenames -->
-                            @foreach ($images as $key => $image)
-                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('images/' . $image) }}" class="d-block w-100" alt="{{ $image }}">
-                            </div>
-                            @endforeach
-                        </div>
+                      </div><!-- End Default Tabs -->
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div><!-- End Slides with indicators -->
-                </div>
-            </div>
-        </div>
+                    </div>
+                  </div>
 
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><i class="bi bi-receipt"></i> Recent Transactions</h5>
 
-<!-- Recent Expenses -->
+                      <!-- Pills Tabs -->
+                      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expenses</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Budget</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Cost</button>
+                        </li>
+                      </ul>
+                      <div class="tab-content pt-2" id="myTabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
+                         <!-- Recent Expenses -->
 <div class="col-15">
     <div class="card recent-expenses overflow-auto">
 
@@ -306,7 +304,7 @@
         </div>
 
         <div class="card-body">
-            <h5 class="card-title">Recent Expenses <span>| Today</span></h5>
+            <h5 class="card-title">Expenses <span>| Today</span></h5>
 
             <table class="table table-borderless datatable">
                 <thead>
@@ -336,15 +334,14 @@
     </div>
 </div>
 <!-- End Recent Expenses -->
-
-
-
- <!-- Recent Budget Proposals -->
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <!-- Recent Budget Proposals -->
 <div class="col-12">
     <div class="card recent-budget-proposals overflow-auto">
 
         <div class="card-body">
-            <h5 class="card-title">Recent Budget Proposals <span>| Today</span></h5>
+            <h5 class="card-title">Budget Proposals <span>| Today</span></h5>
 
             <table class="table table-borderless datatable">
                 <thead>
@@ -377,9 +374,9 @@
 
     </div>
   </div><!-- End Recent Budget Proposals -->
-
-
-<!-- Recent Sales -->
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
+                         <!-- Recent Sales -->
 <div class="col-15">
     <div class="card recent-sales overflow-auto">
         <div class="filter">
@@ -395,7 +392,7 @@
         </div>
 
         <div class="card-body">
-            <h5 class="card-title">Recent Cost Allocated <span>| Today</span></h5>
+            <h5 class="card-title">Cost Allocated <span>| Today</span></h5>
 
             <table class="table table-borderless datatable">
                 <thead>
@@ -422,6 +419,239 @@
         </div>
     </div>
 </div><!-- End Recent Sales -->
+                        </div>
+                      </div><!-- End Pills Tabs -->
+
+                    </div>
+                  </div>
+
+
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><i class="bi bi-graph-up"></i> Expenses Predictions</h5>
+
+                      <!-- Bordered Tabs Justified -->
+                      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                        <li class="nav-item flex-fill" role="presentation">
+                          <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true"> Exponential Smoothing</button>
+                        </li>
+                        <li class="nav-item flex-fill" role="presentation">
+                          <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false"> Moving Average</button>
+                        </li>
+
+                      </ul>
+                      <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+                        <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+
+                  <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Exponential Smoothing</h5>
+
+                            <!-- Line Chart -->
+                            <div id="expChart"></div>
+
+                            <!-- Script for fetching data and updating chart -->
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    // Fetch data from the server
+                                    fetch('/user/fetch-expense-chart-data')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            // Perform exponential smoothing to predict future values
+                                            const smoothedData = exponentialSmoothing(data, 0.3, 6); // You can adjust the smoothing factor and forecast horizon
+
+                                            // Merge historical and predicted data
+                                            const combinedData = [...data, ...smoothedData];
+
+                                            // Render the chart
+                                            new ApexCharts(document.querySelector("#expChart"), {
+                                                series: [{
+                                                    name: "Expenses",
+                                                    data: combinedData
+                                                }],
+                                                chart: {
+                                                    height: 350,
+                                                    type: 'line',
+                                                    zoom: {
+                                                        enabled: false
+                                                    }
+                                                },
+                                                dataLabels: {
+                                                    enabled: false
+                                                },
+                                                stroke: {
+                                                    curve: 'smooth'
+                                                },
+                                                grid: {
+                                                    row: {
+                                                        colors: ['#f3f3f3', 'transparent'],
+                                                        opacity: 0.5
+                                                    },
+                                                },
+                                                xaxis: {
+                                                    categories: Array.from({ length: combinedData.length }, (_, i) => i + 1)
+                                                }
+                                            }).render();
+                                        });
+                                });
+
+                                // Function to perform exponential smoothing
+                                function exponentialSmoothing(data, alpha, horizon) {
+                                    const smoothedData = [];
+                                    let prevSmoothedValue = data[0];
+
+                                    for (let i = 0; i < data.length + horizon; i++) {
+                                        if (i < data.length) {
+                                            smoothedData.push(data[i]);
+                                        } else {
+                                            const smoothedValue = alpha * data[i - 1] + (1 - alpha) * prevSmoothedValue;
+                                            smoothedData.push(smoothedValue);
+                                            prevSmoothedValue = smoothedValue;
+                                        }
+                                    }
+
+                                    return smoothedData;
+                                }
+                            </script>
+                            <!-- End Line Chart -->
+
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                        <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Moving Average</h5>
+
+                                        <!-- Line Chart -->
+                                        <div id="movChart"></div>
+
+                                        <!-- Script for fetching data and updating chart -->
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", () => {
+                                                // Fetch data from the server
+                                                fetch('/user/fetch-expense-chart-with-moving-average')
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        // Calculate moving averages
+                                                        const movingAverages = calculateMovingAverages(data, 3); // Change the window size as needed
+
+                                                        // Extend data with moving average values
+                                                        const extendedData = [...data, ...movingAverages];
+
+                                                        new ApexCharts(document.querySelector("#movChart"), {
+                                                            series: [{
+                                                                name: "Expenses",
+                                                                data: extendedData
+                                                            }],
+                                                            chart: {
+                                                                height: 350,
+                                                                type: 'line',
+                                                                zoom: {
+                                                                    enabled: false
+                                                                }
+                                                            },
+                                                            dataLabels: {
+                                                                enabled: false
+                                                            },
+                                                            stroke: {
+                                                                curve: 'smooth'
+                                                            },
+                                                            grid: {
+                                                                row: {
+                                                                    colors: ['#f3f3f3', 'transparent'],
+                                                                    opacity: 0.5
+                                                                },
+                                                            },
+                                                            xaxis: {
+                                                                categories: Array.from({ length: data.length + movingAverages.length }, (_, i) => i + 1)
+                                                            }
+                                                        }).render();
+                                                    });
+                                            });
+
+                                            // Function to calculate moving averages
+                                            function calculateMovingAverages(data, windowSize) {
+                                                const movingAverages = [];
+                                                for (let i = 0; i < data.length - windowSize + 1; i++) {
+                                                    let sum = 0;
+                                                    for (let j = i; j < i + windowSize; j++) {
+                                                        sum += data[j];
+                                                    }
+                                                    movingAverages.push(sum / windowSize);
+                                                }
+                                                return movingAverages;
+                                            }
+                                        </script>
+
+    </div>
+</div>
+</div>
+
+                        </div>
+                        <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
+
+
+                        </div>
+                      </div><!-- End Bordered Tabs Justified -->
+
+                    </div>
+                  </div>
+
+
+
+
+
+
+           <!-- Second Card -->
+           <div class="col-md-15">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-file-earmark-arrow-down-fill"></i> Created Receipts</h5>
+
+                    <!-- Slides with indicators -->
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <!-- Dynamically generate carousel indicators based on image count -->
+                            @foreach ($images as $key => $image)
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
+                            @endforeach
+                        </div>
+                        <div class="carousel-inner">
+                            <!-- Dynamically generate carousel items based on image filenames -->
+                            @foreach ($images as $key => $image)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                <img src="{{ asset('images/' . $image) }}" class="d-block w-100" alt="{{ $image }}">
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div><!-- End Slides with indicators -->
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
 
 
             </div>
@@ -446,7 +676,7 @@
     </div>
 
     <div class="card-body">
-      <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+      <h5 class="card-title"><i class="bi bi-activity"></i> Recent Activity <span>| Today</span></h5>
 
       <div class="activity">
         <!-- Display recent activities from CostAllocation -->
@@ -494,7 +724,7 @@
       <div class="card">
 
         <div class="card-body pb-0">
-          <h5 class="card-title">Allocated Cost <span>| Today</span></h5>
+          <h5 class="card-title"><i class="bi bi-geo-alt-fill"></i> Allocated Cost <span>| Today</span></h5>
 
           <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
     <script>
@@ -544,7 +774,7 @@
 
 <div class="card">
     <div class="card-body pb-0">
-        <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+        <h5 class="card-title"><i class="bi bi-newspaper"></i> News &amp; Updates <span>| Today</span></h5>
         <div class="news" id="news-feed">
             <!-- News articles will be dynamically loaded here -->
         </div>

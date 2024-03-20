@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Phpml\Regression\LeastSquares;
 use DOMDocument;
 
 class ExpenseController extends Controller
@@ -16,7 +18,63 @@ class ExpenseController extends Controller
         $expenses = Expense::all();
         return view('user.expenses.create', compact('expenses'));
     }
+    public function fetchExpenseSeasonData()
+    {
+        // Fetch historical expense data from the Expense model
+        $historicalExpenses = Expense::pluck('amount')->toArray();
 
+        // Perform seasonal decomposition and forecasting
+        $forecastedData = $this->performSeasonalDecomposition($historicalExpenses, 12);
+
+        // Return the forecasted data as JSON response
+        return response()->json($forecastedData);
+    }
+
+
+    // Function to perform Seasonal Decomposition and Forecasting
+    protected function performSeasonalDecomposition($data, $futurePeriods)
+    {
+        // Calculate seasonal component using moving averages
+        $seasonalWindowSize = 12; // Assuming a yearly seasonal pattern
+        $seasonalData = [];
+        for ($i = 0; $i < count($data); $i++) {
+            $total = 0;
+            for ($j = $i - $seasonalWindowSize; $j <= $i + $seasonalWindowSize; $j++) {
+                if ($j >= 0 && $j < count($data)) {
+                    $total += $data[$j];
+                }
+            }
+            $seasonalData[$i] = $total / (2 * $seasonalWindowSize + 1);
+        }
+
+        // Calculate trend component using centered moving averages
+        $trendData = [];
+        for ($i = $seasonalWindowSize; $i < count($data) - $seasonalWindowSize; $i++) {
+            $total = 0;
+            for ($j = $i - $seasonalWindowSize; $j <= $i + $seasonalWindowSize; $j++) {
+                $total += $data[$j];
+            }
+            $trendData[$i] = $total / (2 * $seasonalWindowSize + 1);
+        }
+
+        // Calculate residual component
+        $residualData = array_map(function ($value, $index) use ($data, $seasonalData, $trendData) {
+            return $data[$index] - $seasonalData[$index] - $trendData[$index];
+        }, $data, array_keys($data));
+
+        // Perform forecasting for future periods
+        $forecastedData = [];
+        for ($i = 0; $i < $futurePeriods; $i++) {
+            $lastValue = end($data);
+            $nextValue = $lastValue + end($trendData) + $seasonalData[count($data) - 12 + $i % 12]; // Assuming repeating seasonal pattern
+            $forecastedData[] = $nextValue;
+            $data[] = $nextValue;
+            $trendData[] = end($trendData) + $nextValue;
+        }
+
+        // Return the forecasted data
+        return $forecastedData;
+    }
 
     public function create()
     {
@@ -86,6 +144,53 @@ class ExpenseController extends Controller
 
         return response()->json($chartData);
     }
+    public function fetchExpenseChartWithMovingAverage()
+    {
+        // Fetch expense data from the Expense model
+        $expenses = Expense::all();
+
+        // Prepare data for the line chart
+        $categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']; // Assuming these are the categories
+        $data = [];
+
+        // Initialize data array with 0 values for each category
+        foreach ($categories as $category) {
+            $data[$category] = 0;
+        }
+
+        // Loop through expenses and sum the amounts for each category
+        foreach ($expenses as $expense) {
+            $month = date('M', strtotime($expense->date));
+            $data[$month] += $expense->amount;
+        }
+
+        // Convert data to an array of values
+        $chartData = array_values($data);
+
+        // Calculate moving averages (adjust window size as needed)
+        $movingAverages = $this->calculateMovingAverages($chartData, 3);
+
+        // Extend data with moving average values
+        $extendedData = array_merge($chartData, $movingAverages);
+
+        return response()->json($extendedData);
+    }
+
+    protected function calculateMovingAverages($data, $windowSize)
+    {
+        $movingAverages = [];
+        for ($i = 0; $i < count($data) - $windowSize + 1; $i++) {
+            $sum = 0;
+            for ($j = $i; $j < $i + $windowSize; $j++) {
+                $sum += $data[$j];
+            }
+            $movingAverages[] = $sum / $windowSize;
+        }
+        return $movingAverages;
+    }
+
+
+
 
 
 

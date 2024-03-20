@@ -14,10 +14,10 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Dashboard</h1>
+            <h1><i class="bi bi-coin"></i> Costs</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Costs</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </nav>
@@ -47,14 +47,75 @@
         </div>
     </div>
 </div>
-<!-- End Cost Allocated Card -->
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Radar Chart: Expense vs. Cost Allocation</h5>
+
+            <!-- Radar Chart -->
+            <div id="radarChart" style="min-height: 400px;" class="echart"></div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // Function to fetch expense and cost allocation data from the server
+                    function fetchData() {
+                        return fetch('/user/fetch-expense-cost-allocation-data')
+                            .then(response => response.json());
+                    }
+
+                    // Function to generate radar chart data
+                    function generateData(data) {
+                        const expenseCategories = data.expenseCategories;
+                        const costAllocationCategories = data.costAllocationCategories;
+
+                        return {
+                            legend: {
+                                data: ['Expense', 'Cost Allocation']
+                            },
+                            radar: {
+                                indicator: [
+                                    { name: 'Expense', max: Math.max(...expenseCategories.map(item => item.amount)) },
+                                    { name: 'Cost Allocation', max: Math.max(...costAllocationCategories.map(item => item.amount)) }
+                                ],
+                            },
+                            series: [{
+                                name: 'Expense vs. Cost Allocation',
+                                type: 'radar',
+                                data: [{
+                                    value: expenseCategories.map(item => item.amount),
+                                    name: 'Expense'
+                                }, {
+                                    value: costAllocationCategories.map(item => item.amount),
+                                    name: 'Cost Allocation'
+                                }]
+                            }]
+                        };
+                    }
+
+                    // Render the radar chart
+                    function renderChart(data) {
+                        echarts.init(document.querySelector("#radarChart")).setOption(generateData(data));
+                    }
+
+                    // Fetch data and render chart
+                    fetchData()
+                        .then(data => renderChart(data));
+                });
+            </script>
+            <!-- End Radar Chart -->
+
+        </div>
+    </div>
+</div>
+
 
 
                     <!-- First Card -->
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                Allocate Cost
+                                <i class="bi bi-file-earmark-plus"></i> Allocate Cost
                             </div>
                             <div class="card-body">
 
@@ -171,7 +232,7 @@
                                         <td>{{ $costAllocation->description }}</td>
                                         <td>
                                             <form action="{{ route('cost_allocations.destroy', $costAllocation->id) }}" method="POST">
-                                                <a class="btn btn-primary btn-sm" href="{{ route('cost_allocations.show', $costAllocation->id) }}">Show</a>
+                                                <a class="btn btn-primary btn-sm" href="{{ route('cost_allocations.show', $costAllocation->id) }}"><i class="bi bi-printer"></i>Print</a>
                                             </form>
                                         </td>
                                     </tr>

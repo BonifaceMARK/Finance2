@@ -47,11 +47,11 @@
                                         <label for="yourEmail" class="form-label">Email</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="email" name="email" class="form-control" id="yourEmail"
-                                                   required>
-                                            <div class="invalid-feedback">The email must be a valid email address.</div>
+                                            <input type="email" name="email" class="form-control" id="yourEmail" required>
+                                            <div id="emailError" class="invalid-feedback"></div> <!-- New line for email error message -->
                                         </div>
                                     </div>
+
 
                                     <div class="col-12">
                                         <label for="yourPassword" class="form-label">Password</label>

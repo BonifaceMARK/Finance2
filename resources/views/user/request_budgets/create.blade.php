@@ -14,10 +14,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1><i class="bi bi-file-text"></i> Budgets</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Budgets</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -33,7 +33,7 @@
 
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-currency-dollar"></i>
+                                <i class="bi bi-cash-coin"></i>
                             </div>
                             <div class="ps-3">
                                 <h6>${{ number_format($totalRevenueThisMonth, 2) }}</h6>
@@ -108,7 +108,7 @@
                 <div class="row">
 
                   <!-- Left side columns -->
-                  <div class="col-lg-8">
+                  <div class="col-lg-12">
                     <div class="row">
 
                       <!-- Default Tabs -->
@@ -136,7 +136,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">Create Budget Proposal</div>
+                            <div class="card-header"><i class="bi bi-file-earmark-plus"></i> Create Budget Proposal</div>
                             @if(session('success'))
                             <div class="row">
                                 <div class="col">
@@ -187,7 +187,7 @@
             </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title">Upload Receipt</h5>

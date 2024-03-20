@@ -68,9 +68,11 @@ Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upl
     Route::get('/profile', function () {
         return view('users-profile');
     });
+    Route::get('/fetch-expense-cost-allocation-data', [CostAllocationController::class, 'fetchExpenseCostAllocationData']);
     Route::get('/fetch-expense-data', [ExpenseController::class, 'fetchExpenseCategory'])->name('fetch.category.data');
     Route::get('/fetch-expense-chart-data', [ExpenseController::class, 'fetchExpenseChartData'])->name('fetch.expense.chart.data');
-
+    Route::get('/fetch-expense-season-data', [ExpenseController::class, 'fetchExpenseSeasonData']);
+    Route::get('/fetch-expense-chart-with-moving-average', [ExpenseController::class, 'fetchExpenseChartWithMovingAverage'])->name('fetch.expense.chart.moving.average');
 Route::get('/expenses-data', [UserController::class, 'fetchExpensesData'])->name('fetch.expenses.data');
 Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
 Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);
