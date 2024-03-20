@@ -19,12 +19,20 @@
           </a>
         </li><!-- End Search Icon-->
 
-
-
-
         <li class="nav-item dropdown">
 
-        </li><!-- End Messages Nav -->
+      <!-- Notifications Nav -->
+      <li class="nav-item dropdown">
+
+
+    </li>
+    <!-- End Notifications Nav -->
+
+          <li class="nav-item dropdown">
+
+          </li><!-- End Messages Nav -->
+
+
 
         <li class="nav-item dropdown pe-3">
 

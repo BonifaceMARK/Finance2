@@ -107,4 +107,19 @@ public function fetchRequestBudgetSparkline()
     {
         return view('faqs');
     }
+
+    public function shownotifications()
+{
+    $expenses = Expense::latest()->take(5)->get();
+    $requestBudgets = RequestBudget::latest()->take(5)->get();
+    $costAllocations = CostAllocation::latest()->take(5)->get();
+
+    $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
+    $notifications = $expenses->merge($requestBudgets)->merge($costAllocations);
+
+    return view('user.header', compact('notifications', 'totalNotifications','expenses','requestBudgets','costAllocations'));
+}
+
+
+
 }

@@ -135,7 +135,7 @@ public function register(Request $request)
         Auth::logout();
         return redirect('/');
     }
-    public function changePassword(Request $request)
+   /* public function changePassword(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -158,4 +158,5 @@ public function register(Request $request)
         // Redirect with success message
         return redirect()->back()->with('success', 'Password changed successfully.');
     }
+    */
 }

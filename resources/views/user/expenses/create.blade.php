@@ -6,6 +6,7 @@
 <body>
 
   <!-- ======= Header ======= -->
+
 @include('user.header')
 
   <!-- ======= Sidebar ======= -->

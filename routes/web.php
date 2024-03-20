@@ -12,7 +12,6 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\RequestBudgetController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
-//
 use App\Mail\mailotp;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\OTPController;
@@ -67,10 +66,12 @@ Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upl
 
     Route::get('/faqs', [UserController::class, 'faq'])->name('faqs');
     Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
+    Route::get('/notify-view', [UserController::class, 'NotifyView'])->name('notify.view');
     Route::get('/fetch-expense-sparkline', [UserController::class, 'fetchExpenseSparkline']);
 Route::get('/fetch-request-budget-sparkline', [UserController::class, 'fetchRequestBudgetSparkline']);
 Route::get('/fetch-cost-allocation-sparkline', [UserController::class, 'fetchCostAllocationSparkline']);
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
+Route::get('/notifications', [UserController::class, 'showNotifications'])->name('notifications.index');
 
     Route::get('/fetch-expense-cost-allocation-data', [CostAllocationController::class, 'fetchExpenseCostAllocationData']);
     Route::get('/fetch-expense-data', [ExpenseController::class, 'fetchExpenseCategory'])->name('fetch.category.data');
