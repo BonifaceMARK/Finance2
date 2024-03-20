@@ -135,4 +135,27 @@ public function register(Request $request)
         Auth::logout();
         return redirect('/');
     }
+    public function changePassword(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'currentPassword' => 'required',
+            'newPassword' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Verify the current password
+        if (!Hash::check($request->currentPassword, $user->password)) {
+            return redirect()->back()->with('error', 'The current password is incorrect.');
+        }
+
+        // Update the password
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    }
 }

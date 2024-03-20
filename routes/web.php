@@ -65,12 +65,12 @@ Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
 Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upload.image');
     Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
 
-    Route::get('/profile', function () {
-        return view('users-profile');
-    });
+    Route::get('/faqs', [UserController::class, 'faq'])->name('faqs');
+    Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
     Route::get('/fetch-expense-sparkline', [UserController::class, 'fetchExpenseSparkline']);
 Route::get('/fetch-request-budget-sparkline', [UserController::class, 'fetchRequestBudgetSparkline']);
 Route::get('/fetch-cost-allocation-sparkline', [UserController::class, 'fetchCostAllocationSparkline']);
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
 
     Route::get('/fetch-expense-cost-allocation-data', [CostAllocationController::class, 'fetchExpenseCostAllocationData']);
     Route::get('/fetch-expense-data', [ExpenseController::class, 'fetchExpenseCategory'])->name('fetch.category.data');

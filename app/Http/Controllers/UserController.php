@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Expense;
 use App\Models\CostAllocation;
 use App\Models\RequestBudget;
@@ -97,5 +98,13 @@ public function fetchRequestBudgetSparkline()
         $costAllocationData = CostAllocation::pluck('amount')->toArray();
         return response()->json($costAllocationData);
     }
-
+    public function show()
+    {
+        $user = Auth::user();
+        return view('users-profile', compact('user'));
+    }
+    public function faq()
+    {
+        return view('faqs');
+    }
 }
