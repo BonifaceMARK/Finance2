@@ -26,7 +26,19 @@
         <section class="section dashboard">
             <div class="container">
                 <div class="row">
-
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                          <div class="col-md-4">
+                            <img src="{{asset('assets/img/allocated.jpg')}}" class="img-fluid rounded-start" alt="...">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title"><i class="bi bi-geo"></i> Cost Allocation</h5>
+                              <p class="card-text">Cost allocation refers to the process of distributing indirect costs across different cost centers, products, services, or other entities within an organization. It is a vital aspect of managerial accounting and financial management, helping organizations accurately assess the true cost of their products or services and make informed business decisions.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!-- End Card with an image on left -->
 <!-- Cost Allocated Card -->
 <div class="col-xxl-4 col-xl-12">
     <div class="card info-card customers-card">
@@ -45,67 +57,7 @@
             </div>
 
         </div>
-    </div>
-</div>
 
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Radar Chart: Expense vs. Cost Allocation</h5>
-
-            <!-- Radar Chart -->
-            <div id="radarChart" style="min-height: 400px;" class="echart"></div>
-
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    // Function to fetch expense and cost allocation data from the server
-                    function fetchData() {
-                        return fetch('/user/fetch-expense-cost-allocation-data')
-                            .then(response => response.json());
-                    }
-
-                    // Function to generate radar chart data
-                    function generateData(data) {
-                        const expenseCategories = data.expenseCategories;
-                        const costAllocationCategories = data.costAllocationCategories;
-
-                        return {
-                            legend: {
-                                data: ['Expense', 'Cost Allocation']
-                            },
-                            radar: {
-                                indicator: [
-                                    { name: 'Expense', max: Math.max(...expenseCategories.map(item => item.amount)) },
-                                    { name: 'Cost Allocation', max: Math.max(...costAllocationCategories.map(item => item.amount)) }
-                                ],
-                            },
-                            series: [{
-                                name: 'Expense vs. Cost Allocation',
-                                type: 'radar',
-                                data: [{
-                                    value: expenseCategories.map(item => item.amount),
-                                    name: 'Expense'
-                                }, {
-                                    value: costAllocationCategories.map(item => item.amount),
-                                    name: 'Cost Allocation'
-                                }]
-                            }]
-                        };
-                    }
-
-                    // Render the radar chart
-                    function renderChart(data) {
-                        echarts.init(document.querySelector("#radarChart")).setOption(generateData(data));
-                    }
-
-                    // Fetch data and render chart
-                    fetchData()
-                        .then(data => renderChart(data));
-                });
-            </script>
-            <!-- End Radar Chart -->
-
-        </div>
     </div>
 </div>
 

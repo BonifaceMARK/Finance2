@@ -44,6 +44,21 @@
                     </div>
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-geo"></i> Budgeting</h5>
+                            <p class="card-text">
+                                Budgeting is the process of creating a detailed plan that outlines an organization's financial goals and objectives for a specific period, typically a fiscal year. It involves estimating future revenues and expenses, allocating resources, and setting targets to guide financial activities and decision-making.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="{{ asset('assets/img/budget.jpg') }}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                </div>
+            </div><!-- End Card with an image on left -->
 
             <div class="container">
                 <div class="row justify-content-center">
@@ -124,9 +139,7 @@
                             <li class="nav-item" role="presentation">
                               <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Upload</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
-                            </li>
+
                           </ul>
                           <div class="tab-content pt-2" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">

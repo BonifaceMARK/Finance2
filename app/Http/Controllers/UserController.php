@@ -82,5 +82,20 @@ public function fetchExpensesData()
 
     return response()->json($data);
 }
+public function fetchExpenseSparkline()
+{
+    $expenseData = Expense::pluck('amount')->toArray();
+    return response()->json($expenseData);
+}
+public function fetchRequestBudgetSparkline()
+    {
+        $requestBudgetData = RequestBudget::pluck('amount')->toArray();
+        return response()->json($requestBudgetData);
+    }
+    public function fetchCostAllocationSparkline()
+    {
+        $costAllocationData = CostAllocation::pluck('amount')->toArray();
+        return response()->json($costAllocationData);
+    }
 
 }

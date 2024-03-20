@@ -74,41 +74,47 @@ public function register(Request $request)
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'string|required|email',
-            'password' => 'string|required',
-        ]);
+{
+    $request->validate([
+        'email' => 'string|required|email',
+        'password' => 'string|required',
+    ]);
 
-        $userCredential = $request->only('email','password');
-        Session::put('ebcf_0_1', $userCredential);
-        $ipuser =$request->ip();
-        $curl = curl_init();
-        $url = "https://api.infoip.io/$ipuser";
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        $ip = trim(strip_tags($this->getStr($response,'"ip":"','"')));
-        curl_close($curl);
+    $userCredential = $request->only('email', 'password');
+    Session::put('ebcf_0_1', $userCredential);
+    $ipuser = $request->ip();
+    $curl = curl_init();
+    $url = "https://api.infoip.io/$ipuser";
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    $ip = trim(strip_tags($this->getStr($response, '"ip":"', '"')));
+    curl_close($curl);
 
-        $puser = User::where('email', $userCredential['email'])->first();
+    $puser = User::where('email', $userCredential['email'])->first();
+    if ($puser) {
+        // User found, check last_ip_loggedin
         if ($puser->last_ip_loggedin === $ip) {
-            if(Auth::attempt($userCredential)){
+            if (Auth::attempt($userCredential)) {
                 return redirect()->route('login');
             }
-        }
-        else
-        {
+        } else {
+            // IP doesn't match, send OTP
             $otp = Helpers::generateOTP();
             $details = [
                 'title' => '',
-                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n". $otp .
-                "\n \nIf you didn't request this email, you can safely ignore it.",
+                'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n" . $otp .
+                    "\n \nIf you didn't request this email, you can safely ignore it.",
             ];
             Mail::to($request->email)->send(new mailotp($details));
             return redirect()->intended(route('oauth'));
         }
+    } else {
+        // User not found
+        return redirect()->back()->withInput()->withErrors(['email' => 'User not found! Please Register First.']);
     }
+}
+
 
     public function redirectDash()
     {

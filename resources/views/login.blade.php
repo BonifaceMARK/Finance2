@@ -37,7 +37,7 @@
                                         <div class="alert alert-danger">
                                             <ul>
                                                 @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
+                                                    <div class="text-center"><i class="bi bi-exclamation-circle"></i> {{ $error }}</div>
                                                 @endforeach
                                             </ul>
                                         </div>

@@ -68,6 +68,10 @@ Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upl
     Route::get('/profile', function () {
         return view('users-profile');
     });
+    Route::get('/fetch-expense-sparkline', [UserController::class, 'fetchExpenseSparkline']);
+Route::get('/fetch-request-budget-sparkline', [UserController::class, 'fetchRequestBudgetSparkline']);
+Route::get('/fetch-cost-allocation-sparkline', [UserController::class, 'fetchCostAllocationSparkline']);
+
     Route::get('/fetch-expense-cost-allocation-data', [CostAllocationController::class, 'fetchExpenseCostAllocationData']);
     Route::get('/fetch-expense-data', [ExpenseController::class, 'fetchExpenseCategory'])->name('fetch.category.data');
     Route::get('/fetch-expense-chart-data', [ExpenseController::class, 'fetchExpenseChartData'])->name('fetch.expense.chart.data');
