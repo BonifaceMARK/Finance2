@@ -102,6 +102,7 @@ Route::post('/request_budgets', [RequestBudgetController::class, 'store'])->name
 Route::get('/request_budgets/{id}', [RequestBudgetController::class, 'show'])->name('request_budgets.show');
 Route::get('/request_budgets/{id}/edit', [RequestBudgetController::class, 'edit'])->name('request_budgets.edit');
 Route::put('/request_budgets/{id}', [RequestBudgetController::class, 'update'])->name('request_budgets.update');
+
 Route::delete('/request_budgets/{id}', [RequestBudgetController::class, 'destroy'])->name('request_budgets.destroy');
 });
 
@@ -118,4 +119,6 @@ Route::get('/send-otp-email', function () {
 
     return 'OTP Email sent successfully.';
 });
+Route::get('/api/budget-s-app', [RequestBudgetController::class, 'pushapi'])->name('api.show');
+
 

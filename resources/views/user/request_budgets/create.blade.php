@@ -61,7 +61,7 @@
                 </div>
             </div><!-- End Card with an image on left -->
 
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card">
@@ -96,8 +96,8 @@
                                                         <td>{{ $requestBudget->start_date }}</td>
                                                         <td>{{ $requestBudget->end_date }}</td>
                                                         <td>
-                                                            @if($requestBudget->status === 'Pending')
-                                                                <span class="badge bg-danger">{{ $requestBudget->status }}</span>
+                                                            @if($requestBudget->status === 'pending')
+                                                                <span class="badge bg-warning">{{ $requestBudget->status }}</span>
                                                             @else
                                                                 <span class="badge bg-success">{{ $requestBudget->status }}</span>
                                                             @endif

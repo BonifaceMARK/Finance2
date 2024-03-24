@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use App\models\RequestBudget;
 
+use Illuminate\Support\Facades\Crypt;
 class RequestBudgetController extends Controller
 {
 
@@ -57,11 +58,7 @@ class RequestBudgetController extends Controller
 
         // Set a default value for the status field
         $request->merge(['status' => 'pending']);
-
-        // Create a new request budget
         RequestBudget::create($request->all());
-
-        // Redirect to the index page with success message
         return redirect()->route('request_budgets.create')
             ->with('success', 'Request budget created successfully.');
     }
@@ -136,4 +133,9 @@ class RequestBudgetController extends Controller
         return view('user.dashboard', compact('budgetChartData'));
     }
 
+    public function pushapi()
+    {
+        $budget = RequestBudget::all();
+        return view('api.budget-s-app', ['budget' => $budget]);
+    }
 }
