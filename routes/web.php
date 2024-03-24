@@ -65,7 +65,7 @@ Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
 Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upload.image');
     Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
 
-    Route::get('/api/transaction-data', [ApiController::class, 'fetchData'])->name('chart.fetchData');
+
 
     Route::get('/faqs', [UserController::class, 'faq'])->name('faqs');
     Route::get('/profile', [UserController::class, 'show'])->name('profile.show');

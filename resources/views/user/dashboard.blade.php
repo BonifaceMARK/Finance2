@@ -223,7 +223,7 @@
             </div>
 
           <!-- Left side columns -->
-          <div class="col-lg-8">
+          <div class="col-lg-12">
             <div class="row">
                 <div class="card">
                     <div class="card-body">
@@ -793,84 +793,93 @@
                     </div>
                   </div>
 
-<div class="col-lg-6">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Area Chart</h5>
+                  <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Area Chart</h5>
 
-            <!-- Area Chart -->
-            <div id="areaChart"></div>
+                                    <!-- Area Chart -->
+                                    <div id="chartContainer">
+                                        <!-- Chart will be rendered here -->
+                                    </div>
+                                    <!-- End Area Chart -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    // Function to fetch data from the backend
-                    function fetchData() {
-                        fetch('/user/api/transaction-data') // Replace '/api/transaction-data' with the route to fetch data from your Laravel backend
-                            .then(response => response.json())
-                            .then(data => {
-                                const prices = data.map(entry => entry.transactionAmount);
-                                const dates = data.map(entry => entry.transactionDate);
+                // Event listener for form submission
+                document.getElementById('transactionForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent the default form submission
 
-                                const options = {
-                                    series: [{
-                                        name: "Transaction Amount",
-                                        data: prices
-                                    }],
-                                    chart: {
-                                        type: 'area',
-                                        height: 350,
-                                        zoom: {
-                                            enabled: false
-                                        }
-                                    },
-                                    dataLabels: {
-                                        enabled: false
-                                    },
-                                    stroke: {
-                                        curve: 'straight'
-                                    },
-                                    subtitle: {
-                                        text: 'Price Movements',
-                                        align: 'left'
-                                    },
-                                    labels: dates,
-                                    xaxis: {
-                                        type: 'datetime',
-                                    },
-                                    yaxis: {
-                                        opposite: true
-                                    },
-                                    legend: {
-                                        horizontalAlign: 'left'
-                                    }
-                                };
+                    // Gather form data
+                    var formData = new FormData(event.target);
 
-                                const areaChart = new ApexCharts(document.querySelector("#areaChart"), options);
-                                areaChart.render();
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-                    }
-
-                    fetchData(); // Fetch data initially
-
-                    // Set up an interval to update the chart every 5 minutes
-                    setInterval(fetchData, 300000); // Update chart every 5 minutes (300,000 milliseconds)
+                    // Send form data to the external domain
+                    sendFormData(formData);
                 });
+
+                // Function to send form data to the external domain
+                function sendFormData(formData) {
+                    // Get the iframe element containing the external form
+                    var iframe = document.getElementById('externalForm');
+
+                    // Send form data to the iframe
+                    iframe.contentWindow.postMessage(formData, 'https://fms5-iasipgcc.fguardians-fms.com');
+                }
+
+                // Listen for messages from the external domain
+                window.addEventListener('message', function(event) {
+                    // Ensure message is from the expected origin
+                    if (event.origin === 'https://fms5-iasipgcc.fguardians-fms.com') {
+                        // Process the message data (assuming the data is in JSON format)
+                        var data = JSON.parse(event.data);
+
+                        // Render chart with the received data
+                        renderChart(data);
+                    }
+                });
+
+                // Function to render chart with received data
+                function renderChart(data) {
+                    // Use a charting library (e.g., Chart.js) to render the data into a chart
+                    // Here's a basic example using Chart.js
+                    var labels = data.labels;
+                    var values = data.values;
+
+                    var ctx = document.getElementById('chartContainer').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Transaction Amount',
+                                data: values,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
             </script>
             <!-- End Area Chart -->
 
         </div>
     </div>
 </div>
-
-
-            </div>
-          </div><!-- End Left side columns -->
-
-          <!-- Right side columns -->
-          <div class="col-lg-4">
 
 <!-- Recent Activity -->
 <div class="card">
