@@ -309,7 +309,7 @@
 
         <div class="col-lg-6 mt-4" data-aos="zoom-in" data-aos-delay="400">
           <div class="member d-flex align-items-start">
-            <div class="pic"><img src="{{ asset('assets/img/devmath.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="pic"><img src="{{ asset('assets/img/devmath.JPG') }}" class="img-fluid" alt=""></div>
             <div class="member-info">
               <h4>Mathew Laxamana</h4>
               <span>System Analyst</span>
