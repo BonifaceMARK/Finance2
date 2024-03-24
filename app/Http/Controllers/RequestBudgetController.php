@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use App\Models\RequestBudget;
-
+use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Crypt;
 class RequestBudgetController extends Controller
 {
 
     public function index()
     {
-        // Fetch all request budgets
+
+
         $requestBudgets = RequestBudget::all();
 
         // Return view with request budgets data
@@ -21,6 +22,33 @@ class RequestBudgetController extends Controller
 
     public function create()
     {
+        $curl = curl_init();
+$url = "http://127.0.0.1:8090/s-pull-approved";
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($curl);
+curl_close($curl);
+$data = json_decode($response, true);
+if (!empty($data)) {
+    foreach ($data as $item) {
+        // Retrieve the record by its reference
+        $existingItem = RequestBudget::where('reference', $item['reference'])->first();
+        if ($existingItem) {
+
+            $nestedComment = $item['comment'];
+            $comment = $nestedComment['comment'];
+            $existingItem->status = $item['status'];
+            $existingItem->updated_at = $item['updated_at'];
+            $existingItem->comment = $comment;
+            // Save the changes
+            $existingItem->save();
+        } else {
+            // If the record does not exist, create a new record
+
+        }
+
+    }
+}
         // Calculate total revenue for last month
         $totalRevenueLastMonth = RequestBudget::whereYear('start_date', now()->subMonth()->year)
             ->whereMonth('start_date', now()->subMonth()->month)
@@ -55,9 +83,12 @@ class RequestBudgetController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
         ]);
-
+        $randomString = Helpers::generateRandomString(10);
         // Set a default value for the status field
         $request->merge(['status' => 'pending']);
+        $request->merge(['department' => 'RequestBudget']);
+        $request->merge(['name' => auth()->user()->name]);
+        $request->merge(['reference' => $randomString]);
         RequestBudget::create($request->all());
         return redirect()->route('request_budgets.create')
             ->with('success', 'Request budget created successfully.');
@@ -93,6 +124,7 @@ class RequestBudgetController extends Controller
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
+
         ]);
 
         // Find the request budget by id
@@ -133,9 +165,5 @@ class RequestBudgetController extends Controller
         return view('user.dashboard', compact('budgetChartData'));
     }
 
-    public function pushapi()
-    {
-        $budget = RequestBudget::all();
-        return view('api.budget-s-app', ['budget' => $budget]);
-    }
+
 }

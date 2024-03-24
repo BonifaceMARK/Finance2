@@ -122,6 +122,6 @@ Route::get('/send-otp-email', function () {
 
     return 'OTP Email sent successfully.';
 });
-Route::get('/api/budget-s-app', [RequestBudgetController::class, 'pushapi'])->name('api.show');
+Route::get('/api/budget-s-app/', [ApiController::class, 'pushapi'])->name('api.show');
 
 
