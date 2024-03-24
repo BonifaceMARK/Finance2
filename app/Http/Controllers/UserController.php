@@ -52,23 +52,17 @@ class UserController extends Controller
 public function fetchNews()
 {
     // Your News API key
-    $apiKey = '014d72b0e8ae42aeab34e2163a269a83';
+        // News API URL for finance news
+        $newsApiUrl = 'https://newsapi.org/v2/everything?q=finance&pageSize=5&apiKey=014d72b0e8ae42aeab34e2163a269a83';
 
-    // News API URL for finance news
-    $newsApiUrl = 'https://newsapi.org/v2/everything?q=finance&pageSize=5&apiKey=' . $apiKey;
+        // Fetch news articles from the News API
+        $response = Http::get($newsApiUrl);
 
-    // Fetch news articles from the News API
-    $newsResponse = Http::get($newsApiUrl);
+        // Extract news articles from the response
+        $articles = $response->json()['articles'];
 
-    $newsArticles = [];
-
-    if ($newsResponse->successful()) {
-        $newsArticles = $newsResponse->json()['articles'];
+        return view('user.dashboard', compact('articles'));
     }
-
-    // Pass the fetched news articles to the Blade view
-    return view('user.dashboard', compact('newsArticles'));
-}
 public function fetchExpensesData()
 {
     $expenses = Expense::select('category', 'amount')->whereDate('created_at', now())->get();

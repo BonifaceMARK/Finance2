@@ -10,6 +10,7 @@ use App\Http\Controllers\CostAllocationController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\RequestBudgetController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 use App\Mail\mailotp;
@@ -64,6 +65,8 @@ Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
 Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upload.image');
     Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
 
+    Route::get('/api/transaction-data', [ApiController::class, 'fetchData'])->name('chart.fetchData');
+
     Route::get('/faqs', [UserController::class, 'faq'])->name('faqs');
     Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
     Route::get('/notify-view', [UserController::class, 'NotifyView'])->name('notify.view');
@@ -114,7 +117,7 @@ Route::get('/send-otp-email', function () {
         'body' => '123456',
     ];
 
-    Mail::to('matthewcrew1zx@gmail.com')->send(new mailotp($details));
+    Mail::to('markluisbonifacio@gmail.com')->send(new mailotp($details));
 
     return 'OTP Email sent successfully.';
 });
