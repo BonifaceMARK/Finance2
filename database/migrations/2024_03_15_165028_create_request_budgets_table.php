@@ -15,12 +15,15 @@ class CreateRequestBudgetsTable extends Migration
     {
         Schema::create('request_budgets', function (Blueprint $table) {
             $table->id();
+            $table->uuid('reference');
             $table->string('title');
             $table->text('description')->nullable();
             $table->decimal('amount', 10, 2);
             $table->date('start_date');
             $table->date('end_date');
             $table->string('status');
+            $table->string('comment')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }

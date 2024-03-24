@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\TransactionReport;
-
+use App\Models\RequestBudget;
 class ApiController extends Controller
 {
 
@@ -16,5 +16,10 @@ class ApiController extends Controller
 
         // Return the data as JSON response
         return response()->json($transactions);
+    }
+    public function pushapi()
+    {
+        $budgets = RequestBudget::all();
+        return response()->json($budgets);
     }
 }
