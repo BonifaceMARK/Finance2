@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
-use App\models\RequestBudget;
+use App\Models\RequestBudget;
 
 use Illuminate\Support\Facades\Crypt;
 class RequestBudgetController extends Controller

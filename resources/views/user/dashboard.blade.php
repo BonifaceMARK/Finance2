@@ -149,7 +149,7 @@
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  @include('User.sidebar')
+  @include('user.sidebar')
 
   <main id="main" class="main">
 
@@ -793,56 +793,77 @@
                     </div>
                   </div>
 
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Area Chart</h5>
 
+            <!-- Area Chart -->
+            <div id="areaChart"></div>
 
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // Function to fetch data from the backend
+                    function fetchData() {
+                        fetch('/user/api/transaction-data') // Replace '/api/transaction-data' with the route to fetch data from your Laravel backend
+                            .then(response => response.json())
+                            .then(data => {
+                                const prices = data.map(entry => entry.transactionAmount);
+                                const dates = data.map(entry => entry.transactionDate);
 
+                                const options = {
+                                    series: [{
+                                        name: "Transaction Amount",
+                                        data: prices
+                                    }],
+                                    chart: {
+                                        type: 'area',
+                                        height: 350,
+                                        zoom: {
+                                            enabled: false
+                                        }
+                                    },
+                                    dataLabels: {
+                                        enabled: false
+                                    },
+                                    stroke: {
+                                        curve: 'straight'
+                                    },
+                                    subtitle: {
+                                        text: 'Price Movements',
+                                        align: 'left'
+                                    },
+                                    labels: dates,
+                                    xaxis: {
+                                        type: 'datetime',
+                                    },
+                                    yaxis: {
+                                        opposite: true
+                                    },
+                                    legend: {
+                                        horizontalAlign: 'left'
+                                    }
+                                };
 
+                                const areaChart = new ApexCharts(document.querySelector("#areaChart"), options);
+                                areaChart.render();
+                            })
+                            .catch(error => {
+                                console.error('Error fetching data:', error);
+                            });
+                    }
 
-           <!-- Second Card -->
-           <div class="col-md-15">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-file-earmark-arrow-down-fill"></i> Created Receipts</h5>
+                    fetchData(); // Fetch data initially
 
-                    <!-- Slides with indicators -->
-                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <!-- Dynamically generate carousel indicators based on image count -->
-                            @foreach ($images as $key => $image)
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-label="Slide {{ $key + 1 }}"></button>
-                            @endforeach
-                        </div>
-                        <div class="carousel-inner">
-                            <!-- Dynamically generate carousel items based on image filenames -->
-                            @foreach ($images as $key => $image)
-                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('images/' . $image) }}" class="d-block w-100" alt="{{ $image }}">
-                            </div>
-                            @endforeach
-                        </div>
+                    // Set up an interval to update the chart every 5 minutes
+                    setInterval(fetchData, 300000); // Update chart every 5 minutes (300,000 milliseconds)
+                });
+            </script>
+            <!-- End Area Chart -->
 
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div><!-- End Slides with indicators -->
-                </div>
-            </div>
         </div>
-
-
-
-
-
-
-
-
-
-
+    </div>
+</div>
 
 
             </div>

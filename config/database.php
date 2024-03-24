@@ -43,6 +43,16 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'finance5' => [
+            'driver' => 'mysql',
+            'host' => '194.110.173.106',
+            'port' => '3306',
+            'database' => 'fms5_finance5',
+            'username' => 'fms5_module5',
+            'password' => 'password123',
+
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
