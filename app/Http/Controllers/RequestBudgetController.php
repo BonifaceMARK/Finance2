@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
+use App\Models\Expense;
 use App\Models\RequestBudget;
+use App\Models\CostAllocation;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Crypt;
 class RequestBudgetController extends Controller
@@ -64,12 +66,12 @@ if (!empty($data)) {
         if ($totalRevenueLastMonth != 0) {
             $revenuePercentageChange = (($totalRevenueThisMonth - $totalRevenueLastMonth) / $totalRevenueLastMonth) * 100;
         }
-
-        // Fetch all request budgets
+        $expenses = Expense::all();
         $requestBudgets = RequestBudget::all();
-
+        $costAllocations = CostAllocation::all();
+        $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
         // Return view with request budgets data
-        return view('user.request_budgets.create', compact('totalRevenueLastMonth', 'totalRevenueThisMonth', 'revenuePercentageChange', 'requestBudgets'));
+        return view('user.request_budgets.create', compact('expenses','costAllocations','totalNotifications','totalRevenueLastMonth', 'totalRevenueThisMonth', 'revenuePercentageChange', 'requestBudgets'));
     }
 
 
@@ -164,6 +166,10 @@ if (!empty($data)) {
 
         return view('user.dashboard', compact('budgetChartData'));
     }
-
+    public function pushapi()
+    {
+        $budget = RequestBudget::all();
+        return view('api.budget-s-app', ['budget' => $budget]);
+    }
 
 }

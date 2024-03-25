@@ -11,11 +11,13 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\RequestBudgetController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 use App\Mail\mailotp;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\OTPController;
+
 
 
 /*
@@ -65,7 +67,7 @@ Route::group(['prefix' => 'user','middleware'=>['web','isUser']],function(){
 Route::post('/upload-image', [ImageController::class, 'uploadImage'])->name('upload.image');
     Route::post('/save-image', [ImageController::class, 'saveImage'])->name('save-image');
 
-
+    Route::get('/forecast', [ForecastController::class, 'forecastIndex'])->name('forecast');
 
     Route::get('/faqs', [UserController::class, 'faq'])->name('faqs');
     Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
@@ -82,7 +84,7 @@ Route::get('/notifications', [UserController::class, 'showNotifications'])->name
     Route::get('/fetch-expense-season-data', [ExpenseController::class, 'fetchExpenseSeasonData']);
     Route::get('/fetch-expense-chart-with-moving-average', [ExpenseController::class, 'fetchExpenseChartWithMovingAverage'])->name('fetch.expense.chart.moving.average');
 Route::get('/expenses-data', [UserController::class, 'fetchExpensesData'])->name('fetch.expenses.data');
-Route::get('/dashboard',[UserController::class,'dashboard'])->name('forecast');
+Route::get('/dashboard',[UserController::class,'dashboard'])->name('dash');
 Route::get('/budget-trends', [RequestBudgetController::class, 'budgetTrends']);
 Route::get('/fetch-news', [USERController::class, 'fetchNews'])->name('fetch.news');
 Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');

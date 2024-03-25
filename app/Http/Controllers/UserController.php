@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Expense;
 use App\Models\CostAllocation;
 use App\Models\RequestBudget;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
 {
+
+
     $expenses = Expense::all();
     $costAllocations = CostAllocation::all();
     $requestBudgets = RequestBudget::all();
@@ -44,9 +47,9 @@ class UserController extends Controller
 
         // Extract only the filenames without the directory path
         $images = array_map('basename', $imagePaths);
+        $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
 
-
-    return view('user.dashboard', compact('budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
+    return view('user.dashboard', compact('totalNotifications','budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
 }
 
 public function fetchNews()

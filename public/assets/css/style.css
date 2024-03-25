@@ -48,6 +48,10 @@
     cursor: pointer;
     background-color: #f4f4f4; /* Optional: Change the background color when hovering */
 }
+.notification-scroll {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+}
 
 
   /*--------------------------------------------------------------

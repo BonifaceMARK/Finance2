@@ -3,9 +3,9 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('forecast')}}">
-            <i class="bi bi-graph-up"></i>
-          <span>Forecast</span>
+        <a class="nav-link collapsed" href="{{route('dash')}}">
+            <i class="bi bi-house-door"></i>
+          <span>Home</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -28,6 +28,14 @@
             <i class="bi bi-coin"></i><span>Cost</span>
         </a>
       </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav"   href="{{route('forecast')}}">
+            <i class="bi bi-graph-up"></i><span>Forecast</span>
+        </a>
+      </li><!-- End Components Nav -->
+
+
 
     </ul>
 

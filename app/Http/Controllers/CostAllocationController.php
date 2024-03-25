@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CostAllocation;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Expense;
+use App\Models\RequestBudget;
+use App\Models\CostAllocation;
 use Illuminate\Support\Facades\DB;
 
 
@@ -20,7 +22,8 @@ class CostAllocationController extends Controller
 
     public function create()
     {
-        // Fetch all cost allocations
+        $expenses = Expense::all();
+        $requestBudgets = RequestBudget::all();
         $costAllocations = CostAllocation::all();
         $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
         ->sum('amount');
@@ -32,9 +35,9 @@ class CostAllocationController extends Controller
     if ($totalCostAllocatedLastYear != 0) {
         $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
     }
-
+    $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
         // Pass both variables to the view
-        return view('user.cost_allocations.create', compact('totalCostAllocatedThisYear', 'costAllocationPercentageChange','costAllocations'));
+        return view('user.cost_allocations.create', compact('totalNotifications','totalCostAllocatedThisYear','expenses', 'requestBudgets','costAllocationPercentageChange','costAllocations'));
     }
 
     public function fetchExpenseCostAllocationData()

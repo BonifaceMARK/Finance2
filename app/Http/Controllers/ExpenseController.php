@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Expense;
+use App\Models\RequestBudget;
+use App\Models\CostAllocation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -79,6 +81,8 @@ class ExpenseController extends Controller
     public function create()
     {
         $expenses = Expense::all();
+        $requestBudgets = RequestBudget::all();
+        $costAllocations = CostAllocation::all();
 
         $totalExpensesToday = Expense::whereDate('date', today())->sum('amount');
         $totalExpensesYesterday = Expense::whereDate('date', Carbon::yesterday())->sum('amount');
@@ -89,8 +93,8 @@ class ExpenseController extends Controller
         $totalExpensesThisMonth = Expense::whereYear('date', today()->year)
         ->whereMonth('date', today()->month)
         ->sum('amount');
-
-        return view('user.expenses.create', compact('expensesPercentageChange','totalExpensesToday','totalExpensesThisMonth','expenses'));
+        $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
+        return view('user.expenses.create', compact('expensesPercentageChange','costAllocations','requestBudgets','totalExpensesToday','totalExpensesThisMonth','expenses','totalNotifications'));
     }
     public function fetchExpenseCategory()
     {

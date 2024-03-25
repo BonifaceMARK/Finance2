@@ -1,13 +1,163 @@
 @extends('layout.title')
 
-@section('title', 'Budget Manager')
+@section('title', 'Budget')
 @include('layout.title')
 
 <body>
 
   <!-- ======= Header ======= -->
-  @extends('user.header')
-@include('user.header')
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="{{ asset('assets/img/fmslogo.png')}}" alt="">
+        <span class="d-none d-lg-block">Financial Guardians</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+
+     <!-- Notifications Nav -->
+<li class="nav-item dropdown">
+    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        @if ($totalNotifications > 0)
+            <span class="badge bg-primary badge-number">{{ $totalNotifications }}</span>
+        @endif
+    </a>
+    <!-- Notification Dropdown Items -->
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+            @if ($totalNotifications > 0)
+                You have {{ $totalNotifications }} new notifications
+            @else
+                No new notifications
+            @endif
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <!-- Notification Items -->
+        <div class="notification-scroll">
+            <!-- Notification Items for Expenses -->
+            @foreach ($expenses as $expense)
+                <li class="notification-item">
+                    <i class="bi bi-exclamation-circle text-warning"></i>
+                    <div>
+                        <h4>{{ $expense->title }}</h4>
+                        <p>{{ $expense->description }}</p>
+                        <p>{{ $expense->created_at->diffForHumans() }}</p>
+                    </div>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+            @endforeach
+            <!-- End of Notification Items for Expenses -->
+
+            <!-- Notification Items for RequestBudget -->
+            @foreach ($requestBudgets as $requestBudget)
+                <li class="notification-item">
+                    <i class="bi bi-exclamation-circle text-warning"></i>
+                    <div>
+                        <h4>{{ $requestBudget->title }}</h4>
+                        <p>{{ $requestBudget->description }}</p>
+                        <p>{{ $requestBudget->created_at->diffForHumans() }}</p>
+                    </div>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+            @endforeach
+            <!-- End of Notification Items for RequestBudget -->
+
+            <!-- Notification Items for CostAllocation -->
+            @foreach ($costAllocations as $costAllocation)
+                <li class="notification-item">
+                    <i class="bi bi-exclamation-circle text-warning"></i>
+                    <div>
+                        <h4>{{ $costAllocation->cost_center }}</h4>
+                        <p>{{ $costAllocation->description }}</p>
+                        <p>{{ $costAllocation->created_at->diffForHumans() }}</p>
+                    </div>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+            @endforeach
+            <!-- End of Notification Items for CostAllocation -->
+        </div>
+        <li class="dropdown-footer">
+        </li>
+    </ul>
+    <!-- End Notification Dropdown Items -->
+</li>
+<!-- End Notifications Nav -->
+
+
+          <li class="nav-item dropdown">
+
+
+          </li><!-- End Messages Nav -->
+
+
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{asset('assets/img/admin.png')}}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
+
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6> {{ auth()->user()->email }} </h6>
+              <span>{{ auth()->user()->department }}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{route('profile.show')}}">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{route('faqs')}}">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
 @include('user.sidebar')
@@ -61,64 +211,7 @@
                 </div>
             </div><!-- End Card with an image on left -->
 
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">All Request Budgets</div>
 
-                            <div class="card-body">
-
-
-                                <div class="row">
-                                    <div class="col">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>Created</th>
-                                                    <th>Description</th>
-                                                    <th>Amount</th>
-                                                    <th>Start Date</th>
-                                                    <th>End Date</th>
-                                                    <th>Status</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($requestBudgets as $requestBudget)
-                                                    <tr>
-                                                        <td>{{ $requestBudget->
-                                                        title }}</td>
-                                                        <td>{{ $requestBudget->created_at }}</td>
-                                                        <td>{{ $requestBudget->description }}</td>
-                                                        <td>{{ $requestBudget->amount }}</td>
-                                                        <td>{{ $requestBudget->start_date }}</td>
-                                                        <td>{{ $requestBudget->end_date }}</td>
-                                                        <td>
-                                                            @if($requestBudget->status === 'pending')
-                                                                <span class="badge bg-warning">{{ $requestBudget->status }}</span>
-                                                            @else
-                                                                <span class="badge bg-success">{{ $requestBudget->status }}</span>
-                                                            @endif
-                                                        </td>
-
-                                                        <td>
-                                                            <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </div>
 
             <section class="section dashboard">
                 <div class="row">
@@ -138,7 +231,7 @@
                               <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Create</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Upload</button>
+                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">View</button>
                             </li>
 
                           </ul>
@@ -201,25 +294,64 @@
             </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Upload Receipt</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <form action="{{ route('upload.image') }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="mb-3">
-                                                    <label for="image" class="form-label">Please insert receipt:</label>
-                                                    <input class="form-control" type="file" id="image" name="image">
-                                                    @error('image')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
+                                <div class="container-fluid">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">All Request Budgets</div>
+
+                                                <div class="card-body">
+
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="background-color: #87CEEB;">Title</th>
+<th style="background-color: #87CEEB;">Created</th>
+<th style="background-color: #87CEEB;">Description</th>
+<th style="background-color: #87CEEB;">Amount</th>
+<th style="background-color: #87CEEB;">Start Date</th>
+<th style="background-color: #87CEEB;">End Date</th>
+<th style="background-color: #87CEEB;">Status</th>
+<th style="background-color: #87CEEB;">Actions</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach($requestBudgets as $requestBudget)
+                                                                        <tr>
+                                                                            <td>{{ $requestBudget->
+                                                                            title }}</td>
+                                                                            <td>{{ $requestBudget->created_at }}</td>
+                                                                            <td>{{ $requestBudget->description }}</td>
+                                                                            <td>{{ $requestBudget->amount }}</td>
+                                                                            <td>{{ $requestBudget->start_date }}</td>
+                                                                            <td>{{ $requestBudget->end_date }}</td>
+                                                                            <td>
+                                                                                @if($requestBudget->status === 'pending')
+                                                                                    <span class="badge bg-warning">{{ $requestBudget->status }}</span>
+                                                                                @else
+                                                                                    <span class="badge bg-success">{{ $requestBudget->status }}</span>
+                                                                                @endif
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Upload</button>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
                                 </div>
 
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">

@@ -107,6 +107,21 @@
 
     </div>
 </main><!-- End #main -->
+<script>
+    //    function onSubmit(token) {
+    //      document.getElementById("loginform").submit();
+    //    }
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.ready(function() {
+              grecaptcha.execute('{{config('services.recap.site_key')}}', {action: 'submit'}).then(function(token) {
+                document.getElementById("g-recaptcha-response").value = token;
+                document.getElementById("registerform").submit();
+              });
+            });
+          }
+    </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 <!-- Vendor JS Files -->

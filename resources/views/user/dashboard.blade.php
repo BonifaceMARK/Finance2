@@ -1,7 +1,7 @@
 
 @extends('layout.title')
 
-@section('title','Forecast')
+@section('title','Home')
 @include('layout.title')
 <body>
 
@@ -30,19 +30,27 @@
 
         <li class="nav-item dropdown">
 
-      <!-- Notifications Nav -->
-      <li class="nav-item dropdown">
-        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary"></span>
-        </a>
-        <!-- Notification Dropdown Items -->
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-                You have new notifications
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <!-- Notification Items -->
+     <!-- Notifications Nav -->
+<li class="nav-item dropdown">
+    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        @if ($totalNotifications > 0)
+            <span class="badge bg-primary badge-number">{{ $totalNotifications }}</span>
+        @endif
+    </a>
+    <!-- Notification Dropdown Items -->
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+            @if ($totalNotifications > 0)
+                You have {{ $totalNotifications }} new notifications
+            @else
+                No new notifications
+            @endif
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <!-- Notification Items -->
+        <div class="notification-scroll">
+            <!-- Notification Items for Expenses -->
             @foreach ($expenses as $expense)
                 <li class="notification-item">
                     <i class="bi bi-exclamation-circle text-warning"></i>
@@ -54,7 +62,8 @@
                 </li>
                 <li><hr class="dropdown-divider"></li>
             @endforeach
-            <!-- End of Notification Items -->
+            <!-- End of Notification Items for Expenses -->
+
             <!-- Notification Items for RequestBudget -->
             @foreach ($requestBudgets as $requestBudget)
                 <li class="notification-item">
@@ -68,6 +77,7 @@
                 <li><hr class="dropdown-divider"></li>
             @endforeach
             <!-- End of Notification Items for RequestBudget -->
+
             <!-- Notification Items for CostAllocation -->
             @foreach ($costAllocations as $costAllocation)
                 <li class="notification-item">
@@ -81,12 +91,14 @@
                 <li><hr class="dropdown-divider"></li>
             @endforeach
             <!-- End of Notification Items for CostAllocation -->
-            <li class="dropdown-footer">
-            </li>
-        </ul>
-        <!-- End Notification Dropdown Items -->
-    </li>
-    <!-- End Notifications Nav -->
+        </div>
+        <li class="dropdown-footer">
+        </li>
+    </ul>
+    <!-- End Notification Dropdown Items -->
+</li>
+<!-- End Notifications Nav -->
+
 
           <li class="nav-item dropdown">
 
@@ -154,10 +166,10 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1><i class="bi bi-graph-up"></i> Forecasts</h1>
+        <h1><i class="bi bi-house-door"></i> Home</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Forecasts</a></li>
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
             @if(Session::has('success'))
             <div class="alert alert-success" role="alert">
@@ -793,93 +805,9 @@
                     </div>
                   </div>
 
-                  <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Area Chart</h5>
 
-                                    <!-- Area Chart -->
-                                    <div id="chartContainer">
-                                        <!-- Chart will be rendered here -->
-                                    </div>
-                                    <!-- End Area Chart -->
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-            <script>
-                // Event listener for form submission
-                document.getElementById('transactionForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent the default form submission
-
-                    // Gather form data
-                    var formData = new FormData(event.target);
-
-                    // Send form data to the external domain
-                    sendFormData(formData);
-                });
-
-                // Function to send form data to the external domain
-                function sendFormData(formData) {
-                    // Get the iframe element containing the external form
-                    var iframe = document.getElementById('externalForm');
-
-                    // Send form data to the iframe
-                    iframe.contentWindow.postMessage(formData, 'https://fms5-iasipgcc.fguardians-fms.com');
-                }
-
-                // Listen for messages from the external domain
-                window.addEventListener('message', function(event) {
-                    // Ensure message is from the expected origin
-                    if (event.origin === 'https://fms5-iasipgcc.fguardians-fms.com') {
-                        // Process the message data (assuming the data is in JSON format)
-                        var data = JSON.parse(event.data);
-
-                        // Render chart with the received data
-                        renderChart(data);
-                    }
-                });
-
-                // Function to render chart with received data
-                function renderChart(data) {
-                    // Use a charting library (e.g., Chart.js) to render the data into a chart
-                    // Here's a basic example using Chart.js
-                    var labels = data.labels;
-                    var values = data.values;
-
-                    var ctx = document.getElementById('chartContainer').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Transaction Amount',
-                                data: values,
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                }
-            </script>
-            <!-- End Area Chart -->
-
-        </div>
-    </div>
-</div>
 
 <!-- Recent Activity -->
 <div class="card">
