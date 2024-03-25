@@ -184,13 +184,9 @@
                           </div>
                           <div class="col-md-8">
                             <div class="card-body">
-                              <h5 class="card-title"><i class="bi bi-geo"></i> Cost Allocation</h5>
+                              <h5 class="card-title"><i class="bi bi-geo"></i> <strong>Cost Allocation</strong></h5>
                               <p class="card-text">Cost allocation refers to the process of distributing indirect costs across different cost centers, products, services, or other entities within an organization. It is a vital aspect of managerial accounting and financial management, helping organizations accurately assess the true cost of their products or services and make informed business decisions.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div><!-- End Card with an image on left -->
-<!-- Cost Allocated Card -->
+                           <!-- Cost Allocated Card -->
 <div class="col-xxl-4 col-xl-12">
     <div class="card info-card customers-card">
         <div class="card-body">
@@ -208,11 +204,15 @@
             </div>
 
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#costAllocationModal">
-            Allocate Cost
-        </button>
+
     </div>
 </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div><!-- End Card with an image on left -->
+
 
 
 
@@ -223,6 +223,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="costAllocationModalLabel">
                     <i class="bi bi-file-earmark-plus"></i> Allocate Cost
+
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -295,6 +296,9 @@
                         <div class="card-header">
                             Cost Allocation
                         </div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#costAllocationModal">
+                            Allocate Cost
+                        </button>
 
                             <table class="table table-bordered">
                                 <thead>

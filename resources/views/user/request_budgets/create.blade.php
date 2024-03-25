@@ -177,32 +177,33 @@
     <section class="section dashboard">
       <div class="row">
         <div class="container">
-            <div class="col-xxl-4 col-md-6">
-                <div class="card info-card revenue-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Budget <span>| This Month</span></h5>
 
-                        <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-cash-coin"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h6>${{ number_format($totalRevenueThisMonth, 2) }}</h6>
-                                <span class="text-{{ $revenuePercentageChange >= 0 ? 'success' : 'danger' }} small pt-1 fw-bold">{{ number_format($revenuePercentageChange, 2) }}%</span>
-                                <span class="text-muted small pt-2 ps-1">{{ $revenuePercentageChange >= 0 ? 'increase' : 'decrease' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-geo"></i> Budgeting</h5>
+                            <h5 class="card-title"><i class="bi bi-geo"></i> <strong>Budgeting</strong></h5>
                             <p class="card-text">
                                 Budgeting is the process of creating a detailed plan that outlines an organization's financial goals and objectives for a specific period, typically a fiscal year. It involves estimating future revenues and expenses, allocating resources, and setting targets to guide financial activities and decision-making.
                             </p>
+                            <div class="col-xxl-4 col-md-6">
+                                <div class="card info-card revenue-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Budget <span>| This Month</span></h5>
+
+                                        <div class="d-flex align-items-center">
+                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-cash-coin"></i>
+                                            </div>
+                                            <div class="ps-3">
+                                                <h6>${{ number_format($totalRevenueThisMonth, 2) }}</h6>
+                                                <span class="text-{{ $revenuePercentageChange >= 0 ? 'success' : 'danger' }} small pt-1 fw-bold">{{ number_format($revenuePercentageChange, 2) }}%</span>
+                                                <span class="text-muted small pt-2 ps-1">{{ $revenuePercentageChange >= 0 ? 'increase' : 'decrease' }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
