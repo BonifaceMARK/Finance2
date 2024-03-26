@@ -151,20 +151,7 @@
         });
     });
 </script>
-<script>
-    //    function onSubmit(token) {
-    //      document.getElementById("lgonfrm").submit();
-    //    }
-        function onClick(e) {
-            e.preventDefault();
-            grecaptcha.ready(function() {
-              grecaptcha.execute('{{config('services.recap.site_key')}}', {action: 'submit'}).then(function(token) {
-                document.getElementById("g-recaptcha-response").value = token;
-                document.getElementById("lgonfrm").submit();
-              });
-            });
-          }
-    </script>
+
 
 <!-- Template Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>

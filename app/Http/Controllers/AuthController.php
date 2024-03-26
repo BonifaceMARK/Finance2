@@ -49,17 +49,6 @@ public function register(Request $request)
                 $fail('The email must be a Gmail address.');
             }
         }],
-        'g-recaptcha-response' => ['required',function (string $attribute, mixed $value, Closure $fail) {
-            $g_response = HTTP::asform()->post("https://www.google.com/recaptcha/api/siteverify", [
-                'secret' => config('services.recap.secret_key'),
-                'response' => $value,
-
-            ]);
-
-            if (!$g_response->json('success')) {
-                $fail("The g-reCAPTCHA is invalid.");
-            }
-        }],
         'password' => 'required|string|min:6'
     ]);
 
@@ -90,17 +79,6 @@ public function register(Request $request)
     $request->validate([
         'email' => 'string|required|email',
         'password' => 'string|required',
-        'g-recaptcha-response' => ['required',function (string $attribute, mixed $value, Closure $fail) {
-            $g_response = HTTP::asform()->post("https://www.google.com/recaptcha/api/siteverify", [
-                'secret' => config('services.recap.secret_key'),
-                'response' => $value,
-
-            ]);
-
-            if (!$g_response->json('success')) {
-                $fail("The g-reCAPTCHA is invalid.");
-            }
-        }],
     ]);
 
     $userCredential = $request->only('email', 'password');

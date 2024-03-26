@@ -79,6 +79,6 @@ class OTPController extends Controller
             "$ip \n$city, $country",
         ];
         Mail::to($user->email)->send(new mailotp($detailx));
-        return redirect(route('forecast'));
+        return redirect(route('dash'));
     }
 }
