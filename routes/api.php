@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ExpenseController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/bato', [ApiController::class, 'fetch']);
+
+Route::get('/expensesApi', [ApiController::class, 'getAllExpenses']);
+
+Route::get('/costApi', [ApiController::class, 'getAllCost']);
+
+Route::get('/budgetApi', [ApiController::class, 'getAllBudget']);

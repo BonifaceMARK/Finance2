@@ -49,13 +49,6 @@ class UserController extends Controller
         $images = array_map('basename', $imagePaths);
         $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
 
-    return view('user.dashboard', compact('totalNotifications','budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
-}
-
-public function fetchNews()
-{
-    // Your News API key
-        // News API URL for finance news
         $newsApiUrl = 'https://newsapi.org/v2/everything?q=finance&pageSize=5&apiKey=014d72b0e8ae42aeab34e2163a269a83';
 
         // Fetch news articles from the News API
@@ -64,8 +57,10 @@ public function fetchNews()
         // Extract news articles from the response
         $articles = $response->json()['articles'];
 
-        return view('user.dashboard', compact('articles'));
-    }
+
+    return view('user.dashboard', compact('articles','totalNotifications','budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
+}
+
 public function fetchExpensesData()
 {
     $expenses = Expense::select('category', 'amount')->whereDate('created_at', now())->get();

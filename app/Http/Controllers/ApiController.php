@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Models\TransactionReport;
+use App\Models\Expense;
+use App\Models\CostAllocation;
 use App\Models\RequestBudget;
 class ApiController extends Controller
 {
@@ -102,5 +103,34 @@ class ApiController extends Controller
         return response()->json(['error' => 'Failed to fetch data from the external API'], $response->status());
     }
 }
-
+public function getAllExpenses()
+{
+    try {
+        $expenses = Expense::all();
+        if ($expenses->isEmpty()) {
+            return response()->json(['message' => 'No expenses found.'], 404);
+        }
+        return response()->json($expenses);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Failed to fetch expenses.', 'error' => $e->getMessage()], 500);
+    }
+}
+public function getAllCost()
+{
+    try {
+        $costAllocations = CostAllocation::all();
+        return response()->json($costAllocations);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to fetch cost allocations.'], 500);
+    }
+}
+public function getAllBudget()
+{
+    try {
+        $requestBudgets = RequestBudget::all();
+        return response()->json($requestBudgets);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to fetch request budgets.'], 500);
+    }
+}
 }
