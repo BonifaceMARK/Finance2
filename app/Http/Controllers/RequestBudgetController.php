@@ -25,7 +25,7 @@ class RequestBudgetController extends Controller
     public function create()
     {
         $curl = curl_init();
-$url = "http://127.0.0.1:8090/s-pull-approved";
+$url = "https://fms3-swasfcrb.fguardians-fms.com/s-pull-approved";
 curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($curl);
