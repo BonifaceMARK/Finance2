@@ -17,6 +17,7 @@ class ForecastController extends Controller
         // Make a GET request to the external API
         $response = Http::get('https://fms5-iasipgcc.fguardians-fms.com/payment');
 
+
         // Check if the request was successful
         if ($response->successful()) {
             // Extract the JSON data from the response
@@ -29,15 +30,24 @@ class ForecastController extends Controller
                 $prices[] = $transaction['transactionAmount'];
                 $dates[] = $transaction['transactionDate'];
             }
+             // Fetch data from the external API
+        $response = Http::get('https://fms1-fpfrcm.fguardians-fms.com/allocatebud');
+
+        // Check if the request was successful
+        if ($response->successful()) {
+            // Extract the JSON data from the response
+            $data = $response->json();
+
+
             $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
             // Render the view with the chart data
-            return view('user.forecast', compact('prices', 'dates','expenses', 'requestBudgets', 'costAllocations','totalNotifications'));
+            return view('user.forecast', compact('data','prices', 'dates','expenses', 'requestBudgets', 'costAllocations','totalNotifications'));
         } else {
             // Handle the case where the request was not successful
             return response()->json(['error' => 'Failed to fetch data from the external API'], $response->status());
         }
     }
 
-
+    }
 
 }

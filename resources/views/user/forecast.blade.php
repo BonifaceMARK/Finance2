@@ -238,8 +238,39 @@
                 </div>
             </div>
 
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Allocated Budget</h5>
+            <div id="chart"></div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var options = {
+            chart: {
+                type: 'line',
+                height: 350
+            },
+            series: [{
+                name: 'Amount',
+                data: {!! json_encode(array_column($data, 'amount')) !!}
+            }],
+            xaxis: {
+                categories: {!! json_encode(array_column($data, 'created_at')) !!},
+                labels: {
+                    formatter: function (val) {
+                        return new Date(val).toLocaleDateString();
+                    }
+                }
+            }
+        };
 
-
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    });
+</script>
         </div>
       </section>
 

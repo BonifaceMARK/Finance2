@@ -133,4 +133,5 @@ public function getAllBudget()
         return response()->json(['error' => 'Failed to fetch request budgets.'], 500);
     }
 }
+
 }

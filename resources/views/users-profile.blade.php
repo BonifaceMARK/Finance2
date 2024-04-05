@@ -6,10 +6,10 @@
 <body>
 
     <!-- ======= Header ======= -->
-    @include('user.Header')
+    @include('user.header')
 
     <!-- ======= Sidebar ======= -->
-  @include('user.Sidebar')
+  @include('user.sidebar')
 
     <main id="main" class="main">
 
