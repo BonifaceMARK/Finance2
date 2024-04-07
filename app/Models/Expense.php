@@ -11,5 +11,5 @@ class Expense extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'date', 'amount', 'category', 'description'];
+    protected $fillable = [ 'item','date', 'amount', 'category', 'description'];
 }

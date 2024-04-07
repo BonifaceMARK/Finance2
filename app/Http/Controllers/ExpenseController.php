@@ -90,11 +90,59 @@ class ExpenseController extends Controller
         if ($totalExpensesYesterday != 0) {
             $expensesPercentageChange = (($totalExpensesToday - $totalExpensesYesterday) / $totalExpensesYesterday) * 100;
         }
+        $salariesExpenses = Expense::where('category', 'Salaries and Wages')->get();
+        $rentLeaseExpenses = Expense::where('category', 'Rent or Lease')->get();
+        $utilitiesExpenses = Expense::where('category', 'Utilities')->get();
+        $suppliesExpenses = Expense::where('category', 'Supplies')->get();
+        $inventoryExpenses = Expense::where('category', 'Inventory')->get();
+        $marketingExpenses = Expense::where('category', 'Marketing and Advertising')->get();
+        $travelExpenses = Expense::where('category', 'Travel and Entertainment')->get();
+        $professionalServicesExpenses = Expense::where('category', 'Professional Services')->get();
+        $insuranceExpenses = Expense::where('category', 'Insurance')->get();
+        $maintenanceExpenses = Expense::where('category', 'Maintenance and Repairs')->get();
+        $taxesExpenses = Expense::where('category', 'Taxes and Licenses')->get();
+        $depreciationExpenses = Expense::where('category', 'Depreciation')->get();
+
+        $expenses = Expense::all();
+
+          // Prepare the data for the chart
+          $expenseData = $expenses->map(function ($expense) {
+            return [
+                'date' => $expense->date,
+                'amount' => $expense->amount,
+            ];
+        });
+
         $totalExpensesThisMonth = Expense::whereYear('date', today()->year)
         ->whereMonth('date', today()->month)
         ->sum('amount');
         $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
-        return view('user.expenses.create', compact('expensesPercentageChange','costAllocations','requestBudgets','totalExpensesToday','totalExpensesThisMonth','expenses','totalNotifications'));
+        return view('user.expenses.create', compact(  'salariesExpenses',
+        'rentLeaseExpenses',
+        'utilitiesExpenses',
+        'suppliesExpenses',
+        'expenseData',
+        'inventoryExpenses',
+        'marketingExpenses',
+        'travelExpenses',
+        'professionalServicesExpenses',
+        'insuranceExpenses',
+        'maintenanceExpenses',
+        'taxesExpenses',
+        'depreciationExpenses','expensesPercentageChange','costAllocations','requestBudgets','totalExpensesToday','totalExpensesThisMonth','expenses','totalNotifications'));
+    }
+
+
+
+
+    public function getCategoryExpenses(Request $request)
+    {
+        // Fetch expenses data for the specified category
+        $category = $request->input('category');
+        $expenses = Expense::where('category', $category)->get();
+
+        // Return expenses data as JSON response
+        return response()->json($expenses);
     }
     public function fetchExpenseCategory()
     {
@@ -200,15 +248,25 @@ class ExpenseController extends Controller
 
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $request->validate([
+            'item' => 'required|string',
             'date' => 'required|date',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|max:9999999.99',
             'category' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
-        Expense::create($request->all());
+        // Create a new Expense record using the validated data
+        Expense::create([
+            'item' => $request->item,
+            'date' => $request->date,
+            'amount' => $request->amount,
+            'category' => $request->category,
+            'description' => $request->description,
+        ]);
 
+        // Redirect back to the expense creation form with a success message
         return redirect()->route('expenses.create')
             ->with('success', 'Expense created successfully.');
     }

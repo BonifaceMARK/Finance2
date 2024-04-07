@@ -25,12 +25,7 @@ class UserController extends Controller
     $recentCostAllocations = CostAllocation::latest()->take(5)->get();
     $recentRequestBudgets = RequestBudget::latest()->take(5)->get();
 
-    $chartData = $costAllocations->map(function ($allocation) {
-        return [
-            'name' => $allocation->cost_center,
-            'value' => $allocation->amount
-        ];
-    })->toArray();
+
 
     $budgetChartData = [
         'dates' => $requestBudgets->pluck('start_date')->toArray(),
@@ -58,7 +53,7 @@ class UserController extends Controller
         $articles = $response->json()['articles'];
 
 
-    return view('user.dashboard', compact('articles','totalNotifications','budgetChartData', 'requestBudgets', 'chartData', 'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
+    return view('user.dashboard', compact('articles','totalNotifications','budgetChartData', 'requestBudgets',  'expenses', 'recentRequestBudgets', 'recentCostAllocations', 'costAllocations', 'images'));
 }
 
 public function fetchExpensesData()

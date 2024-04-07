@@ -108,6 +108,7 @@ Route::get('/request_budgets/{id}', [RequestBudgetController::class, 'show'])->n
 Route::get('/request_budgets/{id}/edit', [RequestBudgetController::class, 'edit'])->name('request_budgets.edit');
 Route::put('/request_budgets/{id}', [RequestBudgetController::class, 'update'])->name('request_budgets.update');
 
+Route::get('/expenses/category', [ExpenseController::class, 'getCategoryExpenses'])->name('expenses.category');
 Route::delete('/request_budgets/{id}', [RequestBudgetController::class, 'destroy'])->name('request_budgets.destroy');
 });
 

@@ -10,5 +10,5 @@ class CostAllocation extends Model
     use HasFactory;
 
     protected $table = 'cost_allocation';
-    protected $fillable = ['cost_center', 'cost_category', 'allocation_method', 'amount', 'description'];
+    protected $fillable = ['item','cost_center', 'cost_category', 'cost_type', 'amount', 'description'];
 }

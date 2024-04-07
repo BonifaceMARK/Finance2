@@ -24,6 +24,7 @@
         <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
+
           </a>
         </li><!-- End Search Icon-->
 
@@ -102,6 +103,7 @@
           <li class="nav-item dropdown">
 
 
+
           </li><!-- End Messages Nav -->
 
 
@@ -132,6 +134,15 @@
             <li>
               <hr class="dropdown-divider">
             </li>
+
+            <li>
+                <a class="dropdown-item d-flex align-items-center btn btn-primary btn-notification" data-bs-toggle="modal" data-bs-target="#recentActivityModal">
+                        <i class="bi bi-bell-fill"></i> View Recent Activity
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="{{route('faqs')}}">
@@ -165,14 +176,39 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1><i class="bi bi-file-text"></i> Budgets</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Budgets</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+        <h1 class="d-flex justify-content-between align-items-center">
+            <i class="bi bi-file-text"> Budgets</i>
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#requestBudgetsModal">
+                    View Budget Proposals
+                </button>
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createBudgetProposalModal">
+                    Create Budget Proposal
+                </button>
+            </div>
+        </h1>
+    </div>
+
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Budgets</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+        </nav>
+        @if(Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success') }}
+        </div>
+        @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
+    </div><!-- End Page Header -->
 
     <section class="section dashboard">
       <div class="row">
@@ -189,7 +225,7 @@
                             <div class="col-xxl-4 col-md-6">
                                 <div class="card info-card revenue-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Budget <span>| This Month</span></h5>
+                                        <h5 class="card-title">Budget Proposed<span> | This Month</span></h5>
 
                                         <div class="d-flex align-items-center">
                                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -208,175 +244,131 @@
                     </div>
                     <div class="col-md-4">
                         <img src="{{ asset('assets/img/budget.jpg') }}" class="img-fluid rounded-start" alt="...">
+                        <!-- Button to trigger modal -->
+                        <br>
+                        <br>
+
                     </div>
                 </div>
             </div><!-- End Card with an image on left -->
 
 
+<!-- Modal -->
+<div class="modal fade" id="createBudgetProposalModal" tabindex="-1" role="dialog" aria-labelledby="createBudgetProposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createBudgetProposalModalLabel"><i class="bi bi-file-earmark-plus"></i> Create Budget Proposal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('request_budgets.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" class="form-control" step="0.01" value="{{ old('amount') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control" value="{{ old('start_date') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}">
+                        @error('end_date')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-            <section class="section dashboard">
-                <div class="row">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <input type="text" id="status" name="status" class="form-control readonly-input" value="Pending" readonly>
+                    </div>
 
-                  <!-- Left side columns -->
-                  <div class="col-lg-12">
-                    <div class="row">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-                      <!-- Default Tabs -->
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Budget Proposal</h5>
 
-                          <!-- Default Tabs -->
-                          <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Create</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">View</button>
-                            </li>
 
-                          </ul>
-                          <div class="tab-content pt-2" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                              <!-- Insert the Blade template for Home tab here -->
-                                  <!-- End Revenue Card -->
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header"><i class="bi bi-file-earmark-plus"></i> Create Budget Proposal</div>
-                            @if(session('success'))
-                            <div class="row">
-                                <div class="col">
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
+<!-- Modal -->
+<div class="modal fade" id="requestBudgetsModal" tabindex="-1" role="dialog" aria-labelledby="requestBudgetsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="requestBudgetsModalLabel">Budget Proposals</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Created</th>
+                                                    <th>Description</th>
+                                                    <th>Amount</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($requestBudgets as $requestBudget)
+                                                <tr>
+                                                    <td>{{ $requestBudget->title }}</td>
+                                                    <td>{{ $requestBudget->created_at }}</td>
+                                                    <td>{{ $requestBudget->description }}</td>
+                                                    <td>${{ number_format($requestBudget->amount, 2) }}</td>
+                                                    <td>{{ $requestBudget->start_date }}</td>
+                                                    <td>{{ $requestBudget->end_date }}</td>
+                                                    <td>
+                                                        @if($requestBudget->status === 'pending')
+                                                        <span class="badge bg-warning">{{ $requestBudget->status }}</span>
+                                                        @else
+                                                        <span class="badge bg-success">{{ $requestBudget->status }}</span>
+                                                        @endif
+                                                    </td>
+
+                                                </tr>
+                                                @empty
+                                                <tr>
+                                                    <td colspan="8">No budget requests found.</td>
+                                                </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
                                     </div>
+
                                 </div>
-                            </div>
-                        @endif
-                            <div class="card-body">
-                                <form action="{{ route('request_budgets.store') }}" method="POST">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="title">Title:</label>
-                                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description">Description:</label>
-                                        <textarea id="description" name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="amount">Amount:</label>
-                                        <input type="number" id="amount" name="amount" class="form-control" step="0.01" value="{{ old('amount') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="start_date">Start Date:</label>
-                                        <input type="date" id="start_date" name="start_date" class="form-control" value="{{ old('start_date') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="end_date">End Date:</label>
-                                        <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}">
-                                        @error('end_date')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="status">Status:</label>
-                                        <input type="text" id="status" name="status" class="form-control readonly-input" value="Pending" readonly>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Submit</button>
-                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="container-fluid">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-12">
-                                            <div class="card">
-                                                <div class="card-header">All Request Budgets</div>
-
-                                                <div class="card-body">
+        </div>
+    </div>
+</div>
 
 
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <table class="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="background-color: #87CEEB;">Title</th>
-<th style="background-color: #87CEEB;">Created</th>
-<th style="background-color: #87CEEB;">Description</th>
-<th style="background-color: #87CEEB;">Amount</th>
-<th style="background-color: #87CEEB;">Start Date</th>
-<th style="background-color: #87CEEB;">End Date</th>
-<th style="background-color: #87CEEB;">Status</th>
-<th style="background-color: #87CEEB;">Actions</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach($requestBudgets as $requestBudget)
-                                                                        <tr>
-                                                                            <td>{{ $requestBudget->
-                                                                            title }}</td>
-                                                                            <td>{{ $requestBudget->created_at }}</td>
-                                                                            <td>{{ $requestBudget->description }}</td>
-                                                                            <td>{{ $requestBudget->amount }}</td>
-                                                                            <td>{{ $requestBudget->start_date }}</td>
-                                                                            <td>{{ $requestBudget->end_date }}</td>
-                                                                            <td>
-                                                                                @if($requestBudget->status === 'pending')
-                                                                                    <span class="badge bg-warning">{{ $requestBudget->status }}</span>
-                                                                                @else
-                                                                                    <span class="badge bg-success">{{ $requestBudget->status }}</span>
-                                                                                @endif
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <a href="{{ route('request_budgets.show', $requestBudget->id) }}" class="btn btn-primary"><i class="bi bi-printer"></i></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                </div>
-
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                              <!-- Insert the Blade template for Contact tab here -->
-
-                            </div>
-                          </div><!-- End Default Tabs -->
-
-                        </div>
-                      </div><!-- End Default Tabs -->
-
-                    </div>
-                  </div><!-- End Left side columns -->
-
-                  <!-- Right side columns -->
-                  <div class="col-lg-4">
-                    <!-- Insert content for the right side columns here -->
-                  </div><!-- End Right side columns -->
-
-                </div>
-              </section>
-
-
-      </div>
     </section>
 
   </main><!-- End #main -->

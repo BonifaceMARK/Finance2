@@ -25,6 +25,7 @@
         <li class="nav-item d-block d-lg-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>
+
           </a>
         </li><!-- End Search Icon-->
 
@@ -103,6 +104,7 @@
           <li class="nav-item dropdown">
 
 
+
           </li><!-- End Messages Nav -->
 
 
@@ -133,6 +135,15 @@
             <li>
               <hr class="dropdown-divider">
             </li>
+
+            <li>
+                <a class="dropdown-item d-flex align-items-center btn btn-primary btn-notification" data-bs-toggle="modal" data-bs-target="#recentActivityModal">
+                        <i class="bi bi-bell-fill"></i> View Recent Activity
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="{{route('faqs')}}">
@@ -166,26 +177,36 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1><i class="bi bi-house-door"></i> Home</h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
-            @if(Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="mb-0"><i class="bi bi-house-door"></i> Home</h1>
+            <div class="d-flex">
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#newsModal">News & Updates</button>
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#financeReportModal">Finance Report</button>
+                <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#recentTransactionsModal">Search</button>
+
             </div>
-        @endif
-          </ol>
+        </div>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+                @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+                @endif
+            </ol>
         </nav>
-      </div><!-- End Page Title -->
+    </div>
+
 
       <section class="section dashboard">
         <div class="row">
 
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title"><i class="bi bi-grid-1x2-fill"></i> Introduction</h1>
+                    <h1 class="card-title"><i class="bi bi-grid-1x2-fill"></i> Introduction <!-- Button to trigger modal -->
+                       </h1>
 
                     <!-- Integration of Expense, Budget, Cost, & Forecasting -->
                     <div class="card mb-3">
@@ -290,726 +311,11 @@
             </div>
 
 
-          <!-- Left side columns -->
-          <div class="col-lg-12">
-            <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title"><i class="bi bi-bar-chart-fill"></i> Finance Report</h5>
 
-                      <!-- Default Tabs -->
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Categories Reports</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories Trends</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Categories Chart</button>
-                        </li>
-                      </ul>
-                      <div class="tab-content pt-2" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                         <!-- Reports -->
-<div class="col-12">
-    <div class="card">
 
-      <div class="card-body">
-        <h5 class="card-title">Reports <span>/Today</span></h5>
 
-        <!-- Line Chart -->
-        <div id="reportsChart"></div>
 
-        <script>
-          document.addEventListener("DOMContentLoaded", () => {
-            fetch('/user/expenses-data')
-                .then(response => response.json())
-                .then(data => {
-                    const categories = [];
-                    const expenseAmounts = [];
-                    const costAllocationAmounts = [];
-                    const requestBudgetAmounts = [];
 
-                    data.expenses.forEach(expense => {
-                        categories.push(expense.category);
-                        expenseAmounts.push(expense.amount);
-                    });
-
-                    data.costAllocations.forEach(costAllocation => {
-                        costAllocationAmounts.push(costAllocation.amount);
-                    });
-
-                    data.requestBudgets.forEach(requestBudget => {
-                        requestBudgetAmounts.push(requestBudget.amount);
-                    });
-
-                    new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [
-                            {
-                                name: 'Expense',
-                                data: expenseAmounts,
-                            },
-                            {
-                                name: 'Cost Allocation',
-                                data: costAllocationAmounts,
-                            },
-                            {
-                                name: 'Request Budget',
-                                data: requestBudgetAmounts,
-                            }
-                        ],
-                        chart: {
-                            height: 350,
-                            type: 'area',
-                            toolbar: {
-                                show: false
-                            },
-                        },
-                        markers: {
-                            size: 4
-                        },
-                        fill: {
-                            type: "gradient",
-                            gradient: {
-                                shadeIntensity: 1,
-                                opacityFrom: 0.3,
-                                opacityTo: 0.4,
-                                stops: [0, 90, 100]
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            curve: 'smooth',
-                            width: 2
-                        },
-                        xaxis: {
-                            categories: categories
-                        },
-                        tooltip: {
-                            x: {
-                                format: 'dd/MM/yy'
-                            },
-                        }
-                    }).render();
-                });
-          });
-        </script>
-        <!-- End Line Chart -->
-
-      </div>
-
-    </div>
-  </div><!-- End Reports -->
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Categories Trends</h5>
-
-                                        <!-- Bar Chart -->
-                                        <div id="barChart"></div>
-
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", () => {
-                                                // Fetch expense data from the database and pass it to the chart
-                                                let expenses = @json($expenses);
-                                                // Fetch cost allocation data from the database and pass it to the chart
-                                                let costAllocations = @json($costAllocations);
-
-                                                // Combine both expense and cost allocation data into one dataset
-                                                let dataset = [...expenses, ...costAllocations];
-
-                                                new ApexCharts(document.querySelector("#barChart"), {
-                                                    series: [{
-                                                        data: dataset.map(data => data.amount)
-                                                    }],
-                                                    chart: {
-                                                        type: 'bar',
-                                                        height: 350
-                                                    },
-                                                    plotOptions: {
-                                                        bar: {
-                                                            borderRadius: 4,
-                                                            horizontal: true,
-                                                        }
-                                                    },
-                                                    dataLabels: {
-                                                        enabled: false
-                                                    },
-                                                    xaxis: {
-                                                        categories: dataset.map(data => data.category || data.cost_category)
-                                                    }
-                                                }).render();
-                                            });
-                                        </script>
-                                        <!-- End Bar Chart -->
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
- <!-- Area Chart -->
-<div class="col-12">
-    <div class="card">
-        <div class="card-body pb-0">
-            <h5 class="card-title">Categories Chart<span>/Today</span></h5>
-            <!-- Area Chart -->
-            <div id="areaChart"></div>
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    const budgetChartData = @json($budgetChartData);
-                    const expenses = @json($expenses);
-                    const costAllocations = @json($costAllocations);
-
-                    // Extracting data from expenses and costAllocations
-                    const expenseData = expenses.map(expense => ({
-                        x: new Date(expense.date).getTime(),
-                        y: expense.amount
-                    }));
-
-                    const costAllocationData = costAllocations.map(costAllocation => ({
-                        x: new Date(costAllocation.created_at).getTime(), // Assuming created_at field represents date
-                        y: costAllocation.amount
-                    }));
-
-                    const allData = [...expenseData, ...costAllocationData];
-
-                    new ApexCharts(document.querySelector("#areaChart"), {
-                        series: [{
-                            name: "Budget Amount",
-                            data: budgetChartData.prices
-                        }, {
-                            name: "Expense Amount",
-                            data: expenseData
-                        }, {
-                            name: "Cost Allocation Amount",
-                            data: costAllocationData
-                        }],
-                        chart: {
-                            type: 'area',
-                            height: 350,
-                            zoom: {
-                                enabled: false
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            curve: 'straight'
-                        },
-                        labels: budgetChartData.dates,
-                        xaxis: {
-                            type: 'datetime',
-                        },
-                        yaxis: {
-                            opposite: true
-                        },
-                        legend: {
-                            horizontalAlign: 'left'
-                        }
-                    }).render();
-                });
-            </script>
-            <!-- End Area Chart -->
-        </div>
-    </div>
-</div>
-                        </div>
-                      </div><!-- End Default Tabs -->
-
-                    </div>
-                  </div>
-
-                  <div class="card">
-                    <div class="card-body pb-0">
-                        <h5 class="card-title"><i class="bi bi-newspaper"></i> News &amp; Updates <span>| Today</span></h5>
-                        <div class="news" id="news-feed">
-                            @foreach($articles as $article)
-                                <div class="card mb-3">
-                                    <div class="row g-0">
-
-                                        <div class="col-md-8">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $article['title'] }}</h5>
-                                                <img src="{{ $article['urlToImage'] }}" class="card-img img-fluid" alt="News Image">
-
-                                                <p class="card-text">{{ $article['description'] }}</p>
-                                                <a href="{{ $article['url'] }}" class="btn btn-primary">Read more</a>
-                                            </div>
-                                            <div class="card-footer">
-                                                <small class="text-muted">{{ $article['publishedAt'] }}</small>
-                                                <small class="text-muted">{{ $article['source']['name'] }}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title"><i class="bi bi-receipt"></i> Recent Transactions</h5>
-
-                      <!-- Pills Tabs -->
-                      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expenses</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Budget</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Cost</button>
-                        </li>
-                      </ul>
-                      <div class="tab-content pt-2" id="myTabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
-                         <!-- Recent Expenses -->
-<div class="col-15">
-    <div class="card recent-expenses overflow-auto">
-
-        <div class="filter">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-            </ul>
-        </div>
-
-        <div class="card-body">
-            <h5 class="card-title">Expenses <span>| Today</span></h5>
-
-            <table class="table table-borderless datatable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($expenses as $index => $expense)
-                    <tr>
-                        <th scope="row"><a href="#">{{ $index + 1 }}</a></th>
-                        <td>{{ $expense->date }}</td>
-                        <td>{{ $expense->category }}</td>
-                        <td>${{ $expense->amount }}</td>
-                        <td>{{ $expense->description }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-</div>
-<!-- End Recent Expenses -->
-                        </div>
-                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <!-- Recent Budget Proposals -->
-<div class="col-12">
-    <div class="card recent-budget-proposals overflow-auto">
-
-        <div class="card-body">
-            <h5 class="card-title">Budget Proposals <span>| Today</span></h5>
-
-            <table class="table table-borderless datatable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($recentRequestBudgets as $proposal)
-                    <tr>
-                        <th scope="row"><a href="#">{{ $proposal->id }}</a></th>
-                        <td>{{ $proposal->title }}</td>
-                        <td>{{ $proposal->description }}</td>
-                        <td>${{ number_format($proposal->amount, 2) }}</td>
-                        <td>{{ $proposal->start_date }}</td>
-                        <td>{{ $proposal->end_date }}</td>
-                        <td><span class="badge {{ $proposal->status === 'Pending' ? 'bg-success' : ($proposal->status === 'Rejected' ? 'bg-warning' : 'bg-danger') }}">{{ $proposal->status }}</span></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-  </div><!-- End Recent Budget Proposals -->
-                        </div>
-                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-                         <!-- Recent Sales -->
-<div class="col-15">
-    <div class="card recent-sales overflow-auto">
-        <div class="filter">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                </li>
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-            </ul>
-        </div>
-
-        <div class="card-body">
-            <h5 class="card-title">Cost Allocated <span>| Today</span></h5>
-
-            <table class="table table-borderless datatable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Cost Center</th>
-                        <th scope="col">Cost Category</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($recentCostAllocations as $allocation)
-                    <tr>
-                        <th scope="row"><a href="#">{{ $allocation->id }}</a></th>
-                        <td>{{ $allocation->cost_center }}</td>
-                        <td>{{ $allocation->cost_category }}</td>
-                        <td>{{ $allocation->amount }}</td>
-                        <td>{{ $allocation->description }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div><!-- End Recent Sales -->
-                        </div>
-                      </div><!-- End Pills Tabs -->
-
-                    </div>
-                  </div>
-
-
-
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title"><i class="bi bi-graph-up"></i> Expenses Predictions</h5>
-
-                      <!-- Bordered Tabs Justified -->
-                      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
-                        <li class="nav-item flex-fill" role="presentation">
-                          <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true"> Exponential Smoothing</button>
-                        </li>
-                        <li class="nav-item flex-fill" role="presentation">
-                          <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false"> Moving Average</button>
-                        </li>
-
-                      </ul>
-                      <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                        <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
-
-                  <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Exponential Smoothing</h5>
-
-                            <!-- Line Chart -->
-                            <div id="expChart"></div>
-
-                            <!-- Script for fetching data and updating chart -->
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    // Fetch data from the server
-                                    fetch('/user/fetch-expense-chart-data')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            // Perform exponential smoothing to predict future values
-                                            const smoothedData = exponentialSmoothing(data, 0.3, 6); // You can adjust the smoothing factor and forecast horizon
-
-                                            // Merge historical and predicted data
-                                            const combinedData = [...data, ...smoothedData];
-
-                                            // Render the chart
-                                            new ApexCharts(document.querySelector("#expChart"), {
-                                                series: [{
-                                                    name: "Expenses",
-                                                    data: combinedData
-                                                }],
-                                                chart: {
-                                                    height: 350,
-                                                    type: 'line',
-                                                    zoom: {
-                                                        enabled: false
-                                                    }
-                                                },
-                                                dataLabels: {
-                                                    enabled: false
-                                                },
-                                                stroke: {
-                                                    curve: 'smooth'
-                                                },
-                                                grid: {
-                                                    row: {
-                                                        colors: ['#f3f3f3', 'transparent'],
-                                                        opacity: 0.5
-                                                    },
-                                                },
-                                                xaxis: {
-                                                    categories: Array.from({ length: combinedData.length }, (_, i) => i + 1)
-                                                }
-                                            }).render();
-                                        });
-                                });
-
-                                // Function to perform exponential smoothing
-                                function exponentialSmoothing(data, alpha, horizon) {
-                                    const smoothedData = [];
-                                    let prevSmoothedValue = data[0];
-
-                                    for (let i = 0; i < data.length + horizon; i++) {
-                                        if (i < data.length) {
-                                            smoothedData.push(data[i]);
-                                        } else {
-                                            const smoothedValue = alpha * data[i - 1] + (1 - alpha) * prevSmoothedValue;
-                                            smoothedData.push(smoothedValue);
-                                            prevSmoothedValue = smoothedValue;
-                                        }
-                                    }
-
-                                    return smoothedData;
-                                }
-                            </script>
-                            <!-- End Line Chart -->
-
-                        </div>
-                    </div>
-                </div>
-                        </div>
-                        <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Moving Average</h5>
-
-                                        <!-- Line Chart -->
-                                        <div id="movChart"></div>
-
-                                        <!-- Script for fetching data and updating chart -->
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", () => {
-                                                // Fetch data from the server
-                                                fetch('/user/fetch-expense-chart-with-moving-average')
-                                                    .then(response => response.json())
-                                                    .then(data => {
-                                                        // Calculate moving averages
-                                                        const movingAverages = calculateMovingAverages(data, 3); // Change the window size as needed
-
-                                                        // Extend data with moving average values
-                                                        const extendedData = [...data, ...movingAverages];
-
-                                                        new ApexCharts(document.querySelector("#movChart"), {
-                                                            series: [{
-                                                                name: "Expenses",
-                                                                data: extendedData
-                                                            }],
-                                                            chart: {
-                                                                height: 350,
-                                                                type: 'line',
-                                                                zoom: {
-                                                                    enabled: false
-                                                                }
-                                                            },
-                                                            dataLabels: {
-                                                                enabled: false
-                                                            },
-                                                            stroke: {
-                                                                curve: 'smooth'
-                                                            },
-                                                            grid: {
-                                                                row: {
-                                                                    colors: ['#f3f3f3', 'transparent'],
-                                                                    opacity: 0.5
-                                                                },
-                                                            },
-                                                            xaxis: {
-                                                                categories: Array.from({ length: data.length + movingAverages.length }, (_, i) => i + 1)
-                                                            }
-                                                        }).render();
-                                                    });
-                                            });
-
-                                            // Function to calculate moving averages
-                                            function calculateMovingAverages(data, windowSize) {
-                                                const movingAverages = [];
-                                                for (let i = 0; i < data.length - windowSize + 1; i++) {
-                                                    let sum = 0;
-                                                    for (let j = i; j < i + windowSize; j++) {
-                                                        sum += data[j];
-                                                    }
-                                                    movingAverages.push(sum / windowSize);
-                                                }
-                                                return movingAverages;
-                                            }
-                                        </script>
-
-    </div>
-</div>
-</div>
-
-                        </div>
-                        <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
-
-
-                        </div>
-                      </div><!-- End Bordered Tabs Justified -->
-
-                    </div>
-                  </div>
-
-
-
-
-
-<!-- Recent Activity -->
-<div class="card">
-    <div class="filter">
-      <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-        <li class="dropdown-header text-start">
-          <h6>Filter</h6>
-        </li>
-
-        <li><a class="dropdown-item" href="#">Today</a></li>
-        <li><a class="dropdown-item" href="#">This Month</a></li>
-        <li><a class="dropdown-item" href="#">This Year</a></li>
-      </ul>
-    </div>
-
-    <div class="card-body">
-      <h5 class="card-title"><i class="bi bi-activity"></i> Recent Activity <span>| Today</span></h5>
-
-      <div class="activity">
-        <!-- Display recent activities from CostAllocation -->
-        @foreach($costAllocations as $costAllocation)
-        <div class="activity-item d-flex">
-          <div class="activite-label">{{ $costAllocation->created_at instanceof \Carbon\Carbon ? $costAllocation->created_at->diffForHumans() : $costAllocation->created_at }}</div>
-          <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
-          <div class="activity-content">
-            Created a cost allocation for {{ $costAllocation->cost_center }}.
-          </div>
-        </div><!-- End activity item-->
-        @endforeach
-
-        <!-- Display recent activities from Expense -->
-        @foreach($expenses as $expense)
-        <div class="activity-item d-flex">
-          <div class="activite-label">{{ $expense->created_at instanceof \Carbon\Carbon ? $expense->created_at->diffForHumans() : $expense->created_at }}</div>
-          <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
-          <div class="activity-content">
-            Recorded an expense of {{ $expense->amount }} for {{ $expense->category }}.
-          </div>
-        </div><!-- End activity item-->
-        @endforeach
-
-        <!-- Display recent activities from RequestBudget -->
-        @foreach($requestBudgets as $requestBudget)
-        <div class="activity-item d-flex">
-          <div class="activite-label">{{ $requestBudget->created_at instanceof \Carbon\Carbon ? $requestBudget->created_at->diffForHumans() : $requestBudget->created_at }}</div>
-          <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-          <div class="activity-content">
-            Created a budget request titled "{{ $requestBudget->title }}".
-          </div>
-        </div><!-- End activity item-->
-        @endforeach
-
-      </div>
-    </div>
-  </div><!-- End Recent Activity -->
-
-
-
-
-
-             <!-- Cost Center -->
-      <div class="card">
-
-        <div class="card-body pb-0">
-          <h5 class="card-title"><i class="bi bi-geo-alt-fill"></i> Allocated Cost <span>| Today</span></h5>
-
-          <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Initialize ECharts
-            var trafficChart = echarts.init(document.querySelector("#trafficChart"));
-
-            // Chart options
-            var options = {
-                tooltip: {
-                    trigger: 'item'
-                },
-                legend: {
-                    top: '5%',
-                    left: 'center'
-                },
-                series: [{
-                    name: 'Access From',
-                    type: 'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '18',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    // Use chartData passed from the controller
-                    data: @json($chartData)
-                }]
-            };
-
-            // Set options
-            trafficChart.setOption(options);
-        });
-    </script>
-  </div>
-</div><!-- End Cost Centers -->
 
 
 
@@ -1024,7 +330,489 @@
         </div>
       </section>
 
+
+
+
+        <!-- Recent Activity Modal -->
+    <div class="modal fade" id="recentActivityModal" tabindex="-1" role="dialog" aria-labelledby="recentActivityModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recentActivityModalLabel">Recent Activity | Today</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Recent Activity Content -->
+                    <div class="activity">
+                        <!-- Display recent activities from CostAllocation -->
+                        @foreach($costAllocations as $costAllocation)
+                        <div class="activity-item d-flex">
+                            <div class="activity-label">{{ $costAllocation->created_at instanceof \Carbon\Carbon ? $costAllocation->created_at->diffForHumans() : $costAllocation->created_at }}</div>
+                            <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
+                            <div class="activity-content">
+                                Created a cost allocation for {{ $costAllocation->cost_center }}.
+                            </div>
+                        </div><!-- End activity item-->
+                        @endforeach
+
+                        <!-- Display recent activities from Expense -->
+                        @foreach($expenses as $expense)
+                        <div class="activity-item d-flex">
+                            <div class="activity-label">{{ $expense->created_at instanceof \Carbon\Carbon ? $expense->created_at->diffForHumans() : $expense->created_at }}</div>
+                            <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
+                            <div class="activity-content">
+                                Recorded an expense of {{ $expense->amount }} for {{ $expense->category }}.
+                            </div>
+                        </div><!-- End activity item-->
+                        @endforeach
+
+                        <!-- Display recent activities from RequestBudget -->
+                        @foreach($requestBudgets as $requestBudget)
+                        <div class="activity-item d-flex">
+                            <div class="activity-label">{{ $requestBudget->created_at instanceof \Carbon\Carbon ? $requestBudget->created_at->diffForHumans() : $requestBudget->created_at }}</div>
+                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
+                            <div class="activity-content">
+                                Created a budget request titled "{{ $requestBudget->title }}".
+                            </div>
+                        </div><!-- End activity item-->
+                        @endforeach
+                    </div>
+                    <!-- End Recent Activity Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Recent Activity Modal -->
+    <!-- Modal -->
+<div class="modal fade" id="financeReportModal" tabindex="-1" aria-labelledby="financeReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="financeReportModalLabel"><i class="bi bi-bar-chart-fill"></i> Finance Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <!-- Default Tabs -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <!-- Tabs content -->
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Categories Reports</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories Trends</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Categories Chart</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content pt-2" id="myTabContent">
+                            <!-- Tab panes -->
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <!-- Reports -->
+                                <div class="col-12">
+                                    <div class="card">
+
+                                        <div class="card-body">
+                                            <h5 class="card-title">Reports <span>/Today</span></h5>
+
+                                            <!-- Line Chart -->
+                                            <div id="reportsChart"></div>
+
+                                            <!-- End Line Chart -->
+
+                                        </div>
+
+                                    </div>
+                                </div><!-- End Reports -->
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Categories Trends</h5>
+
+                                            <!-- Bar Chart -->
+                                            <div id="barChart"></div>
+
+                                            <!-- End Bar Chart -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                                <!-- Area Chart -->
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body pb-0">
+                                            <h5 class="card-title">Categories Chart<span>/Today</span></h5>
+                                            <!-- Area Chart -->
+                                            <div id="areaChart"></div>
+                                            <!-- End Area Chart -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- End Default Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch('/user/expenses-data')
+          .then(response => response.json())
+          .then(data => {
+              const categories = [];
+              const expenseAmounts = [];
+              const costAllocationAmounts = [];
+              const requestBudgetAmounts = [];
+
+              data.expenses.forEach(expense => {
+                  categories.push(expense.category);
+                  expenseAmounts.push(expense.amount);
+              });
+
+              data.costAllocations.forEach(costAllocation => {
+                  costAllocationAmounts.push(costAllocation.amount);
+              });
+
+              data.requestBudgets.forEach(requestBudget => {
+                  requestBudgetAmounts.push(requestBudget.amount);
+              });
+
+              new ApexCharts(document.querySelector("#reportsChart"), {
+                  series: [
+                      {
+                          name: 'Expense',
+                          data: expenseAmounts,
+                      },
+                      {
+                          name: 'Cost Allocation',
+                          data: costAllocationAmounts,
+                      },
+                      {
+                          name: 'Request Budget',
+                          data: requestBudgetAmounts,
+                      }
+                  ],
+                  chart: {
+                      height: 350,
+                      type: 'area',
+                      toolbar: {
+                          show: false
+                      },
+                  },
+                  markers: {
+                      size: 4
+                  },
+                  fill: {
+                      type: "gradient",
+                      gradient: {
+                          shadeIntensity: 1,
+                          opacityFrom: 0.3,
+                          opacityTo: 0.4,
+                          stops: [0, 90, 100]
+                      }
+                  },
+                  dataLabels: {
+                      enabled: false
+                  },
+                  stroke: {
+                      curve: 'smooth',
+                      width: 2
+                  },
+                  xaxis: {
+                      categories: categories
+                  },
+                  tooltip: {
+                      x: {
+                          format: 'dd/MM/yy'
+                      },
+                  }
+              }).render();
+          });
+    });
+  </script>
+  <!-- End Line Chart -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Fetch expense data from the database and pass it to the chart
+        let expenses = @json($expenses);
+        // Fetch cost allocation data from the database and pass it to the chart
+        let costAllocations = @json($costAllocations);
+
+        // Combine both expense and cost allocation data into one dataset
+        let dataset = [...expenses, ...costAllocations];
+
+        new ApexCharts(document.querySelector("#barChart"), {
+            series: [{
+                data: dataset.map(data => data.amount)
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: dataset.map(data => data.category || data.cost_category)
+            }
+        }).render();
+    });
+</script>
+<!-- End Bar Chart -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const budgetChartData = @json($budgetChartData);
+        const expenses = @json($expenses);
+        const costAllocations = @json($costAllocations);
+
+        // Extracting data from expenses and costAllocations
+        const expenseData = expenses.map(expense => ({
+            x: new Date(expense.date).getTime(),
+            y: expense.amount
+        }));
+
+        const costAllocationData = costAllocations.map(costAllocation => ({
+            x: new Date(costAllocation.created_at).getTime(), // Assuming created_at field represents date
+            y: costAllocation.amount
+        }));
+
+        const allData = [...expenseData, ...costAllocationData];
+
+        new ApexCharts(document.querySelector("#areaChart"), {
+            series: [{
+                name: "Budget Amount",
+                data: budgetChartData.prices
+            }, {
+                name: "Expense Amount",
+                data: expenseData
+            }, {
+                name: "Cost Allocation Amount",
+                data: costAllocationData
+            }],
+            chart: {
+                type: 'area',
+                height: 350,
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            labels: budgetChartData.dates,
+            xaxis: {
+                type: 'datetime',
+            },
+            yaxis: {
+                opposite: true
+            },
+            legend: {
+                horizontalAlign: 'left'
+            }
+        }).render();
+    });
+</script><!-- Modal -->
+<div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newsModalLabel">News &amp; Updates</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="news" id="news-feed">
+          @foreach($articles as $article)
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-12">
+                <div class="card-body">
+                  <h5 class="card-title">{{ $article['title'] }}</h5>
+                  <img src="{{ $article['urlToImage'] }}" class="card-img img-fluid" alt="News Image">
+                  <p class="card-text">{{ $article['description'] }}</p>
+                  <a href="{{ $article['url'] }}" class="btn btn-primary">Read more</a>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">{{ $article['publishedAt'] }}</small>
+                  <small class="text-muted">{{ $article['source']['name'] }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          @endforeach
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="recentTransactionsModal" tabindex="-1" aria-labelledby="recentTransactionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="card-title" id="recentTransactionsModalLabel"><i class="bi bi-receipt"></i> Search Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Pills Tabs -->
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Expenses</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Budget</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Cost</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2" id="myTabContent">
+            <!-- Tab panes for Recent Transactions -->
+            <!-- Expenses -->
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
+              <!-- Recent Expenses -->
+              <div class="col-15">
+                <div class="card recent-expenses overflow-auto">
+
+                  <div class="card-body">
+                    <h5 class="card-title">Expenses <span></span></h5>
+                    <table class="table table-borderless datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Category</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($expenses as $index => $expense)
+                        <tr>
+                          <th scope="row"><a href="#">{{ $index + 1 }}</a></th>
+                          <td>{{ $expense->date }}</td>
+                          <td>{{ $expense->category }}</td>
+                          <td>${{ $expense->amount }}</td>
+                          <td>{{ $expense->description }}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Recent Expenses -->
+            </div>
+            <!-- Budget -->
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
+              <!-- Recent Budget Proposals -->
+              <div class="col-12">
+                <div class="card recent-budget-proposals overflow-auto">
+                  <div class="card-body">
+                    <h5 class="card-title">Budget Proposals <span></span></h5>
+                    <table class="table table-borderless datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Start Date</th>
+                          <th scope="col">End Date</th>
+                          <th scope="col">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($recentRequestBudgets as $proposal)
+                        <tr>
+                          <th scope="row"><a href="#">{{ $proposal->id }}</a></th>
+                          <td>{{ $proposal->title }}</td>
+                          <td>{{ $proposal->description }}</td>
+                          <td>${{ number_format($proposal->amount, 2) }}</td>
+                          <td>{{ $proposal->start_date }}</td>
+                          <td>{{ $proposal->end_date }}</td>
+                          <td><span class="badge {{ $proposal->status === 'Pending' ? 'bg-success' : ($proposal->status === 'Rejected' ? 'bg-warning' : 'bg-danger') }}">{{ $proposal->status }}</span></td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Recent Budget Proposals -->
+            </div>
+            <!-- Cost -->
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
+              <!-- Recent Sales -->
+              <div class="col-15">
+                <div class="card recent-sales overflow-auto">
+
+                  <div class="card-body">
+                    <h5 class="card-title">Cost Allocated <span></span></h5>
+                    <table class="table table-borderless datatable">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Cost Center</th>
+                          <th scope="col">Cost Category</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($recentCostAllocations as $allocation)
+                        <tr>
+                          <th scope="row"><a href="#">{{ $allocation->id }}</a></th>
+                          <td>{{ $allocation->cost_center }}</td>
+                          <td>{{ $allocation->cost_category }}</td>
+                          <td>{{ $allocation->amount }}</td>
+                          <td>{{ $allocation->description }}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- End Recent Sales -->
+            </div>
+          </div><!-- End Pills Tabs -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- End Area Chart -->
     </main><!-- End #main -->
+
+
 @include('layout.footer')
 
 </body>

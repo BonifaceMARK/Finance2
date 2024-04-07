@@ -16,9 +16,10 @@ class CreateCostAllocationTable extends Migration
     {
         Schema::create('cost_allocation', function (Blueprint $table) {
             $table->id();
+            $table->string('item');
             $table->string('cost_center');
             $table->string('cost_category');
-            $table->string('allocation_method');
+            $table->string('cost_type');
             $table->decimal('amount', 10, 2)->default(0); // Assuming 10 digits including 2 decimal places
             $table->text('description')->nullable();
             $table->timestamps();

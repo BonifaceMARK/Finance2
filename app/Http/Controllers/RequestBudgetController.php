@@ -81,7 +81,7 @@ if (!empty($data)) {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|max:9999999.99',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
         ]);

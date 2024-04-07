@@ -246,8 +246,56 @@
         </div>
     </div>
 </div>
+
+
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Cash Inflow and Outflow</h5>
+                <div id="cash"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Vendor Payments
+            </h5>
+            <div id="user-payments"></div>
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // First chart configuration
+        var cashData = @json($cashData);
+        var inflowData = cashData.map(item => parseFloat(item.inflow));
+        var outflowData = cashData.map(item => parseFloat(item.outflow));
+        var dates = {!! json_encode($xAxisCategories) !!}; // Updated to use the preprocessed dates
+
+        var cashOptions = {
+            chart: {
+                type: 'line',
+                height: 350
+            },
+            series: [{
+                name: 'Inflow',
+                data: inflowData
+            }, {
+                name: 'Outflow',
+                data: outflowData
+            }],
+            xaxis: {
+                categories: dates
+            }
+        };
+
+        var cashChart = new ApexCharts(document.querySelector("#cash"), cashOptions);
+        cashChart.render();
+
+        // Second chart configuration
         var options = {
             chart: {
                 type: 'line',
@@ -269,8 +317,38 @@
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+          // Second chart configuration (User Payments Chart)
+          var userData = @json($externalUserData);
+        var userAmountData = userData.map(item => parseFloat(item.amount));
+        var userPaymentDates = userData.map(item => item.created_at);
+        var userOptions = {
+            chart: {
+                type: 'line',
+                height: 350
+            },
+            series: [{
+                name: 'Amount',
+                data: userAmountData
+            }],
+            xaxis: {
+                categories: userPaymentDates,
+                labels: {
+                    formatter: function (val) {
+                        return new Date(val).toLocaleDateString();
+                    }
+                }
+            }
+        };
+
+        var userChart = new ApexCharts(document.querySelector("#user-payments"), userOptions);
+        userChart.render();
     });
+
 </script>
+
+
+
+
         </div>
       </section>
 

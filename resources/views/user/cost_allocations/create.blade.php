@@ -5,7 +5,6 @@
 
 <body>
 
-    <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
@@ -24,6 +23,7 @@
             <li class="nav-item d-block d-lg-none">
               <a class="nav-link nav-icon search-bar-toggle " href="#">
                 <i class="bi bi-search"></i>
+
               </a>
             </li><!-- End Search Icon-->
 
@@ -102,6 +102,7 @@
               <li class="nav-item dropdown">
 
 
+
               </li><!-- End Messages Nav -->
 
 
@@ -134,6 +135,15 @@
                 </li>
 
                 <li>
+                    <a class="dropdown-item d-flex align-items-center btn btn-primary btn-notification" data-bs-toggle="modal" data-bs-target="#recentActivityModal">
+                            <i class="bi bi-bell-fill"></i> View Recent Activity
+                    </a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+
+                <li>
                   <a class="dropdown-item d-flex align-items-center" href="{{route('faqs')}}">
                     <i class="bi bi-question-circle"></i>
                     <span>Need Help?</span>
@@ -158,21 +168,47 @@
         </nav><!-- End Icons Navigation -->
 
       </header><!-- End Header -->
-
     <!-- ======= Sidebar ======= -->
     @include('user.sidebar')
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1><i class="bi bi-coin"></i> Costs</h1>
-            <nav>
+            <h1 class="d-flex justify-content-between align-items-center">
+                <i class="bi bi-coin"> Costs</i>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allocate">
+                        Allocate Cost
+                    </button>
+                    <!-- Button to trigger the modal -->
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#costAllocationModal">
+                        View Cost Allocations
+                    </button>
+                </div>
+            </h1>
+        </div>
+
+
+            <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Costs</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                 </ol>
             </nav>
-        </div><!-- End Page Title -->
+            @if(Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+            @endif
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                {{ $error }}
+                @endforeach
+            </div>
+            @endif
+        </div><!-- End Page Header -->
+
 
         <section class="section dashboard">
             <div class="container">
@@ -181,12 +217,15 @@
                         <div class="row g-0">
                           <div class="col-md-4">
                             <img src="{{asset('assets/img/allocated.jpg')}}" class="img-fluid rounded-start" alt="...">
+                            <br>
+
                           </div>
                           <div class="col-md-8">
                             <div class="card-body">
                               <h5 class="card-title"><i class="bi bi-geo"></i> <strong>Cost Allocation</strong></h5>
                               <p class="card-text">Cost allocation refers to the process of distributing indirect costs across different cost centers, products, services, or other entities within an organization. It is a vital aspect of managerial accounting and financial management, helping organizations accurately assess the true cost of their products or services and make informed business decisions.</p>
                            <!-- Cost Allocated Card -->
+
 <div class="col-xxl-4 col-xl-12">
     <div class="card info-card customers-card">
         <div class="card-body">
@@ -207,6 +246,68 @@
 
     </div>
 </div>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-geo-alt-fill"></i> Allocated Cost <span>| Today</span></h5>
+
+                <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Initialize ECharts
+                        var trafficChart = echarts.init(document.querySelector("#trafficChart"));
+
+                        // Chart options
+                        var options = {
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                top: '5%',
+                                left: 'center'
+                            },
+                            series: [{
+                                name: 'Access From',
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false
+                                },
+                                // Use chartData passed from the controller
+                                data: @json($chartData)
+                            }]
+                        };
+
+                        // Set options
+                        trafficChart.setOption(options);
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div><!-- End Allocated Cost -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
                             </div>
                           </div>
@@ -216,20 +317,134 @@
 
 
 
-              <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="costAllocationModal" tabindex="-1" aria-labelledby="costAllocationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="costAllocationModalLabel">
-                    <i class="bi bi-file-earmark-plus"></i> Allocate Cost
+                <h5 class="modal-title" id="costAllocationModalLabel">Cost Allocations <!-- Button to trigger the modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Indirect">
+                        View Indirect Costs
+                    </button></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Cost Center</th>
+                                                    <th>Cost Category</th>
+                                                    <th>Cost Type</th>
+                                                    <th>Amount</th>
+                                                    <th>Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse($costAllocations as $costAllocation)
+                                                <tr>
+                                                    <td>{{ $costAllocation->item }}</td>
+                                                    <td>{{ $costAllocation->cost_center }}</td>
+                                                    <td>{{ $costAllocation->cost_category }}</td>
+                                                    <td>{{ $costAllocation->cost_type }}</td>
+                                                    <td>${{ number_format($costAllocation->amount, 2) }}</td>
+                                                    <td>{{ $costAllocation->description }}</td>
+                                                </tr>
+                                                @empty
+                                                <tr>
+                                                    <td colspan="6">No cost allocations found.</td>
+                                                </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="Indirect" tabindex="-1" aria-labelledby="Indirect" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Indirect">Indirect Costs</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                                        <div class="card-body">
+                                            <div class="row row-cols-1 row-cols-md-2 g-4">
+                                                @foreach($indirectCostAllocations as $costAllocation)
+                                                <div class="col">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ $costAllocation->item }}</h5>
+                                                            <p class="card-text"><strong>Cost Center:</strong> {{ $costAllocation->cost_center }}</p>
+                                                            <p class="card-text"><strong>Cost Category:</strong> {{ $costAllocation->cost_category }}</p>
+                                                            <p class="card-text"><strong>Amount:</strong> ${{ number_format($costAllocation->amount, 2) }}</p>
+                                                            <p class="card-text"><strong>Description:</strong> {{ $costAllocation->description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            {{ $indirectCostAllocations->links() }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+              <!-- Modal -->
+<div class="modal fade" id="allocate" tabindex="-1" aria-labelledby="allocate" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allocate">
+                    <i class="bi bi-file-earmark-plus"></i> Allocate Cost
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('cost_allocations.store') }}" method="POST">
                     @csrf
+                    <div class="form-group">
+                        <label for="item">Item:</label>
+                        <input type="text" id="item" name="item" class="form-control"
+                            value="{{ old('item') }}" required>
+                        @error('item')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label for="cost_center">Cost Center:</label>
                         <select class="form-control" id="cost_center" name="cost_center">
@@ -257,17 +472,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="allocation_method">Allocation Method:</label>
-                        <select class="form-control" id="allocation_method" name="allocation_method">
-                            <option value="Straight-Line Method">Straight-Line Method</option>
-                            <option value="Activity-Based Costing (ABC)">Activity-Based Costing (ABC)</option>
-                            <option value="Step-Down Allocation">Step-Down Allocation</option>
-                            <option value="Direct Allocation">Direct Allocation</option>
-                            <option value="Absorption Costing">Absorption Costing</option>
-                            <option value="Variable Costing">Variable Costing</option>
-                            <option value="Overhead Rate Method">Overhead Rate Method</option>
-                            <option value="Dual-Rate Overhead Allocation">Dual-Rate Overhead Allocation</option>
-                            <option value="Reciprocal Allocation">Reciprocal Allocation</option>
+                        <label for="cost_type">Cost Type:</label>
+                        <select class="form-control" id="cost_type" name="cost_type">
+                            <option value="Indirect">Indirect</option>
+                            <option value="Direct">Direct</option>
+
                         </select>
                     </div>
                     <div class="form-group">
@@ -276,7 +485,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="description" name="description" readonly></textarea>
+                        <textarea class="form-control" id="description" name="description"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -285,57 +494,12 @@
     </div>
 </div>
 
-                </div>
-            </div>
+</div>
+ </div>
+
         </section>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            Cost Allocation
-                        </div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#costAllocationModal">
-                            Allocate Cost
-                        </button>
 
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th style="background-color: #87CEEB;">No</th>
-                                        <th style="background-color: #87CEEB;">Cost Center</th>
-                                        <th style="background-color: #87CEEB;">Cost Category</th>
-                                        <th style="background-color: #87CEEB;">Allocation Method</th>
-                                        <th style="background-color: #87CEEB;">Amount</th>
-                                        <th style="background-color: #87CEEB;">Description</th>
-                                        <th style="background-color: #87CEEB;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($costAllocations as $key => $costAllocation)
-                                    <tr>
-                                        <td>{{ ++$key }}</td>
-                                        <td>{{ $costAllocation->cost_center }}</td>
-                                        <td>{{ $costAllocation->cost_category }}</td>
-                                        <td>{{ $costAllocation->allocation_method }}</td>
-                                        <td>{{ $costAllocation->amount }}</td>
-                                        <td>{{ $costAllocation->description }}</td>
-                                        <td>
-                                            <form action="{{ route('cost_allocations.destroy', $costAllocation->id) }}" method="POST">
-                                                <a class="btn btn-primary btn-sm" href="{{ route('cost_allocations.show', $costAllocation->id) }}"><i class="bi bi-printer"></i>Print</a>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
@@ -345,46 +509,7 @@
 
     @include('layout.footer')
 
-    <script>
-        document.getElementById('allocation_method').addEventListener('change', function() {
-            var method = this.value;
-            var description = '';
 
-            switch (method) {
-                case 'Straight-Line Method':
-                    description = 'Allocates an equal amount of cost to each accounting period.';
-                    break;
-                case 'Activity-Based Costing (ABC)':
-                    description = 'Allocates costs based on the activities that drive them, providing more accurate cost information.';
-                    break;
-                case 'Step-Down Allocation':
-                    description = 'Allocates costs sequentially from one service department to another, then to production departments.';
-                    break;
-                case 'Direct Allocation':
-                    description = 'Allocates costs directly to a cost object without any intermediate allocation.';
-                    break;
-                case 'Absorption Costing':
-                    description = 'Allocates all manufacturing costs to the product, including both fixed and variable costs.';
-                    break;
-                case 'Variable Costing':
-                    description = 'Allocates only variable manufacturing costs to the product, treating fixed manufacturing costs as period expenses.';
-                    break;
-                case 'Overhead Rate Method':
-                    description = 'Allocates overhead costs based on predetermined rates applied to specific cost drivers.';
-                    break;
-                case 'Dual-Rate Overhead Allocation':
-                    description = 'Allocates overhead costs using two different rates for different cost pools.';
-                    break;
-                case 'Reciprocal Allocation':
-                    description = 'Allocates reciprocal costs between service departments based on simultaneous equations.';
-                    break;
-                default:
-                    description = '';
-            }
-
-            document.getElementById('description').value = description;
-        });
-    </script>
 
 </body>
 

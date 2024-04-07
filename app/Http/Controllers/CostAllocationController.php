@@ -17,6 +17,7 @@ class CostAllocationController extends Controller
     public function index()
     {
         $costAllocations = CostAllocation::all();
+
         return view('user.cost_allocations.create', compact('costAllocations'));
     }
 
@@ -25,6 +26,12 @@ class CostAllocationController extends Controller
         $expenses = Expense::all();
         $requestBudgets = RequestBudget::all();
         $costAllocations = CostAllocation::all();
+        $chartData = $costAllocations->map(function ($allocation) {
+            return [
+                'name' => $allocation->cost_center,
+                'value' => $allocation->amount
+            ];
+        })->toArray();
         $totalCostAllocatedThisYear = CostAllocation::whereYear('created_at', today()->year)
         ->sum('amount');
 
@@ -35,9 +42,10 @@ class CostAllocationController extends Controller
     if ($totalCostAllocatedLastYear != 0) {
         $costAllocationPercentageChange = (($totalCostAllocatedThisYear - $totalCostAllocatedLastYear) / $totalCostAllocatedLastYear) * 100;
     }
+    $indirectCostAllocations = CostAllocation::where('cost_type', 'indirect')->paginate(10);
     $totalNotifications = $expenses->count() + $requestBudgets->count() + $costAllocations->count();
         // Pass both variables to the view
-        return view('user.cost_allocations.create', compact('totalNotifications','totalCostAllocatedThisYear','expenses', 'requestBudgets','costAllocationPercentageChange','costAllocations'));
+        return view('user.cost_allocations.create', compact('indirectCostAllocations','chartData','totalNotifications','totalCostAllocatedThisYear','expenses', 'requestBudgets','costAllocationPercentageChange','costAllocations'));
     }
 
     public function fetchExpenseCostAllocationData()
@@ -71,10 +79,11 @@ class CostAllocationController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'item' => 'required|string',
             'cost_center' => 'required|string',
             'cost_category' => 'required|string',
-            'allocation_method' => 'required|string',
-            'amount' => 'required|numeric',
+            'cost_type' => 'required|string',
+            'amount' => 'required|numeric|max:9999999.99',
             'description' => 'nullable|string',
         ]);
 
@@ -99,7 +108,7 @@ class CostAllocationController extends Controller
         $validatedData = $request->validate([
             'cost_center' => 'required|string',
             'cost_category' => 'required|string',
-            'allocation_method' => 'required|string',
+            'cost_type' => 'required|string',
             'amount' => 'required|numeric',
             'description' => 'nullable|string',
         ]);
