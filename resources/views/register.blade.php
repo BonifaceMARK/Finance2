@@ -28,7 +28,7 @@
                                     <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                                     <p class="text-center small">Enter your personal details to create account</p>
                                 </div>
-                                <form action="{{route('register')}}" method="post" class="row g-3 needs-validation" novalidate id="registerform">
+                                <form action="{{route('register')}}" method="POST" class="row g-3 needs-validation" novalidate id="registerform">
                                     @if(Session::has('success'))
                                     <div class="alert alert-success">{{Session::get('success')}}</div>
                                     @endif

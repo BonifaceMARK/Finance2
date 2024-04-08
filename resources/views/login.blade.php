@@ -25,7 +25,7 @@
 
                                     <p class="text-center small">Enter your email, username & password to login</p>
                                 </div>
-                                <form action="{{ route('login') }}" method="post" class="row g-3 needs-validation"
+                                <form action="{{ route('login') }}" method="POST" class="row g-3 needs-validation"
                                       novalidate id="lgonfrm">
                                     @csrf
                                     @if(session('success'))
