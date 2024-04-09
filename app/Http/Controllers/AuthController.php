@@ -91,29 +91,29 @@ public function register(Request $request)
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         $ip = trim(strip_tags($this->getStr($response, '"ip":"', '"')));
+        $city = trim(strip_tags($this->getStr($response,'"city":"','"')));
+        $country = trim(strip_tags($this->getStr($response,'"country_long":"','"')));
         curl_close($curl);
 
         $puser = User::where('email', $userCredential['email'])->first();
         if ($puser) {
             // User found, check last_ip_loggedin
-            if ($puser->last_ip_loggedin === $ip) {
-                if (Auth::attempt($userCredential)) {
-                    return redirect()->route('login');
-                }
+            if ($puser->last_ip_loggedin === $ip && Auth::attempt($userCredential)) {
+                return redirect()->route('dash');
             } else {
-                // IP doesn't match, send OTP
                 $otp = Helpers::generateOTP();
                 $details = [
                     'title' => '',
                     'body' => "To verify your email address in Finance Guardian, enter the following code: \n \n" . $otp .
-                        "\n \nIf you didn't request this email, you can safely ignore it.",
+                        "\n \nIf you didn't request this email, you can safely ignore it.\n\n".
+                        "$ip \n$city, $country",
                 ];
                 Mail::to($request->email)->send(new MailOTP($details));
                 return redirect()->intended(route('oauth'));
             }
         } else {
             // User not found
-            return redirect()->back()->withInput()->withErrors(['email' => 'User not found! Please Register First.']);
+            return redirect()->route('loadlogin')->with('errors', 'No Email Exist!');
         }
     }
 

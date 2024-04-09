@@ -42,18 +42,15 @@ class OTPController extends Controller
         $storedCredentials = Session::get('ebcf_0_1');
         $enteredOTP = $request->input('entered_otp');
         $storedOTP = session('otp');
-
-        if ($enteredOTP == $storedOTP) {
-            session()->forget('otp');
-            if (Auth::attempt($storedCredentials)) {
+        if ($enteredOTP == $storedOTP && Auth::attempt($storedCredentials)) {
+                session()->forget('otp');
                 $user = Auth::user();
                 $user->last_ip_loggedin = $ip;
                 $user->save();
-
                 return redirect()->route('oauth.succeed');
-            } else {
-                return redirect()->route('loadlogin')->with('errors', 'Invalid credentials.');
-            }
+        }else if ($enteredOTP == $storedOTP && !Auth::attempt($storedCredentials)){
+            session()->forget('otp');
+            return redirect()->route('loadlogin')->with('errors', 'Invalid Password!');
         } else {
             return redirect()->back()->with('errors', 'Invalid OTP. Please try again.');
         }

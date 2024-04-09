@@ -33,15 +33,9 @@
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <div class="text-center"><i class="bi bi-exclamation-circle"></i> {{ $error }}</div>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
+                                @if(session()->has('errors'))
+                                    <div class="alert alert-danger text-center"><i class="bi bi-exclamation-circle"></i>{{ session('errors') }}</div>
+                                @endif
 
                                     <div class="col-12">
                                         <label for="yourEmail" class="form-label">Email</label>
@@ -149,7 +143,17 @@
                 emailError.textContent = '';
             }
         });
+
     });
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+          grecaptcha.execute('{{config('services.recap.site_key')}}', {action: 'submit'}).then(function(token) {
+            document.getElementById("g-recaptcha-response").value = token;
+            document.getElementById("lgonfrm").submit();
+          });
+        });
+      }
 </script>
 
 
